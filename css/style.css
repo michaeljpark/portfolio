@@ -14,7 +14,7 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
     overflow-x: hidden;
@@ -61,27 +61,6 @@ nav {
     z-index: 1;
 }
 
-/* Slot Machine Animation */
-.nav-link-inner {
-    display: inline-block;
-    transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-.nav-link:hover .nav-link-inner {
-    animation: slot-spin 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-@keyframes slot-spin {
-    0% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-100%);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
 
 /* Pill Indicator */
 .nav-indicator {
