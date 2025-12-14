@@ -313,6 +313,7 @@ html {
     width: 100%;
     overflow: hidden;
     margin-top: 3rem;
+    padding: 1rem 0;
 }
 
 .marquee {
@@ -320,10 +321,6 @@ html {
     gap: 1rem;
     animation: marquee 30s linear infinite;
     will-change: transform;
-}
-
-.marquee:hover {
-    animation-play-state: paused;
 }
 
 .marquee-content {
@@ -336,7 +333,6 @@ html {
     display: inline-block;
     padding: 0.5rem 1.5rem;
     background-color: #e8e8e8;
-    border: 2px solid #b8b8b8;
     border-radius: 50px;
     font-size: 1rem;
     font-weight: 400;
@@ -350,7 +346,6 @@ html {
 .tag-pill:hover {
     transform: scale(1.1);
     background-color: var(--text-primary);
-    border-color: var(--text-primary);
     color: var(--bg-color);
 }
 
