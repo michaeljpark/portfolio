@@ -182,16 +182,21 @@ document.addEventListener('DOMContentLoaded', function() {
     if (marqueeContainer && marquees.length > 0) {
         let isMarqueePaused = false;
         let touchStartTime = 0;
+        let touchStartY = 0;
 
         marqueeContainer.addEventListener('touchstart', function(e) {
             touchStartTime = Date.now();
+            touchStartY = e.touches[0].clientY;
         }, { passive: true });
 
         marqueeContainer.addEventListener('touchend', function(e) {
             // Only on mobile and if it was a tap (not a scroll)
             const touchDuration = Date.now() - touchStartTime;
-            if (window.innerWidth <= 768 && touchDuration < 200) {
-                e.preventDefault();
+            const touchEndY = e.changedTouches[0].clientY;
+            const touchDistance = Math.abs(touchEndY - touchStartY);
+
+            // Only toggle if it's a quick tap without much movement
+            if (window.innerWidth <= 768 && touchDuration < 200 && touchDistance < 10) {
                 isMarqueePaused = !isMarqueePaused;
 
                 marquees.forEach(marquee => {
@@ -202,6 +207,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             }
-        }, { passive: false });
+        }, { passive: true });
     }
 });
