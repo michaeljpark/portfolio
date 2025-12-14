@@ -53,11 +53,12 @@ nav {
     font-size: 1rem;
     font-weight: 400;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     height: 24px;
     display: inline-block;
     cursor: pointer;
     transition: color 0.3s ease;
+    z-index: 1;
 }
 
 /* Slot Machine Animation */
@@ -85,12 +86,14 @@ nav {
 /* Pill Indicator */
 .nav-indicator {
     position: absolute;
-    bottom: -8px;
-    height: 2px;
-    background-color: var(--text-primary);
-    border-radius: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 36px;
+    background-color: #d0d0d0;
+    border-radius: 50px;
     transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
     opacity: 0;
+    z-index: -1;
 }
 
 .nav-indicator.active {

@@ -16,8 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const navLinksContainer = link.parentElement;
         const containerRect = navLinksContainer.getBoundingClientRect();
 
-        const left = linkRect.left - containerRect.left;
-        const width = linkRect.width;
+        // Add padding to make pill background larger than text
+        const paddingExtra = 16; // 1rem in pixels
+        const left = linkRect.left - containerRect.left - paddingExtra;
+        const width = linkRect.width + (paddingExtra * 2);
 
         if (instant) {
             indicator.style.transition = 'none';
