@@ -358,16 +358,6 @@ nav {
     padding: 2rem 0;
 }
 
-.marquee-row {
-    width: 100%;
-    overflow: visible;
-    padding: 0.5rem 0;
-}
-
-.marquee-row-2 {
-    display: none;
-}
-
 .marquee {
     display: flex;
     gap: 1rem;
@@ -413,18 +403,7 @@ nav {
 /* Responsive Marquee */
 @media (max-width: 768px) {
     .marquee-container {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        padding: 3rem 0;
-    }
-
-    .marquee-row {
-        padding: 1rem 0;
-    }
-
-    .marquee-row-2 {
-        display: block;
+        padding: 2rem 0;
     }
 
     .tag-pill {
@@ -433,7 +412,7 @@ nav {
     }
 
     .marquee {
-        animation: marquee 15s linear infinite;
+        animation: marquee 20s linear infinite;
     }
 }
 
