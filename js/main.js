@@ -4,6 +4,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const indicator = document.querySelector('.nav-indicator');
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const mobileMenu = document.querySelector('.mobile-menu');
+    const nav = document.querySelector('nav');
+
+    // Scroll-based navigation visibility
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    // Show nav initially at top of page
+    if (window.scrollY < 100) {
+        nav.classList.add('nav-visible');
+    }
+
+    function updateNavVisibility() {
+        const currentScrollY = window.scrollY;
+
+        // Always show nav at top of page
+        if (currentScrollY < 100) {
+            nav.classList.add('nav-visible');
+        }
+        // Show nav when scrolling up
+        else if (currentScrollY < lastScrollY) {
+            nav.classList.add('nav-visible');
+        }
+        // Hide nav when scrolling down
+        else if (currentScrollY > lastScrollY) {
+            nav.classList.remove('nav-visible');
+        }
+
+        lastScrollY = currentScrollY;
+        ticking = false;
+    }
+
+    function requestNavUpdate() {
+        if (!ticking) {
+            window.requestAnimationFrame(updateNavVisibility);
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', requestNavUpdate, { passive: true });
 
     // Get current page
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
