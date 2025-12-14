@@ -180,6 +180,11 @@ nav.nav-visible {
     padding-top: 100px;
 }
 
+.hero-home {
+    justify-content: flex-start;
+    min-height: auto;
+}
+
 .hero h1 {
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 600;
