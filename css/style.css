@@ -307,3 +307,70 @@ html {
 .fade-in {
     animation: fadeIn 0.8s ease-out;
 }
+
+/* Marquee Tags */
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 3rem;
+}
+
+.marquee {
+    display: flex;
+    gap: 1rem;
+    animation: marquee 30s linear infinite;
+    will-change: transform;
+}
+
+.marquee:hover {
+    animation-play-state: paused;
+}
+
+.marquee-content {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.tag-pill {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background-color: #e8e8e8;
+    border: 2px solid #b8b8b8;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    cursor: default;
+    user-select: none;
+}
+
+.tag-pill:hover {
+    transform: scale(1.1);
+    background-color: var(--text-primary);
+    border-color: var(--text-primary);
+    color: var(--bg-color);
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Responsive Marquee */
+@media (max-width: 768px) {
+    .tag-pill {
+        font-size: 0.875rem;
+        padding: 0.4rem 1.2rem;
+    }
+
+    .marquee {
+        animation: marquee 20s linear infinite;
+    }
+}
