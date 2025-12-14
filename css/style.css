@@ -64,6 +64,7 @@ nav.nav-visible {
     color: var(--text-primary);
     font-size: 0.875rem;
     font-weight: 400;
+    line-height: 1;
     position: relative;
     overflow: visible;
     display: inline-flex;
