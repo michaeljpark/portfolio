@@ -177,9 +177,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mobile marquee touch toggle
     const marqueeContainer = document.querySelector('.marquee-container');
-    const marquee = document.querySelector('.marquee');
+    const marquees = document.querySelectorAll('.marquee');
 
-    if (marqueeContainer && marquee) {
+    if (marqueeContainer && marquees.length > 0) {
         let isMarqueePaused = false;
 
         marqueeContainer.addEventListener('touchstart', function(e) {
@@ -188,11 +188,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 isMarqueePaused = !isMarqueePaused;
 
-                if (isMarqueePaused) {
-                    marquee.classList.add('paused');
-                } else {
-                    marquee.classList.remove('paused');
-                }
+                marquees.forEach(marquee => {
+                    if (isMarqueePaused) {
+                        marquee.classList.add('paused');
+                    } else {
+                        marquee.classList.remove('paused');
+                    }
+                });
             }
         }, { passive: false });
     }

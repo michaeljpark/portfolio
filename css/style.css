@@ -125,10 +125,11 @@ nav.nav-visible {
     background-color: var(--text-primary);
     transition: all 0.3s ease;
     border-radius: 2px;
+    transform-origin: center;
 }
 
 .mobile-menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(8px, 8px);
+    transform: translateY(9px) rotate(45deg);
 }
 
 .mobile-menu-toggle.active span:nth-child(2) {
@@ -136,7 +137,7 @@ nav.nav-visible {
 }
 
 .mobile-menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(8px, -8px);
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 /* Mobile Menu */
@@ -357,6 +358,15 @@ nav {
     padding: 1rem 0;
 }
 
+.marquee-row {
+    width: 100%;
+    overflow: hidden;
+}
+
+.marquee-row-2 {
+    display: none;
+}
+
 .marquee {
     display: flex;
     gap: 1rem;
@@ -405,13 +415,23 @@ nav {
 
 /* Responsive Marquee */
 @media (max-width: 768px) {
+    .marquee-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .marquee-row-2 {
+        display: block;
+    }
+
     .tag-pill {
         font-size: 0.875rem;
         padding: 0.4rem 1.2rem;
     }
 
     .marquee {
-        animation: marquee 20s linear infinite;
+        animation: marquee 15s linear infinite;
     }
 }
 
