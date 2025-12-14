@@ -353,7 +353,7 @@ nav {
 /* Marquee Tags */
 .marquee-container {
     width: 100%;
-    overflow: visible;
+    overflow-x: hidden;
     margin-top: 3rem;
     padding: 2rem 0;
 }
@@ -403,8 +403,11 @@ nav {
 /* Responsive Marquee */
 @media (max-width: 768px) {
     .marquee-container {
-        padding: 1.5rem 0;
+        padding: 1.5rem 2rem;
         margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
     }
 
     .tag-pill {
