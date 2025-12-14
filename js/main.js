@@ -174,4 +174,26 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 250);
     });
+
+    // Mobile marquee touch toggle
+    const marqueeContainer = document.querySelector('.marquee-container');
+    const marquee = document.querySelector('.marquee');
+
+    if (marqueeContainer && marquee) {
+        let isMarqueePaused = false;
+
+        marqueeContainer.addEventListener('touchstart', function(e) {
+            // Only on mobile
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                isMarqueePaused = !isMarqueePaused;
+
+                if (isMarqueePaused) {
+                    marquee.classList.add('paused');
+                } else {
+                    marquee.classList.remove('paused');
+                }
+            }
+        }, { passive: false });
+    }
 });
