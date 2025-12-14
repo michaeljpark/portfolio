@@ -35,11 +35,15 @@ nav {
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
     letter-spacing: -0.02em;
-    text-decoration: none;
+    text-decoration: none !important;
     color: var(--text-primary);
+}
+
+.logo:hover {
+    text-decoration: none !important;
 }
 
 .nav-links {
