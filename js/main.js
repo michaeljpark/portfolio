@@ -181,10 +181,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (marqueeContainer && marquees.length > 0) {
         let isMarqueePaused = false;
+        let touchStartTime = 0;
 
         marqueeContainer.addEventListener('touchstart', function(e) {
-            // Only on mobile
-            if (window.innerWidth <= 768) {
+            touchStartTime = Date.now();
+        }, { passive: true });
+
+        marqueeContainer.addEventListener('touchend', function(e) {
+            // Only on mobile and if it was a tap (not a scroll)
+            const touchDuration = Date.now() - touchStartTime;
+            if (window.innerWidth <= 768 && touchDuration < 200) {
                 e.preventDefault();
                 isMarqueePaused = !isMarqueePaused;
 

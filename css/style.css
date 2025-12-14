@@ -360,7 +360,8 @@ nav {
 
 .marquee-row {
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
+    padding: 0.5rem 0;
 }
 
 .marquee-row-2 {
