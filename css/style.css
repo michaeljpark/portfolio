@@ -38,6 +38,8 @@ nav {
     font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: -0.02em;
+    text-decoration: none;
+    color: var(--text-primary);
 }
 
 .nav-links {
@@ -51,11 +53,12 @@ nav {
     text-decoration: none;
     color: var(--text-primary);
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 700;
     position: relative;
     overflow: visible;
-    height: 24px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    height: 36px;
     cursor: pointer;
     transition: color 0.3s ease;
     z-index: 1;
