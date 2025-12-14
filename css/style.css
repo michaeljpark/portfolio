@@ -175,13 +175,12 @@ nav.nav-visible {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 0 4rem;
     padding-top: 100px;
 }
 
 .hero-home {
-    justify-content: flex-start;
     min-height: auto;
 }
 
