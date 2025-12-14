@@ -403,16 +403,22 @@ nav {
 /* Responsive Marquee */
 @media (max-width: 768px) {
     .marquee-container {
-        padding: 2rem 0;
+        padding: 1.5rem 0;
+        margin-top: 2rem;
     }
 
     .tag-pill {
-        font-size: 0.875rem;
-        padding: 0.4rem 1.2rem;
+        font-size: 0.75rem;
+        padding: 0.35rem 1rem;
     }
 
     .marquee {
-        animation: marquee 20s linear infinite;
+        gap: 0.75rem;
+        animation: marquee 25s linear infinite;
+    }
+
+    .marquee-content {
+        gap: 0.75rem;
     }
 }
 
