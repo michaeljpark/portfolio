@@ -369,3 +369,31 @@ html {
         animation: marquee 20s linear infinite;
     }
 }
+
+/* Body Content */
+.body-content {
+    margin-top: 4rem;
+    max-width: 800px;
+}
+
+.body-content p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+}
+
+.body-content p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .body-content {
+        margin-top: 3rem;
+    }
+
+    .body-content p {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+}
