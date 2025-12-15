@@ -457,7 +457,7 @@ nav {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 3rem;
-    margin-top: 3rem;
+    margin-top: 1.5rem;
 }
 
 .portfolio-card {
@@ -559,7 +559,7 @@ nav {
     .portfolio-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
-        margin-top: 2rem;
+        margin-top: 1rem;
     }
 
     .portfolio-details {
