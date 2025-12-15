@@ -361,7 +361,7 @@ nav {
 .marquee {
     display: flex;
     gap: 1rem;
-    animation: marquee 30s linear infinite;
+    animation: marquee 20s linear infinite;
     will-change: transform;
 }
 
@@ -417,7 +417,7 @@ nav {
 
     .marquee {
         gap: 0.75rem;
-        animation: marquee 25s linear infinite;
+        animation: marquee 15s linear infinite;
     }
 
     .marquee-content {
