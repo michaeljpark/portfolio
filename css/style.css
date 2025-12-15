@@ -206,7 +206,7 @@ nav.nav-visible {
 
 /* Content Sections */
 .content-section {
-    padding: 2rem 4rem 4rem 4rem;
+    padding: 1rem 4rem 4rem 4rem;
     min-height: 50vh;
 }
 
@@ -255,7 +255,7 @@ nav.nav-visible {
     }
 
     .content-section {
-        padding: 1rem 2rem 2rem 2rem;
+        padding: 0.5rem 2rem 2rem 2rem;
     }
 
     .section-title {
