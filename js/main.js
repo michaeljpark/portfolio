@@ -174,4 +174,71 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 250);
     });
+
+    // Portfolio image auto-switch on mobile
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+
+    const portfolioCards = document.querySelectorAll('.portfolio-card');
+    const autoSwitchIntervals = [];
+
+    function startAutoSwitch(card, index) {
+        const defaultImg = card.querySelector('.thumb-default');
+        const hoverImg = card.querySelector('.thumb-hover');
+
+        if (!defaultImg || !hoverImg) return;
+
+        let isHoverState = false;
+
+        const interval = setInterval(() => {
+            if (isMobile()) {
+                isHoverState = !isHoverState;
+                if (isHoverState) {
+                    defaultImg.style.opacity = '0';
+                    hoverImg.style.opacity = '1';
+                } else {
+                    defaultImg.style.opacity = '1';
+                    hoverImg.style.opacity = '0';
+                }
+            }
+        }, 2000);
+
+        autoSwitchIntervals[index] = interval;
+    }
+
+    function stopAutoSwitch(index) {
+        if (autoSwitchIntervals[index]) {
+            clearInterval(autoSwitchIntervals[index]);
+            autoSwitchIntervals[index] = null;
+        }
+    }
+
+    // Initialize auto-switch for mobile
+    portfolioCards.forEach((card, index) => {
+        if (isMobile()) {
+            startAutoSwitch(card, index);
+        }
+    });
+
+    // Handle resize - start/stop auto-switch based on screen size
+    window.addEventListener('resize', function() {
+        portfolioCards.forEach((card, index) => {
+            const defaultImg = card.querySelector('.thumb-default');
+            const hoverImg = card.querySelector('.thumb-hover');
+
+            if (isMobile()) {
+                if (!autoSwitchIntervals[index]) {
+                    startAutoSwitch(card, index);
+                }
+            } else {
+                stopAutoSwitch(index);
+                // Reset to default state on desktop
+                if (defaultImg && hoverImg) {
+                    defaultImg.style.opacity = '1';
+                    hoverImg.style.opacity = '0';
+                }
+            }
+        });
+    });
 });
