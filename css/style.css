@@ -389,7 +389,7 @@ nav {
 /* Responsive Tags */
 @media (max-width: 768px) {
     .tags-container {
-        padding: 1.5rem 2rem;
+        padding: 1.5rem 0;
         margin-top: 2rem;
         gap: 1rem;
     }
