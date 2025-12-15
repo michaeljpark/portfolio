@@ -207,7 +207,7 @@ nav.nav-visible {
 /* Content Sections */
 .content-section {
     padding: 4rem;
-    margin-top: 0.5rem;
+    margin-top: 2rem;
     min-height: 50vh;
 }
 
@@ -257,7 +257,7 @@ nav.nav-visible {
 
     .content-section {
         padding: 2rem;
-        margin-top: 0.5rem;
+        margin-top: 2rem;
     }
 
     .section-title {
@@ -539,7 +539,7 @@ nav {
 /* Recent Work Section */
 .recent-work {
     padding: 4rem;
-    margin-top: 0.5rem;
+    margin-top: 2rem;
 }
 
 .section-title {
@@ -579,7 +579,7 @@ nav {
 
     .recent-work {
         padding: 2rem;
-        margin-top: 0.5rem;
+        margin-top: 2rem;
     }
 
     .section-title {
