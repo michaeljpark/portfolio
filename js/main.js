@@ -241,4 +241,24 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Sort portfolio items by date (newest first)
+    function sortPortfolioItems() {
+        const grid = document.querySelector('.portfolio-grid');
+        if (!grid) return;
+
+        const items = Array.from(grid.querySelectorAll('.portfolio-card'));
+        
+        items.sort((a, b) => {
+            const dateA = new Date(a.getAttribute('data-date') || '2000-01-01');
+            const dateB = new Date(b.getAttribute('data-date') || '2000-01-01');
+            return dateB - dateA; // Descending order
+        });
+
+        // Re-append items in sorted order
+        items.forEach(item => grid.appendChild(item));
+    }
+
+    // Run sorting
+    sortPortfolioItems();
 });

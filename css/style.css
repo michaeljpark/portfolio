@@ -336,10 +336,6 @@ html {
     animation: fadeInUp 0.8s ease-out 0.2s backwards;
 }
 
-.tags-container {
-    animation: fadeInUp 0.8s ease-out 0.4s backwards;
-}
-
 .body-content {
     animation: fadeInUp 0.8s ease-out 0.6s backwards;
 }
@@ -352,105 +348,52 @@ nav {
     animation: fadeInUp 0.6s ease-out 0.1s backwards;
 }
 
-/* Tags */
-.tags-container {
-    width: 100%;
-    margin-top: 3rem;
-    padding: 2rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.tags-row {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.tag-pill {
-    display: inline-block;
-    padding: 0.5rem 1.5rem;
-    background-color: #e8e8e8;
-    border-radius: 50px;
-    font-size: 1rem;
-    font-weight: 400;
-    color: var(--text-primary);
-    white-space: nowrap;
-    transition: all 0.3s ease;
-    cursor: default;
-    user-select: none;
-}
-
-.tag-pill:hover {
-    transform: scale(1.1);
-    background-color: var(--text-primary);
-    color: var(--bg-color);
-}
-
-/* Responsive Tags */
-@media (max-width: 768px) {
-    .tags-container {
-        padding: 1.5rem 0;
-        margin-top: 2rem;
-        gap: 1rem;
-    }
-
-    .tags-row {
-        gap: 0.75rem;
-    }
-
-    .tag-pill {
-        font-size: 0.75rem;
-        padding: 0.35rem 1rem;
-    }
-}
-
 /* Body Content */
 .body-content {
-    margin-top: 8rem;
+    margin-top: 0;
     display: flex;
-    gap: 4rem;
-    max-width: 1200px;
+    justify-content: space-between;
+    gap: 2rem;
+    width: 100%;
+    max-width: 100%;
 }
 
 .body-left {
-    flex: 1;
+    text-align: left;
 }
 
 .body-right {
-    flex: 0 0 300px;
+    text-align: right;
 }
 
 .body-content p {
-    font-size: 0.75rem;
-    line-height: 1.8;
+    font-size: 1.25rem;
+    line-height: 1.6;
     color: var(--text-primary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .body-content p:last-child {
     margin-bottom: 0;
 }
 
-.body-right p {
-    margin-bottom: 0.5rem;
-}
-
 @media (max-width: 768px) {
     .body-content {
-        margin-top: 6rem;
+        margin-top: 0;
         flex-direction: column;
         gap: 2rem;
     }
 
+    .body-left {
+        text-align: left;
+    }
+
     .body-right {
-        flex: 1;
+        text-align: right;
     }
 
     .body-content p {
-        font-size: 0.7rem;
-        line-height: 1.7;
+        font-size: 1rem;
     }
 }
 
