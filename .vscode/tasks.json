@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "append_css",
+			"type": "shell",
+			"command": "echo \"/* Blank Section for Logo Reveal */\n.blank-section {\n    min-height: 90vh;\n    width: 100%;\n}\" >> c:\\Users\\joong\\Desktop\\Github\\porrtfolio2026\\css\\style.css",
+			"args": [],
+			"isBackground": false,
+			"group": "build"
+		}
+	]
+}

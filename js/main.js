@@ -261,4 +261,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Run sorting
     sortPortfolioItems();
+
+    // Scroll-based Logo Opacity
+    function handleLogoScroll() {
+        const logoContainer = document.querySelector('.hero-logo-container');
+        if (!logoContainer) return;
+
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const docHeight = document.documentElement.scrollHeight;
+        const maxScroll = docHeight - windowHeight;
+        
+        // Calculate the start of the transition
+        // We want the transition to happen during the blank section scroll
+        // Blank section is 120vh.
+        // We start the transition when the user enters the blank section zone.
+        const transitionDistance = windowHeight * 1.2; // 120vh
+        const startTransition = Math.max(0, maxScroll - transitionDistance);
+        
+        let progress = 0;
+        if (maxScroll > 0 && scrollY > startTransition) {
+            progress = (scrollY - startTransition) / transitionDistance;
+        }
+        
+        progress = Math.min(Math.max(progress, 0), 1);
+
+        // Opacity: 0.02 -> 1.0
+        const startOpacity = 0.02;
+        const endOpacity = 1.0;
+        const currentOpacity = startOpacity + (endOpacity - startOpacity) * progress;
+        
+        logoContainer.style.opacity = currentOpacity;
+    }
+
+    window.addEventListener('scroll', () => {
+        window.requestAnimationFrame(handleLogoScroll);
+    });
+    
+    window.addEventListener('resize', handleLogoScroll);
+    
+    // Initial call
+    handleLogoScroll();
 });
