@@ -286,8 +286,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         progress = Math.min(Math.max(progress, 0), 1);
 
-        // Opacity: 0.02 -> 1.0
-        const startOpacity = 0.02;
+        // Opacity: 0.03 -> 1.0
+        const startOpacity = 0.03;
         const endOpacity = 1.0;
         const currentOpacity = startOpacity + (endOpacity - startOpacity) * progress;
         
