@@ -179,8 +179,8 @@ nav.nav-visible {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 100px 2rem 0 2rem;
-    max-width: 1200px;
+    padding: 100px 4rem 0 4rem;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
@@ -232,10 +232,10 @@ nav.nav-visible {
 
 /* Content Sections */
 .content-section {
-    padding: 4rem 2rem;
+    padding: 4rem 4rem;
     margin-top: 2rem;
     min-height: 50vh;
-    max-width: 1200px;
+    max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -383,7 +383,7 @@ html {
 }
 
 nav {
-    animation: fadeInUp 0.6s ease-out 0.1s backwards;
+    /* animation: fadeInUp 0.6s ease-out 0.1s backwards; */
 }
 
 /* Body Content */
@@ -438,8 +438,8 @@ nav {
 /* Portfolio Cards */
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 1.5rem;
     margin-top: 1.5rem;
 }
 
@@ -498,12 +498,16 @@ nav {
 
 .portfolio-details {
     display: flex;
-    gap: 3rem;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
-.portfolio-left,
+.portfolio-left {
+    text-align: left;
+}
+
 .portfolio-right {
-    flex: 1;
+    text-align: right;
 }
 
 .portfolio-details p {
@@ -575,8 +579,8 @@ nav {
 /* About Section Styles */
 .about-section {
     font-family: Helvetica, Arial, sans-serif;
-    padding: 4rem 2rem;
-    max-width: 1200px;
+    padding: 4rem 4rem;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
