@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return window.innerWidth <= 768;
     }
 
-    const portfolioCards = document.querySelectorAll('.portfolio-card');
+    const portfolioCards = document.querySelectorAll('.portfolio-card-wrapper');
     const autoSwitchIntervals = [];
 
     function startAutoSwitch(card, index) {
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const grid = document.querySelector('.portfolio-grid');
         if (!grid) return;
 
-        const items = Array.from(grid.querySelectorAll('.portfolio-card'));
+        const items = Array.from(grid.querySelectorAll('.portfolio-card-wrapper'));
         
         items.sort((a, b) => {
             const dateA = new Date(a.getAttribute('data-date') || '2000-01-01');
