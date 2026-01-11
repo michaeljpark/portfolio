@@ -701,7 +701,7 @@ nav {
     background-color: var(--text-primary);
     color: var(--bg-color);
     padding: 12px 0;
-    border-radius: 8px;
+    border-radius: 9999px;
     width: 100%;
     text-align: center;
     text-decoration: none;
