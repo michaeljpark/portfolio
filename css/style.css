@@ -477,11 +477,13 @@ nav {
     opacity: 0;
 }
 
-.portfolio-card:hover .portfolio-image .thumb-default {
+.portfolio-card:hover .portfolio-image .thumb-default,
+.portfolio-card-wrapper:hover .portfolio-image .thumb-default {
     opacity: 0;
 }
 
-.portfolio-card:hover .portfolio-image .thumb-hover {
+.portfolio-card:hover .portfolio-image .thumb-hover,
+.portfolio-card-wrapper:hover .portfolio-image .thumb-hover {
     opacity: 1;
 }
 
