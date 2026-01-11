@@ -673,3 +673,93 @@ nav {
     line-height: 1.5;
 }
 
+/* View Demo Button Styles */
+.portfolio-card-wrapper {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.portfolio-card-wrapper:hover {
+    transform: translateY(-8px);
+}
+
+/* Ensure image link behaves like block */
+.portfolio-image-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.view-demo-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--text-primary);
+    color: var(--bg-color);
+    padding: 12px 0;
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.portfolio-info {
+    position: relative;
+    transition: opacity 0.3s ease;
+}
+
+@media (min-width: 769px) {
+    .portfolio-card-wrapper:hover .view-demo-btn {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%);
+    }
+    
+    .portfolio-card-wrapper:hover .portfolio-details {
+        opacity: 0.2; /* Very faint text */
+        filter: blur(1px);
+    }
+}
+
+/* Project Specific Button Colors */
+.btn-ixec {
+    background-color: #3275F1 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-chefi {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-mysub {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+
+.btn-ult {
+    background-color: #0A0A10 !important;
+    color: #FFFFFF !important;
+}
+
+.btn-eedu {
+    background-color: #EAEAEA !important;
+    color: #000000 !important;
+}
+
+.btn-valu {
+    background-color: #D6D6D6 !important;
+    color: #000000 !important;
+}
+
