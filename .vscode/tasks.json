@@ -28,6 +28,16 @@
 			],
 			"isBackground": false,
 			"group": "build"
+		},
+		{
+			"label": "append_css_flip",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"echo \"\n/* Mobile 3D Flip Effect */\n@media (max-width: 768px) {\n    .portfolio-image-link,\n    .portfolio-card-wrapper {\n        perspective: 1000px;\n    }\n\n    .portfolio-image {\n        position: relative;\n        transition: transform 0.8s;\n        transform-style: preserve-3d;\n        /* Need to manage overflow for border-radius with preserve-3d */\n        overflow: visible !important;\n    }\n\n    .portfolio-image.is-flipped {\n        transform: rotateY(180deg);\n    }\n\n    /* Standardize images for flip */\n    .portfolio-image img {\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        border-radius: 8px; /* Move border radius to images */\n        backface-visibility: hidden;\n        -webkit-backface-visibility: hidden;\n        transition: none !important; /* Disable opacity transition on mobile */\n    }\n\n    /* Face 1: Default Image */\n    .portfolio-image .thumb-default {\n        z-index: 2;\n        transform: rotateY(0deg);\n        opacity: 1 !important;\n    }\n\n    /* Face 2: Hover (Back) Image */\n    .portfolio-image .thumb-hover {\n        transform: rotateY(180deg);\n        z-index: 1;\n        opacity: 1 !important; /* Always visible, just rotated */\n    }\n}\n\" >> c:\\Users\\joong\\Desktop\\Github\\porrtfolio2026\\css\\style.css"
+			],
+			"isBackground": false,
+			"group": "build"
 		}
 	]
 }

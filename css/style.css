@@ -41,11 +41,21 @@ nav.nav-visible {
 }
 
 .logo {
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     text-decoration: none !important;
     color: var(--text-primary);
+}
+
+.logo-icon {
+    width: 20px;
+    height: auto;
+    filter: brightness(0);
 }
 
 .logo:hover {
@@ -56,7 +66,9 @@ nav.nav-visible {
     display: flex;
     gap: 2rem;
     align-items: center;
-    position: relative;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .nav-link {
@@ -94,20 +106,22 @@ nav.nav-visible {
     opacity: 1;
 }
 
-/* Contact Button */
+/* Contact Button (Text Link Style) */
 .contact-btn {
-    background-color: var(--text-primary);
-    color: var(--bg-color);
-    padding: 0.75rem 2rem;
-    border-radius: 50px;
+    background-color: transparent;
+    color: var(--text-primary);
+    padding: 0;
+    border-radius: 0;
     text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    font-weight: 400;
+    font-size: 0.875rem;
+    transition: opacity 0.3s ease;
     display: inline-block;
 }
 
 .contact-btn:hover {
-    transform: scale(1.05);
+    transform: none;
+    opacity: 0.6;
 }
 
 /* Mobile Menu Toggle */
