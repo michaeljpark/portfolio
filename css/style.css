@@ -783,3 +783,9 @@ nav {
     background-color: #E1FF7F !important;
     color: #000000 !important;
 }
+
+.nav-right {
+    display: flex;
+    gap: 3rem; /* Increased from 2rem */
+    align-items: center;
+}
