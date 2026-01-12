@@ -789,3 +789,9 @@ nav {
     gap: 3rem; /* Increased from 2rem */
     align-items: center;
 }
+
+
+.btn-cfglh {
+    background-color: #3A7391 !important;
+    color: #FFFFFF !important;
+}
