@@ -175,72 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 250);
     });
 
-    // Portfolio image auto-switch on mobile
-    function isMobile() {
-        return window.innerWidth <= 768;
-    }
 
-    const portfolioCards = document.querySelectorAll('.portfolio-card-wrapper');
-    const autoSwitchIntervals = [];
-
-    function startAutoSwitch(card, index) {
-        const defaultImg = card.querySelector('.thumb-default');
-        const hoverImg = card.querySelector('.thumb-hover');
-
-        if (!defaultImg || !hoverImg) return;
-
-        let isHoverState = false;
-
-        const interval = setInterval(() => {
-            if (isMobile()) {
-                isHoverState = !isHoverState;
-                if (isHoverState) {
-                    defaultImg.style.opacity = '0';
-                    hoverImg.style.opacity = '1';
-                } else {
-                    defaultImg.style.opacity = '1';
-                    hoverImg.style.opacity = '0';
-                }
-            }
-        }, 2000);
-
-        autoSwitchIntervals[index] = interval;
-    }
-
-    function stopAutoSwitch(index) {
-        if (autoSwitchIntervals[index]) {
-            clearInterval(autoSwitchIntervals[index]);
-            autoSwitchIntervals[index] = null;
-        }
-    }
-
-    // Initialize auto-switch for mobile
-    portfolioCards.forEach((card, index) => {
-        if (isMobile()) {
-            startAutoSwitch(card, index);
-        }
-    });
-
-    // Handle resize - start/stop auto-switch based on screen size
-    window.addEventListener('resize', function() {
-        portfolioCards.forEach((card, index) => {
-            const defaultImg = card.querySelector('.thumb-default');
-            const hoverImg = card.querySelector('.thumb-hover');
-
-            if (isMobile()) {
-                if (!autoSwitchIntervals[index]) {
-                    startAutoSwitch(card, index);
-                }
-            } else {
-                stopAutoSwitch(index);
-                // Reset to default state on desktop
-                if (defaultImg && hoverImg) {
-                    defaultImg.style.opacity = '1';
-                    hoverImg.style.opacity = '0';
-                }
-            }
-        });
-    });
 
     // Sort portfolio items by date (newest first)
     function sortPortfolioItems() {
@@ -261,6 +196,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Run sorting
     sortPortfolioItems();
+
+    // Mobile Portfolio Interaction
+    const portfolioWrappers = document.querySelectorAll('.portfolio-card-wrapper');
+    
+    portfolioWrappers.forEach(wrapper => {
+        wrapper.addEventListener('click', function(e) {
+            // Only apply on mobile width
+            if (window.innerWidth <= 768) {
+                // If the wrapper is not active yet
+                if (!this.classList.contains('mobile-active')) {
+                    e.preventDefault(); // Prevent link navigation
+                    
+                    // Remove active class from all other wrappers
+                    portfolioWrappers.forEach(w => {
+                        if (w !== this) w.classList.remove('mobile-active');
+                    });
+                    
+                    // Activate this wrapper
+                    this.classList.add('mobile-active');
+                }
+                // If already active, let the click proceed (to link)
+            }
+        });
+    });
 
     // Scroll-based Logo Opacity
     function handleLogoScroll() {
