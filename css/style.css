@@ -202,25 +202,8 @@ nav.nav-visible {
     min-height: auto;
 }
 
-.hero-logo-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60vw;
-    z-index: -1;
-    opacity: 0.03;
-    pointer-events: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
-.hero-logo-img {
-    width: 100%;
-    height: auto;
-    filter: brightness(0);
-}
+
 
 .hero h1 {
     font-size: clamp(2.25rem, 6vw, 4.5rem);
@@ -673,12 +656,14 @@ nav {
 
 /* Blank Section for Logo Reveal */
 .blank-section {
-    min-height: 120vh;
+    min-height: 90vh;
     width: 100%;
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
     padding-bottom: 4rem;
+    gap: 1rem;
 }
 
 .copyright-text {
@@ -820,11 +805,8 @@ nav {
     }
 }
 
-/* Blank Section for Logo Reveal */
-.blank-section {
-    min-height: 90vh;
-    width: 100%;
-}
+
+
 
 /* Project Workflow Button */
 .workflow-btn-container {
@@ -876,5 +858,23 @@ nav {
         width: 18px;
         height: 18px;
     }
+}
+
+/* Bottom Background Logo */
+.bottom-bg-logo {
+    position: relative;
+    width: 20%;
+    margin: 0 auto;
+    opacity: 0.1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 2rem;
+}
+
+.bottom-bg-logo img {
+    width: 100%;
+    height: auto;
+    filter: brightness(0);
 }
 
