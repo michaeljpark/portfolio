@@ -262,3 +262,32 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial call
     handleLogoScroll();
 });
+
+/* View More Functionality */
+document.addEventListener('DOMContentLoaded', function() {
+    const recentWorkGrid = document.querySelector('.recent-work .portfolio-grid');
+    if (!recentWorkGrid) return;
+
+    const items = recentWorkGrid.querySelectorAll('.portfolio-card-wrapper');
+    const viewMoreBtn = document.getElementById('viewMoreBtn');
+    const itemsToShow = 4;
+
+    // Initially hide items beyond the limit
+    if (items.length > itemsToShow) {
+        for (let i = itemsToShow; i < items.length; i++) {
+            items[i].style.display = 'none';
+        }
+    } else if (viewMoreBtn) {
+        viewMoreBtn.parentElement.style.display = 'none';
+    }
+
+    if (viewMoreBtn) {
+        viewMoreBtn.addEventListener('click', function() {
+            for (let i = itemsToShow; i < items.length; i++) {
+                items[i].style.display = '';
+                items[i].style.animation = 'fadeInUp 0.8s ease-out forwards';
+            }
+            this.parentElement.style.display = 'none';
+        });
+    }
+});

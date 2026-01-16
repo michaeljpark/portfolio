@@ -435,7 +435,7 @@ nav {
 /* Portfolio Cards */
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    grid-template-columns: 1fr;
     gap: 1.5rem;
     margin-top: 1.5rem;
 }
@@ -460,7 +460,43 @@ nav {
     border-radius: 8px;
 }
 
-.portfolio-image img {
+.portfolio-media-row {
+    display: grid;
+    grid-template-columns: 2.37fr 1fr;
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.portfolio-video-container {
+    background-color: #1a1a1a;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-placeholder-text {
+    color: #555;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+    .portfolio-media-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .portfolio-video-container {
+        display: none;
+    }
+}
+
+.portfolio-image img,
+.portfolio-image video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -876,5 +912,53 @@ nav {
     width: 100%;
     height: auto;
     filter: brightness(0);
+}
+
+/* View More Button */
+.view-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    width: 100%;
+}
+
+.view-more-toggle-btn {
+    padding: 12px 30px;
+    background-color: var(--text-primary);
+    color: var(--bg-color);
+    border: 1px solid var(--text-primary);
+    border-radius: 30px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.view-more-toggle-btn:hover {
+    background-color: transparent;
+    color: var(--text-primary);
+}
+
+/* Zig-Zag Layout Support */
+.portfolio-media-row.reversed {
+    grid-template-columns: 1fr 2.37fr;
+}
+
+.portfolio-media-row.reversed .portfolio-image-link {
+    order: 2;
+}
+
+.portfolio-media-row.reversed .portfolio-video-container {
+    order: 1;
+}
+
+/* Cloudinary Video Styling */
+.portfolio-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
