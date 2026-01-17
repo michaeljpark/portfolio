@@ -488,10 +488,22 @@ nav {
 @media (max-width: 768px) {
     .portfolio-media-row {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
     .portfolio-video-container {
-        display: none;
+        display: flex;
+        aspect-ratio: 3/4;
+        border-radius: 12px;
+    }
+
+    /* Reset zig-zag order on mobile to ensure Image -> Video -> Text */
+    .portfolio-media-row.reversed .portfolio-image-link {
+        order: 1;
+    }
+
+    .portfolio-media-row.reversed .portfolio-video-container {
+        order: 2;
     }
 }
 
@@ -940,16 +952,18 @@ nav {
 }
 
 /* Zig-Zag Layout Support */
-.portfolio-media-row.reversed {
-    grid-template-columns: 1fr 2.37fr;
-}
+@media (min-width: 769px) {
+    .portfolio-media-row.reversed {
+        grid-template-columns: 1fr 2.37fr;
+    }
 
-.portfolio-media-row.reversed .portfolio-image-link {
-    order: 2;
-}
+    .portfolio-media-row.reversed .portfolio-image-link {
+        order: 2;
+    }
 
-.portfolio-media-row.reversed .portfolio-video-container {
-    order: 1;
+    .portfolio-media-row.reversed .portfolio-video-container {
+        order: 1;
+    }
 }
 
 /* Cloudinary Video Styling */
