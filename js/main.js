@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const items = recentWorkGrid.querySelectorAll('.portfolio-card-wrapper');
     const viewMoreBtn = document.getElementById('viewMoreBtn');
-    const itemsToShow = 4;
+    const itemsToShow = 8;
 
     // Initially hide items beyond the limit
     if (items.length > itemsToShow) {
