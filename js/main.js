@@ -290,4 +290,65 @@ document.addEventListener('DOMContentLoaded', function() {
             this.parentElement.style.display = 'none';
         });
     }
+
+    // Sorting Navigation Logic
+    const sortLinks = document.querySelectorAll('.sort-nav-link');
+    const sortIndicator = document.querySelector('.sort-nav-indicator');
+    
+    function updateSortIndicator(link) {
+        if (!sortIndicator || !link) return;
+        
+        const left = link.offsetLeft;
+        const width = link.offsetWidth;
+        
+        sortIndicator.style.left = `${left}px`;
+        sortIndicator.style.width = `${width}px`;
+    }
+    
+    if (sortLinks.length > 0 && sortIndicator) {
+        
+        const recentWorkSection = document.querySelector('.recent-work');
+        const clientProjectsSection = document.querySelector('.client-projects');
+
+        sortLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                sortLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                updateSortIndicator(this);
+
+                const filter = this.getAttribute('data-filter');
+                
+                // Filtering Logic
+                if (filter === 'case-study') {
+                    // Show All (Current)
+                    if (recentWorkSection) recentWorkSection.style.display = 'block';
+                    if (clientProjectsSection) clientProjectsSection.style.display = 'block';
+                } else if (filter === 'collaborative-work') {
+                    // Show only CFGLH (Client Projects)
+                    if (recentWorkSection) recentWorkSection.style.display = 'none';
+                    if (clientProjectsSection) clientProjectsSection.style.display = 'block';
+                } else if (filter === 'thesis') {
+                    // Show Nothing (Placeholder)
+                    if (recentWorkSection) recentWorkSection.style.display = 'none';
+                    if (clientProjectsSection) clientProjectsSection.style.display = 'none';
+                }
+            });
+        });
+
+        // Initialize first link as active
+        const activeLink = document.querySelector('.sort-nav-link.active') || sortLinks[0];
+        activeLink.classList.add('active');
+        
+        setTimeout(() => {
+            updateSortIndicator(activeLink);
+        }, 100);
+        
+        window.addEventListener('resize', () => {
+            const currentActive = document.querySelector('.sort-nav-link.active');
+            if (currentActive) {
+                updateSortIndicator(currentActive);
+            }
+        });
+    }
+
 });

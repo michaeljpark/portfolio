@@ -976,3 +976,85 @@ nav {
     left: 0;
 }
 
+
+/* Sorting Navigation Styles */
+.sorting-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+    padding: 0 4rem;
+}
+
+.sort-nav-links {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    position: relative;
+    background-color: #ebebeb; /* Slightly darker */
+    padding: 6px;
+    border-radius: 100px;
+}
+
+.sort-nav-link {
+    border: none;
+    background: none;
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    font-family: inherit;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.sort-nav-link:hover {
+    color: var(--text-primary);
+}
+
+.sort-nav-link.active {
+    color: var(--text-primary);
+}
+
+.sort-nav-indicator {
+    position: absolute;
+    height: calc(100% - 12px);
+    width: 0;
+    background-color: #ffffff;
+    border-radius: 100px;
+    z-index: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    top: 6px;
+    left: 0;
+}
+
+@media (max-width: 768px) {
+    .sorting-section {
+        padding: 0 1.5rem;
+        margin-top: 2.5rem;
+    }
+    
+    .sort-nav-links {
+        width: 100%;
+        justify-content: space-between;
+        gap: 0;
+        padding: 4px;
+    }
+
+    .sort-nav-link {
+        padding: 10px 0;
+        font-size: 0.72rem; /* Even smaller font for mobile to prevent overflow */
+        flex: 1;
+        text-align: center;
+    }
+    
+    .sort-nav-indicator {
+        height: calc(100% - 8px);
+        top: 4px;
+    }
+}
+
