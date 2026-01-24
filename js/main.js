@@ -309,6 +309,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const recentWorkSection = document.querySelector('.recent-work');
         const clientProjectsSection = document.querySelector('.client-projects');
+        const thesisWorkSection = document.querySelector('.thesis-work');
 
         sortLinks.forEach(link => {
             link.addEventListener('click', function() {
@@ -320,17 +321,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Filtering Logic
                 if (filter === 'case-study') {
-                    // Show All (Current)
+                    // Show Recent Work & Client Projects
                     if (recentWorkSection) recentWorkSection.style.display = 'block';
                     if (clientProjectsSection) clientProjectsSection.style.display = 'block';
+                    if (thesisWorkSection) thesisWorkSection.style.display = 'none';
                 } else if (filter === 'collaborative-work') {
                     // Show only CFGLH (Client Projects)
                     if (recentWorkSection) recentWorkSection.style.display = 'none';
                     if (clientProjectsSection) clientProjectsSection.style.display = 'block';
+                    if (thesisWorkSection) thesisWorkSection.style.display = 'none';
                 } else if (filter === 'thesis') {
-                    // Show Nothing (Placeholder)
+                    // Show Thesis Only
                     if (recentWorkSection) recentWorkSection.style.display = 'none';
                     if (clientProjectsSection) clientProjectsSection.style.display = 'none';
+                    if (thesisWorkSection) thesisWorkSection.style.display = 'block';
                 }
             });
         });
