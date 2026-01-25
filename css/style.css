@@ -936,19 +936,19 @@ nav {
 
 .view-more-toggle-btn {
     padding: 12px 30px;
-    background-color: var(--text-primary);
-    color: var(--bg-color);
-    border: 1px solid var(--text-primary);
+    background-color: #EAEAEA;
+    color: #000000;
+    border: none;
     border-radius: 30px;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .view-more-toggle-btn:hover {
-    background-color: transparent;
-    color: var(--text-primary);
+    background-color: #d0d0d0;
+    color: #000000;
 }
 
 /* Zig-Zag Layout Support */
