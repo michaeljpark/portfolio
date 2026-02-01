@@ -356,3 +356,42 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 });
+
+/* Report Modal Functionality */
+document.addEventListener('DOMContentLoaded', function() {
+    const reportBtns = document.querySelectorAll('.view-report-pill-btn, .view-report-mobile-link');
+    const modal = document.getElementById('report-modal');
+    const closeBtn = document.querySelector('.report-close');
+
+    if (reportBtns.length > 0 && modal) {
+        reportBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        }
+
+        window.addEventListener('click', function(e) {
+            if (e.target == modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
+});
