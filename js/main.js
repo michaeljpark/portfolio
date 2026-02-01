@@ -364,10 +364,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.querySelector('.report-close');
 
     if (reportBtns.length > 0 && modal) {
+        const modalImg = modal.querySelector('.report-modal-content img');
+
         reportBtns.forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
+                
+                const imgSrc = this.getAttribute('data-report-src');
+                if (imgSrc && modalImg) {
+                    modalImg.src = imgSrc;
+                }
+
                 modal.style.display = 'block';
                 document.body.style.overflow = 'hidden';
             });
