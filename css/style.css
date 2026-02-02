@@ -1194,3 +1194,16 @@ nav {
         pointer-events: auto;
     }
 }
+
+/* Ult Report Button */
+.view-report-pill-btn.btn-ult-report,
+.view-report-mobile-link.btn-ult-report {
+    background-color: #BABAE6 !important;
+    color: #000000 !important;
+}
+
+.view-report-pill-btn.btn-ult-report:hover,
+.view-report-mobile-link.btn-ult-report:hover {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
