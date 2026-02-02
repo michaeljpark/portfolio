@@ -1227,3 +1227,16 @@ nav {
     background-color: #000000 !important;
     color: #FFFFFF !important;
 }
+
+/* Gate 4 Report Button */
+.view-report-pill-btn.btn-gate4-report,
+.view-report-mobile-link.btn-gate4-report {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+
+.view-report-pill-btn.btn-gate4-report:hover,
+.view-report-mobile-link.btn-gate4-report:hover {
+    background-color: #D6D6D6 !important;
+    color: #000000 !important;
+}
