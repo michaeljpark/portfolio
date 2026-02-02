@@ -1175,7 +1175,7 @@ nav {
         cursor: pointer;
         padding: 0;
         text-align: center;
-        order: 2;
+        order: 3;
         width: 100%;
         
         /* Reveal Animation properties */
@@ -1196,47 +1196,40 @@ nav {
 }
 
 /* Ult Report Button */
-.view-report-pill-btn.btn-ult-report,
-.view-report-mobile-link.btn-ult-report {
+.view-report-pill-btn.btn-ult-report {
     background-color: #BABAE6 !important;
     color: #000000 !important;
 }
 
-.view-report-pill-btn.btn-ult-report:hover,
-.view-report-mobile-link.btn-ult-report:hover {
+.view-report-pill-btn.btn-ult-report:hover {
     background-color: #FFFFFF !important;
     color: #000000 !important;
 }
 
 /* Pillio Report Button */
-.view-report-pill-btn.btn-pillio-report,
-.view-report-mobile-link.btn-pillio-report {
+.view-report-pill-btn.btn-pillio-report {
     background-color: #000000 !important;
     color: #FFFFFF !important;
 }
 
-.view-report-pill-btn.btn-pillio-report:hover,
-.view-report-mobile-link.btn-pillio-report:hover {
+.view-report-pill-btn.btn-pillio-report:hover {
     background-color: #FFFFFF !important;
     color: #000000 !important;
 }
 
 /* MySub Report Button */
-.view-report-pill-btn.btn-mysub-report:hover,
-.view-report-mobile-link.btn-mysub-report:hover {
+.view-report-pill-btn.btn-mysub-report:hover {
     background-color: #000000 !important;
     color: #FFFFFF !important;
 }
 
 /* Gate 4 Report Button */
-.view-report-pill-btn.btn-gate4-report,
-.view-report-mobile-link.btn-gate4-report {
+.view-report-pill-btn.btn-gate4-report {
     background-color: #FFFFFF !important;
     color: #000000 !important;
 }
 
-.view-report-pill-btn.btn-gate4-report:hover,
-.view-report-mobile-link.btn-gate4-report:hover {
+.view-report-pill-btn.btn-gate4-report:hover {
     background-color: #D6D6D6 !important;
     color: #000000 !important;
 }
