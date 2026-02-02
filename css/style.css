@@ -1207,3 +1207,23 @@ nav {
     background-color: #FFFFFF !important;
     color: #000000 !important;
 }
+
+/* Pillio Report Button */
+.view-report-pill-btn.btn-pillio-report,
+.view-report-mobile-link.btn-pillio-report {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+}
+
+.view-report-pill-btn.btn-pillio-report:hover,
+.view-report-mobile-link.btn-pillio-report:hover {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+}
+
+/* MySub Report Button */
+.view-report-pill-btn.btn-mysub-report:hover,
+.view-report-mobile-link.btn-mysub-report:hover {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+}
