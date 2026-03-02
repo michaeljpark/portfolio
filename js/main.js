@@ -310,6 +310,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const recentWorkSection = document.querySelector('.recent-work');
         const clientProjectsSection = document.querySelector('.client-projects');
         const thesisWorkSection = document.querySelector('.thesis-work');
+        const collaborativeWorkSection = document.querySelector('.collaborative-work-section');
 
         sortLinks.forEach(link => {
             link.addEventListener('click', function() {
@@ -325,16 +326,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (recentWorkSection) recentWorkSection.style.display = 'block';
                     if (clientProjectsSection) clientProjectsSection.style.display = 'block';
                     if (thesisWorkSection) thesisWorkSection.style.display = 'none';
+                    if (collaborativeWorkSection) collaborativeWorkSection.style.display = 'none';
                 } else if (filter === 'collaborative-work') {
-                    // Show only CFGLH (Client Projects)
+                    // Show Collaborative Work section
                     if (recentWorkSection) recentWorkSection.style.display = 'none';
-                    if (clientProjectsSection) clientProjectsSection.style.display = 'block';
+                    if (clientProjectsSection) clientProjectsSection.style.display = 'none';
                     if (thesisWorkSection) thesisWorkSection.style.display = 'none';
+                    if (collaborativeWorkSection) collaborativeWorkSection.style.display = 'block';
                 } else if (filter === 'thesis') {
                     // Show Thesis Only
                     if (recentWorkSection) recentWorkSection.style.display = 'none';
                     if (clientProjectsSection) clientProjectsSection.style.display = 'none';
                     if (thesisWorkSection) thesisWorkSection.style.display = 'block';
+                    if (collaborativeWorkSection) collaborativeWorkSection.style.display = 'none';
                 }
             });
         });
