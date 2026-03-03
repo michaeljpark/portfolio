@@ -820,8 +820,8 @@ nav {
 }
 
 .btn-aza {
-    background-color: #FF9900 !important;
-    color: #000000 !important;
+    background-color: #1F1F1F !important;
+    color: #FFFFFF !important;
 }
 
 .nav-right {
@@ -979,6 +979,31 @@ nav {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+/* Image inside video container (thumb default/hover) */
+.portfolio-video-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+}
+
+.portfolio-video-container img.thumb-hover {
+    opacity: 0;
+}
+
+@media (min-width: 769px) {
+    .portfolio-card-wrapper:hover .portfolio-video-container img.thumb-default {
+        opacity: 0;
+    }
+
+    .portfolio-card-wrapper:hover .portfolio-video-container img.thumb-hover {
+        opacity: 1;
+    }
 }
 
 
