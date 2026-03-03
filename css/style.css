@@ -819,6 +819,11 @@ nav {
     color: #000000 !important;
 }
 
+.btn-aza {
+    background-color: #FF9900 !important;
+    color: #000000 !important;
+}
+
 .nav-right {
     display: flex;
     gap: 3rem; /* Increased from 2rem */
