@@ -326,7 +326,7 @@ html {
 .portfolio-item {
     aspect-ratio: 4/3;
     background-color: #e0e0e0;
-    border-radius: 8px;
+    border-radius: 0;
     overflow: hidden;
     transition: transform 0.3s ease;
 }
@@ -457,7 +457,27 @@ nav {
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background-color: #f5f5f5;
-    border-radius: 24px;
+    border-radius: 0;
+}
+
+.portfolio-image.bg-dark {
+    background-color: #000;
+}
+
+.portfolio-image.bg-dps {
+    background-color: #E1FF80;
+}
+
+.portfolio-image.bg-ixec {
+    background-color: #3275F1;
+}
+
+.portfolio-image.bg-valu {
+    background-color: #D6D6D6;
+}
+
+.portfolio-image.bg-mysub {
+    background-color: #C2D3DF;
 }
 
 .portfolio-media-row {
@@ -469,7 +489,7 @@ nav {
 
 .portfolio-video-container {
     background-color: #1a1a1a;
-    border-radius: 24px;
+    border-radius: 0;
     position: relative;
     overflow: hidden;
     aspect-ratio: 3/4;
@@ -494,7 +514,7 @@ nav {
     .portfolio-video-container {
         display: flex;
         aspect-ratio: 3/4;
-        border-radius: 12px;
+        border-radius: 0;
     }
 
     /* Reset zig-zag order on mobile to ensure Image -> Video -> Text */
