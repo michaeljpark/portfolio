@@ -846,6 +846,14 @@ nav {
         opacity: 1 !important;
     }
 
+    .portfolio-card-wrapper.mobile-active .portfolio-video-container img.thumb-default {
+        opacity: 0 !important;
+    }
+
+    .portfolio-card-wrapper.mobile-active .portfolio-video-container img.thumb-hover {
+        opacity: 1 !important;
+    }
+
     .portfolio-card-wrapper.mobile-active .view-demo-btn {
         opacity: 1 !important;
         pointer-events: auto !important;
