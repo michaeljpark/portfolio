@@ -142,7 +142,7 @@
 
   .work-block{ grid-column: span 6; }
   .work-block.wide{ grid-column: span 12; }
-  .work-block.wide .work{ aspect-ratio: 16/8; }
+  .work-block.wide .work{ aspect-ratio: 16/9; }
   .work-block.third{ grid-column: span 4; }
   .work-block.third .work{ aspect-ratio: 1/1; }
 
@@ -350,7 +350,12 @@
   <div class="selected">
     <div class="work-block wide reveal">
       <a href="https://ongenradio.web.app/" target="_blank" rel="noopener">
-        <div class="work"><img src="./ongenradio2026.png" alt="OnGen Radio 2026" loading="lazy" /></div>
+        <div class="work">
+          <picture>
+            <source media="(max-width:880px)" srcset="./ongenradio2026mobile.png">
+            <img src="./ongenradio2026.png" alt="OnGen Radio 2026" loading="lazy" />
+          </picture>
+        </div>
         <div class="w-info">
           <div class="t"><span>OnGen Radio 2026 : Reimagined Radio in Augmented Reality</span><span class="arrow">→</span></div>
           <div class="m"><span>2026</span><span>Thesis Project</span><span>3 Weeks</span></div>
