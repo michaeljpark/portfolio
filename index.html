@@ -1,843 +1,736 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Michael Joongmin Park Design 2026©</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Michael Joongmin Park — Designer</title>
+<meta name="description" content="Michael Joongmin Park — Digital product designer working at the intersection of human–AI experience, industrial design, and rapid prototyping. Toronto, ON." />
+
+<link rel="icon" type="image/svg+xml" href="./mkpkgrey.svg" />
+
+<meta property="og:title" content="Michael Joongmin Park — Designer" />
+<meta property="og:description" content="Digital product designer. HAX · Product · Industrial. Toronto, ON. Portfolio 2026." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://michaeljpark.github.io/portfolio/" />
+<meta property="og:image" content="https://michaeljpark.github.io/portfolio/g434.png" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<style>
+  :root{
+    --bg:    #ffffff;
+    --ink:   #0a0a0a;
+    --muted: #8a8a8a;
+    --line:  #e6e6e6;
+    --max:   1320px;
+    --pad:   clamp(20px, 4vw, 56px);
+    --font:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ background:var(--bg); color:var(--ink); }
+  body{
+    font-family:var(--font);
+    font-size:14px;
+    line-height:1.5;
+    font-weight:400;
+    letter-spacing:-0.05em;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  a{ color:inherit; text-decoration:none; }
+  img{ display:block; max-width:100%; }
+  ::selection{ background:var(--ink); color:var(--bg); }
+
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 var(--pad); }
+
+  /* NAV */
+  nav.top{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px var(--pad); max-width:var(--max); margin:0 auto;
+    font-size:13px;
+  }
+  .nav-mark{ font-weight:500; }
+  .nav-links{ display:flex; gap:28px; }
+  .nav-links a{ color:var(--muted); transition:color .2s; }
+  .nav-links a:hover{ color:var(--ink); }
+
+  /* HERO */
+  header.hero{
+    padding:120px 0 100px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-meta{
+    display:flex; justify-content:space-between;
+    font-size:13px; color:var(--muted);
+    margin-bottom:80px;
+  }
+  .hero-name{
+    font-weight:500;
+    font-size: clamp(56px, 11vw, 168px);
+    line-height:.95;
+    letter-spacing:-0.05em;
+  }
+  .hero-row{
+    display:grid; grid-template-columns: 1.4fr 1fr; gap:80px;
+    margin-top:80px; padding-top:32px; border-top:1px solid var(--line);
+  }
+  .hero-bio{
+    font-size:17px; line-height:1.5; color:var(--ink); max-width:54ch;
+  }
+  .hero-bio span{ color:var(--muted); }
+  .hero-side{
+    display:flex; flex-direction:column; gap:18px;
+    font-size:13px;
+  }
+  .hero-side .pair{ display:flex; flex-direction:column; gap:2px; }
+  .hero-side dt{ color:var(--muted); }
+
+  /* SECTION */
+  section{ padding:96px 0; border-bottom:1px solid var(--line); }
+  .sec-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    margin-bottom:56px; gap:32px; flex-wrap:wrap;
+  }
+  .sec-head h2{
+    font-weight:500;
+    font-size: clamp(32px, 4.5vw, 56px);
+    letter-spacing:-0.05em;
+    line-height:1;
+  }
+  .sec-head .label{
+    font-size:13px; color:var(--muted); margin-bottom:14px;
+  }
+  .sec-head .desc{
+    font-size:14px; color:var(--muted); max-width:38ch; line-height:1.5;
+  }
+
+  /* SELECTED */
+  .selected{
+    display:grid; grid-template-columns:repeat(12,1fr); gap:48px 24px;
+  }
+  .work{
+    position:relative; overflow:hidden;
+    background:#f4f4f4;
+    aspect-ratio: 4/3;
+    display:block;
+  }
+  .work img{
+    width:100%; height:100%; object-fit:cover;
+    transition: transform .6s cubic-bezier(.7,0,.2,1);
+  }
+  a:hover .work img{ transform:scale(1.03); }
+
+  .w-info{ margin-top:16px; }
+  .w-info .t{
+    font-size:18px; font-weight:500; line-height:1.2;
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  }
+  .w-info .t .arrow{ color:var(--muted); font-weight:400; transition:color .2s, transform .35s; }
+  a:hover .w-info .t .arrow{ color:var(--ink); transform:translateX(4px); }
+  .w-info .m{
+    font-size:13px; color:var(--muted); margin-top:6px;
+    display:flex; gap:12px; flex-wrap:wrap;
+  }
+
+  .work-block{ grid-column: span 6; }
+  .work-block.wide{ grid-column: span 12; }
+  .work-block.wide .work{ aspect-ratio: 16/8; }
+  .work-block.third{ grid-column: span 4; }
+  .work-block.third .work{ aspect-ratio: 1/1; }
+
+  /* INDEX */
+  .filters{
+    display:flex; gap:24px; flex-wrap:wrap;
+    margin-bottom:24px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:18px;
+  }
+  .filter{
+    font-family:inherit; font-size:13px; letter-spacing:-0.05em;
+    background:none; border:none; padding:0; cursor:pointer;
+    color:var(--muted); transition:color .2s;
+  }
+  .filter:hover{ color:var(--ink); }
+  .filter.on{ color:var(--ink); }
+  .filter .c{ color:var(--muted); margin-left:4px; }
+
+  .row{
+    display:grid;
+    grid-template-columns: 80px 1fr 1.2fr 100px 40px;
+    gap:24px;
+    padding:20px 0;
+    border-bottom:1px solid var(--line);
+    align-items:baseline;
+    cursor:pointer;
+    transition: padding .35s cubic-bezier(.7,0,.2,1);
+  }
+  .row:hover{ padding-left:16px; padding-right:16px; }
+  .row .yr{ font-size:13px; color:var(--muted); }
+  .row .ti{
+    font-size:22px; font-weight:500; line-height:1.15;
+    letter-spacing:-0.05em;
+  }
+  .row .ty{ font-size:13px; color:var(--muted); }
+  .row .du{ font-size:13px; color:var(--muted); }
+  .row .ar{
+    text-align:right; font-size:18px; color:var(--muted);
+    transition: transform .35s, color .25s;
+  }
+  .row:hover .ar{ color:var(--ink); transform:translateX(4px); }
+
+  /* floating thumbnail */
+  .thumb-follow{
+    position:fixed; pointer-events:none; z-index:60;
+    width:260px; height:180px; background:#f4f4f4;
+    overflow:hidden;
+    opacity:0; transform:translate(-50%,-50%) scale(.95);
+    transition: opacity .2s, transform .3s cubic-bezier(.7,0,.2,1);
+    border:1px solid var(--line);
+  }
+  .thumb-follow img{ width:100%; height:100%; object-fit:cover; }
+  .thumb-follow.show{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+
+  /* ABOUT */
+  .about-grid{
+    display:grid; grid-template-columns: 1fr 1.4fr; gap:80px;
+  }
+  .about-col h3{
+    font-size:13px; color:var(--muted); margin-bottom:20px; font-weight:400;
+  }
+  .about-col p.lead{
+    font-size:22px; line-height:1.4; color:var(--ink);
+    margin-bottom:18px; font-weight:400; letter-spacing:-0.05em;
+    max-width:30ch;
+  }
+  .about-col .small{
+    font-size:14px; color:var(--muted); line-height:1.55;
+    max-width:42ch;
+  }
+  .about-col .small + .small{ margin-top:12px; }
+
+  .xp-list{ display:flex; flex-direction:column; }
+  .xp{
+    display:grid; grid-template-columns: 100px 1fr 120px;
+    gap:24px; padding:18px 0;
+    border-top:1px solid var(--line);
+    align-items:baseline;
+  }
+  .xp:last-child{ border-bottom:1px solid var(--line); }
+  .xp .yr{ font-size:13px; color:var(--muted); }
+  .xp .role{ font-size:16px; font-weight:500; line-height:1.25; }
+  .xp .role span{
+    display:block; font-weight:400; font-size:13px;
+    color:var(--muted); margin-top:3px;
+  }
+  .xp .place{ font-size:13px; color:var(--muted); text-align:right; }
+
+  /* TOOLKIT */
+  .tools{
+    display:grid; grid-template-columns: repeat(3,1fr); gap:48px;
+  }
+  .tool-grp h4{
+    font-size:13px; color:var(--muted); margin-bottom:18px;
+    padding-bottom:12px; border-bottom:1px solid var(--line);
+    font-weight:400;
+  }
+  .tool-grp ul{ list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .tool-grp li{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:14px;
+  }
+  .tool-grp li span{ font-size:12px; color:var(--muted); }
+
+  /* CONTACT */
+  .contact{ padding:140px 0 120px; }
+  .contact-inner{
+    display:grid; grid-template-columns: 1fr 1fr; gap:80px;
+    align-items:end;
+  }
+  .contact .label{
+    font-size:13px; color:var(--muted); margin-bottom:24px;
+  }
+  .contact h2{
+    font-weight:500;
+    font-size:clamp(48px, 8vw, 120px); line-height:.95; letter-spacing:-0.05em;
+  }
+  .contact .links{
+    display:flex; flex-direction:column; gap:0;
+    font-size:18px;
+  }
+  .contact .links a{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--line); padding:14px 0;
+    transition: padding .25s;
+  }
+  .contact .links a:hover{ padding-left:8px; padding-right:8px; }
+  .contact .links a span{ color:var(--muted); font-size:13px; }
+
+  footer{
+    padding:28px var(--pad); display:flex; justify-content:space-between;
+    font-size:12px; color:var(--muted);
+    border-top:1px solid var(--line);
+    max-width:var(--max); margin:0 auto;
+  }
+
+  /* REVEAL */
+  .reveal{ opacity:0; transform:translateY(16px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width:880px){
+    .hero-row{ grid-template-columns:1fr; gap:40px; }
+    .selected{ gap:36px 16px; }
+    .work-block, .work-block.wide, .work-block.third{ grid-column: span 12; }
+    .work-block.wide .work, .work-block.third .work{ aspect-ratio: 4/3; }
+    .row{ grid-template-columns: 60px 1fr 30px; gap:12px; padding:16px 0; }
+    .row .ty, .row .du{ display:none; }
+    .row .ti{ font-size:18px; }
+    .about-grid, .contact-inner{ grid-template-columns:1fr; gap:48px; }
+    .tools{ grid-template-columns:1fr; gap:32px; }
+    .xp{ grid-template-columns: 80px 1fr; }
+    .xp .place{ display:none; }
+    .nav-links a:not(:last-child){ display:none; }
+    .thumb-follow{ display:none; }
+  }
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <a href="index.html" class="logo">Michael Joongmin Park</a>
 
-        <!-- Desktop Navigation -->
-        <!-- Desktop Navigation -->
-        <div class="nav-links">
-            <a href="product.html" class="nav-link">Product Design</a>
-            <a href="service.html" class="nav-link">Service Design</a>
-            <a href="rnd.html" class="nav-link">R&D</a>
-            <div class="nav-indicator"></div>
+<div class="thumb-follow" id="thumb"><img src="" alt="" id="thumbImg" /></div>
+
+<nav class="top">
+  <div class="nav-inner">
+    <div class="nav-mark">Michael J. Park</div>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="./2026%20Michael%20Joongmin%20Park.pdf" target="_blank" rel="noopener">Résumé</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="hero-meta reveal">
+    <div>Portfolio, 2026</div>
+    <div>Toronto, ON</div>
+  </div>
+
+  <h1 class="hero-name reveal">Michael Joongmin Park</h1>
+
+  <div class="hero-row reveal">
+    <p class="hero-bio">
+      Digital product designer working at the intersection of human–AI experience, industrial design, and rapid prototyping. <span>I help teams turn fuzzy problems into concrete, well-crafted products through user research, interaction design, and code.</span>
+    </p>
+    <dl class="hero-side">
+      <div class="pair"><dt>Currently</dt><dd>BDes, OCAD University, 2026</dd></div>
+      <div class="pair"><dt>Focus</dt><dd>HAX, Product, Industrial</dd></div>
+      <div class="pair"><dt>Status</dt><dd>Open to 2026 roles</dd></div>
+    </dl>
+  </div>
+</header>
+
+<section id="work" class="wrap">
+  <div class="sec-head reveal">
+    <div>
+      <div class="label">Selected Work</div>
+      <h2>Recent highlights</h2>
+    </div>
+    <p class="desc">A small slice of the past year — service strategy, design management, and a four-phase thesis on emerging-tech experiences.</p>
+  </div>
+
+  <div class="selected">
+    <div class="work-block wide reveal">
+      <a href="https://michaeljpark.github.io/thesis.gate4.showcase/" target="_blank" rel="noopener">
+        <div class="work"><img src="./g434.png" alt="Gate 4 Thesis project" loading="lazy" /></div>
+        <div class="w-info">
+          <div class="t"><span>Gate 4 — Thesis, Phase 4</span><span class="arrow">→</span></div>
+          <div class="m"><span>2026</span><span>Thesis Project</span><span>3 Weeks</span></div>
         </div>
-
-        <div class="nav-right">
-            <a href="2026%20Michael%20Joongmin%20Park.pdf" target="_blank" class="contact-btn">Resume</a>
-            <a href="#contact" class="contact-btn">About</a>
-        </div>
-
-        <!-- Mobile Menu Toggle -->
-        <div class="mobile-menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <a href="product.html">Product Design</a>
-        <a href="service.html">Service Design</a>
-        <a href="2026%20Michael%20Joongmin%20Park.pdf" target="_blank" class="contact-btn">Resume</a>
-        <a href="#contact" class="contact-btn">About</a>
-        <a href="rnd.html">R&D</a>
+      </a>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero hero-home">
-        <h1>Hi!<br><span class="desktop-text">I am Michael Joongmin Park</span><span class="mobile-text">I'm Michael Park</span></h1>
-
-        <!-- Body Paragraphs -->
-        <div class="body-content">
-            <div class="body-left">
-                <p>OCAD University (BDes) - 2026</p>
-                <p>Industrial Designer</p>
-            </div>
-
-            <div class="body-right">
-                <p>HAX Designer | Digital Product Designer | Physical Product Designer</p>
-                <p>Toronto, Ontario</p>
-            </div>
+    <div class="work-block reveal">
+      <a href="https://michaeljpark.github.io/tokentrustpt1/" target="_blank" rel="noopener">
+        <div class="work"><img src="./1tokentrustthumb1.png" alt="Token Trust" loading="lazy" /></div>
+        <div class="w-info">
+          <div class="t"><span>Token Trust</span><span class="arrow">→</span></div>
+          <div class="m"><span>2026</span><span>Service Design</span><span>3 Weeks</span></div>
         </div>
-        <p style="margin-top: 2rem; max-width: 100%;">I am a digital product designer specializing in rapid solution development through creative thinking and emerging technologies. My work focuses on identifying meaningful design value and real user needs through user-centered, collaborative processes. Using fast-paced prototyping with HTML, CSS, and JavaScript, I test usability, gather feedback, and refine designs with a strong emphasis on interaction quality and accessibility. At a macro level, my process aligns stakeholders around clear user goals and the purpose behind each design solution.</p>
-        
-    </section>
-
-    <!-- Sorting Navigation -->
-    <div class="sorting-section">
-        <div class="sort-nav-links">
-            <button class="sort-nav-link" data-filter="case-study">Case Study</button>
-            <button class="sort-nav-link" data-filter="thesis">Thesis</button>
-            <button class="sort-nav-link" data-filter="collaborative-work">
-                <span class="desktop-text">Collaborative Work</span>
-                <span class="mobile-text">Collaborative</span>
-            </button>
-            <div class="sort-nav-indicator"></div>
-        </div>
+      </a>
     </div>
 
-    <!-- Recent Work Section -->
-    <section class="content-section recent-work">
-        <h2 class="section-title">Recent Work</h2>
-
-        <div class="portfolio-grid">
-            <!-- Token Trust Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-03-23">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/tokentrustpt1/" class="portfolio-image-link" target="_blank">
-                        <div class="portfolio-image">
-                            <img src="1tokentrustthumb1.png" alt="Token Trust project" class="thumb-default">
-                            <img src="1tokentrustthumb2.png" alt="Token Trust project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="1tokentrust341.png" alt="Token Trust project" class="thumb-default">
-                        <img src="1tokentrust342.png" alt="Token Trust project" class="thumb-hover">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>March 3rd, 2026 - March 23rd, 2026</p>
-                            <p>(3 Weeks)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Service Design, Strategic Research</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/tokentrustpt1/" target="_blank" class="view-demo-btn btn-tokentrust">View Report</a>
-                </div>
-            </div>
-
-            <!-- AZA Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-02-15">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/amazonproposal2/" class="portfolio-image-link" target="_blank">
-                        <div class="portfolio-image">
-                            <img src="azathumb1.png" alt="AZA project" class="thumb-default">
-                            <img src="azathumb2.png" alt="AZA project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="aza341.png" alt="AZA project" class="thumb-default">
-                        <img src="aza342.png" alt="AZA project" class="thumb-hover">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>February 15th, 2026 - March 2nd, 2026</p>
-                            <p>(2 Weeks)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Design Management/Proposal</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/amazonproposal2/" target="_blank" class="view-demo-btn btn-aza">View Report</a>
-                </div>
-            </div>
-
-            <!-- AZA1 Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-26">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/amazonproposal1/" class="portfolio-image-link" target="_blank">
-                        <div class="portfolio-image">
-                            <img src="aza1thumb1.png" alt="AZA1 project" class="thumb-default">
-                            <img src="aza1thumb2.png" alt="AZA1 project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="aza1341.png" alt="AZA1 project" class="thumb-default">
-                        <img src="aza1342.png" alt="AZA1 project" class="thumb-hover">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>January 26th, 2026 - February 9th, 2026</p>
-                            <p>(2 Weeks)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Design Management/Audit</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/amazonproposal1/" target="_blank" class="view-demo-btn btn-aza">View Report</a>
-                </div>
-            </div>
-
-            <!-- Gate 4 Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-23">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/thesis.gate4.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image">
-                            <img src="gate4thumb1.png" alt="Gate 4 project" class="thumb-default">
-                            <img src="gate4thumb2.png" alt="Gate 4 project hover" class="thumb-hover">
-                            <button class="view-report-pill-btn btn-gate4-report" data-report-src="ThesisReport-Fall.png">View Report</button>
-                        </div>
-                    </a>
-                    <button class="view-report-mobile-link btn-gate4-report" data-report-src="ThesisReport-Fall.png">View Report</button>
-                    <div class="portfolio-video-container">
-                        <img src="g434.png" alt="Gate 4 project" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>January 6th, 2026 - January 27th, 2026</p>
-                            <p>(3 Weeks) - Phase 4</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Thesis Project</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/thesis.gate4.showcase/" target="_blank" class="view-demo-btn btn-gate4">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- Digital Prescription Service Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-11">
-                <div class="portfolio-media-row reversed">
-                    <a href="https://michaeljpark.github.io/pillio.showcase/" class="portfolio-image-link" target="_blank">
-                        <div class="portfolio-image bg-dps">
-                            <img src="pillio thumb1.png" alt="dps project" class="thumb-default">
-                            <img src="pillio thumb2.png" alt="dps project hover" class="thumb-hover">
-                            <button class="view-report-pill-btn btn-pillio-report" data-report-src="pillioreport.png">View Report</button>
-                        </div>
-                    </a>
-                    <button class="view-report-mobile-link btn-pillio-report" data-report-src="pillioreport.png">View Report</button>
-                    <div class="portfolio-video-container">
-                        <iframe src="https://player.vimeo.com/video/1164809869?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;background=1" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="pilliowvideo" style="position: absolute; top:0; left: 0; width: 100%; height: 100%;"></iframe>
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>January 7th, 2026 - January 14th, 2026</p>
-                            <p>(1 Week)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Digital Prescription Service</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/pillio/" class="view-demo-btn btn-dps" target="_blank">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- Mysub Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-10">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/MySub.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-mysub">
-                            <img src="mysubthumb1.png" alt="mysub project" class="thumb-default">
-                            <img src="mysubthumb2.png" alt="mysub project hover" class="thumb-hover">
-                            <button class="view-report-pill-btn btn-mysub-report" data-report-src="mysubreport.png">View Report</button>
-                        </div>
-                    </a>
-                    <button class="view-report-mobile-link btn-mysub-report" data-report-src="mysubreport.png">View Report</button>
-                    <div class="portfolio-video-container">
-                        <iframe src="https://player.vimeo.com/video/1164809981?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;background=1" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Mysubvid" style="position: absolute; top:0; left: 0; width: 100%; height: 100%;"></iframe>
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>January 1st, 2026 - January 10th, 2026</p>
-                            <p>(2 weeks)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Subscription Management Platform</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/MySub/index.html" target="_blank" class="view-demo-btn btn-mysub">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- ult Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-06">
-                <div class="portfolio-media-row reversed">
-                    <a href="https://michaeljpark.github.io/ult.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-dark">
-                            <img src="ult thumb1.png" alt="ult project" class="thumb-default">
-                            <img src="ult thumb2.png" alt="ult project hover" class="thumb-hover">
-                            <button class="view-report-pill-btn btn-ult-report" data-report-src="ultreport.png">View Report</button>
-                        </div>
-                    </a>
-                    <button class="view-report-mobile-link btn-ult-report" data-report-src="ultreport.png">View Report</button>
-                    <div class="portfolio-video-container">
-                        <iframe src="https://player.vimeo.com/video/1164809956?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;background=1" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="ultvideo" style="position: absolute; top:0; left: 0; width: 100%; height: 100%;"></iframe>
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>December 23th, 2025 - January 6th, 2026</p>
-                            <p>(2 weeks)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Urban Logistics Solution, Physical Interaction Design</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/ult/" target="_blank" class="view-demo-btn btn-ult">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- Gate 3 Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-05">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/gate3.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-dark">
-                            <img src="gate3thumb1.png" alt="Gate 3 project" class="thumb-default">
-                            <img src="gate3thumb2.png" alt="Gate 3 project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="34gate3.png" alt="Gate 3 details" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>November 11th, 2025 - December 8th, 2025</p>
-                            <p>(4 weeks) - Phase 3</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Thesis Project</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/gate3.showcase/" target="_blank" class="view-demo-btn btn-gate3">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- Gate 2 Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-04">
-                <div class="portfolio-media-row reversed">
-                    <a href="https://michaeljpark.github.io/gate2.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-dark">
-                            <img src="gate2thumb1.png" alt="Gate 2 project" class="thumb-default">
-                            <img src="gate2thumb2.png" alt="Gate 2 project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="34gate2.png" alt="Gate 2 details" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>October 17th, 2025 - November 10th, 2025</p>
-                            <p>(3 Weeks) - Phase 2</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Thesis Project</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/gate2.showcase/" target="_blank" class="view-demo-btn btn-gate2">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- Gate 1 Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-03">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/gate1.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-dark">
-                            <img src="gate1thumb1.png" alt="Gate 1 project" class="thumb-default">
-                            <img src="gate1thumb2.png" alt="Gate 1 project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="gate1.png" alt="Gate 1 details" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>September 8th, 2025 - October 17th, 2025</p>
-                            <p>(5 Weeks) - Phase 1</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Thesis Project</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/gate1.showcase/" target="_blank" class="view-demo-btn btn-gate1">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- Eedu Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-01">
-                <div class="portfolio-media-row reversed">
-                    <a href="https://michaeljpark.github.io/eedu.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image">
-                            <img src="eedu thumb1.png" alt="eedu project" class="thumb-default">
-                            <img src="eedu thumb2.png" alt="eedu project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <iframe src="https://player.vimeo.com/video/1164809913?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;background=1" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="eeduvid (1)" style="position: absolute; top:0; left: 0; width: 100%; height: 100%;"></iframe>
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>December 29th, 2025 - January 2nd, 2026</p>
-                            <p>(1 week)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Future Educational System</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/eedu/" target="_blank" class="view-demo-btn btn-eedu">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- ixec Project -->
-            <div class="portfolio-card-wrapper" data-date="2025-12-28">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/ixec.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-ixec">
-                            <img src="ixec thumb1.png" alt="ixec project" class="thumb-default">
-                            <img src="ixec thumb2.png" alt="ixec project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <iframe src="https://player.vimeo.com/video/1164810007?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;background=1" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="IXECvid" style="position: absolute; top:0; left: 0; width: 100%; height: 100%;"></iframe>
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>December 21st, 2025 - December 28th, 2025</p>
-                            <p>(1 week)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Hybrid Data Management Platform</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/ixec/" target="_blank" class="view-demo-btn btn-ixec">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- Chefi Project -->
-            <div class="portfolio-card-wrapper" data-date="2025-12-21">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/chefi.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-dark">
-                            <img src="Chefi thumb1.png" alt="Chefi project" class="thumb-default">
-                            <img src="Chefi thumb2.png" alt="Chefi project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <iframe src="https://player.vimeo.com/video/1164809936?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;background=1" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="chefivid" style="position: absolute; top:0; left: 0; width: 100%; height: 100%;"></iframe>
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>December 5th, 2025 - December 21st, 2025</p>
-                            <p>(2 weeks)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Recipe Sharing Platform</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/chefi/" target="_blank" class="view-demo-btn btn-chefi">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- valu Project -->
-            <div class="portfolio-card-wrapper" data-date="2025-12-12">
-                <div class="portfolio-media-row reversed">
-                    <a href="https://michaeljpark.github.io/valu.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-valu">
-                            <img src="valu thumb1.png" alt="valu project" class="thumb-default">
-                            <img src="valu thumb2.png" alt="valu project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <iframe src="https://player.vimeo.com/video/1164809886?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;background=1" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="valuvid" style="position: absolute; top:0; left: 0; width: 100%; height: 100%;"></iframe>
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>November 30th, 2025 - December 12nd, 2025</p>
-                            <p>(2 weeks)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Value Assessment Platform</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/valu/" target="_blank" class="view-demo-btn btn-valu">View Live Demo</a>
-                </div>
-            </div>
+    <div class="work-block reveal">
+      <a href="https://michaeljpark.github.io/amazonproposal2/" target="_blank" rel="noopener">
+        <div class="work"><img src="./azathumb1.png" alt="AZA Proposal" loading="lazy" /></div>
+        <div class="w-info">
+          <div class="t"><span>AZA — Design Proposal</span><span class="arrow">→</span></div>
+          <div class="m"><span>2026</span><span>Design Management</span><span>2 Weeks</span></div>
         </div>
-
-        <div class="view-more-container">
-            <button class="view-more-toggle-btn" id="viewMoreBtn">View More...</button>
-        </div>
-    </section>
-
-    <!-- Client Projects Section -->
-    <section class="content-section client-projects">
-        <h2 class="section-title">Client Projects</h2>
-        <p class="section-description">
-            delivering real-world value through strategic design solutions for industry partners.
-        </p>
-        
-        <div class="portfolio-grid">
-            <!-- CFGLH Project -->
-            <div class="portfolio-card-wrapper" data-date="2024-12-01">
-                <div class="portfolio-media-row">
-                    <a href="#" class="portfolio-image-link" onclick="return false;">
-                        <div class="portfolio-image">
-                            <img src="CFGLH thumb1.png" alt="CFGLH project" class="thumb-default">
-                            <img src="CFGLH thumb1.png" alt="CFGLH project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <span class="video-placeholder-text">Video (3:4)</span>
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>October 2024 - December 2024 | December 2025 - January 2026</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Client Project</p>
-                        </div>
-                    </div>
-                    <a href="#" class="view-demo-btn btn-cfglh" onclick="return false;">View Live Demo</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Collaborative Work Section -->
-    <section class="content-section collaborative-work-section" style="display: none;">
-        <h2 class="section-title">Collaborative Work</h2>
-        <p class="section-description">
-            Projects developed through collaborative partnerships and joint initiatives.
-        </p>
-
-        <div class="portfolio-grid">
-            <!-- Token Trust Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-03-23">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/tokentrustpt1/" class="portfolio-image-link" target="_blank">
-                        <div class="portfolio-image">
-                            <img src="1tokentrustthumb1.png" alt="Token Trust project" class="thumb-default">
-                            <img src="1tokentrustthumb2.png" alt="Token Trust project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="1tokentrust341.png" alt="Token Trust project" class="thumb-default">
-                        <img src="1tokentrust342.png" alt="Token Trust project" class="thumb-hover">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>March 3rd, 2026 - March 23rd, 2026</p>
-                            <p>(3 Weeks)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Service Design, Strategic Research</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/tokentrustpt1/" target="_blank" class="view-demo-btn btn-tokentrust">View Report</a>
-                </div>
-            </div>
-
-            <!-- AZA Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-02-15">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/amazonproposal2/" class="portfolio-image-link" target="_blank">
-                        <div class="portfolio-image">
-                            <img src="azathumb1.png" alt="AZA project" class="thumb-default">
-                            <img src="azathumb2.png" alt="AZA project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="aza341.png" alt="AZA project" class="thumb-default">
-                        <img src="aza342.png" alt="AZA project" class="thumb-hover">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>February 15th, 2026 - March 2nd, 2026</p>
-                            <p>(2 Weeks)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Design Management/Proposal</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/amazonproposal2/" target="_blank" class="view-demo-btn btn-aza">View Report</a>
-                </div>
-            </div>
-
-            <!-- AZA1 Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-26">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/amazonproposal1/" class="portfolio-image-link" target="_blank">
-                        <div class="portfolio-image">
-                            <img src="aza1thumb1.png" alt="AZA1 project" class="thumb-default">
-                            <img src="aza1thumb2.png" alt="AZA1 project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="aza1341.png" alt="AZA1 project" class="thumb-default">
-                        <img src="aza1342.png" alt="AZA1 project" class="thumb-hover">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>January 26th, 2026 - February 9th, 2026</p>
-                            <p>(2 Weeks)</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Design Management/Audit</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/amazonproposal1/" target="_blank" class="view-demo-btn btn-aza">View Report</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Thesis Work Section -->
-    <section class="content-section thesis-work" style="display: none;">
-        <h2 class="section-title">Thesis</h2>
-        <p class="section-description">
-            In-depth academic research and design exploration.
-        </p>
-
-        <div class="portfolio-grid">
-            <!-- Gate 4 Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-23">
-                <div class="portfolio-media-row">
-                    <a href="https://michaeljpark.github.io/thesis.gate4.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image">
-                            <img src="gate4thumb1.png" alt="Gate 4 project" class="thumb-default">
-                            <img src="gate4thumb2.png" alt="Gate 4 project hover" class="thumb-hover">
-                            <button class="view-report-pill-btn btn-gate4-report" data-report-src="ThesisReport-Fall.png">View Report</button>
-                        </div>
-                    </a>
-                    <button class="view-report-mobile-link btn-gate4-report" data-report-src="ThesisReport-Fall.png">View Report</button>
-                    <div class="portfolio-video-container">
-                        <img src="g434.png" alt="Gate 4 project" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>January 6th, 2026 - January 27th, 2026</p>
-                            <p>(3 Weeks) - Phase 4</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Thesis Project</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/thesis.gate4.showcase/" target="_blank" class="view-demo-btn btn-gate4">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- Gate 3 Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-05">
-                <div class="portfolio-media-row reversed">
-                    <a href="https://michaeljpark.github.io/gate3.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-dark">
-                            <img src="gate3thumb1.png" alt="Gate 3 project" class="thumb-default">
-                            <img src="gate3thumb2.png" alt="Gate 3 project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="34gate3.png" alt="Gate 3 details" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>November 11th, 2025 - December 8th, 2025</p>
-                            <p>(4 weeks) - Phase 3</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Thesis Project</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/gate3.showcase/" target="_blank" class="view-demo-btn btn-gate3">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- Gate 2 Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-05">
-                <div class="portfolio-media-row reversed">
-                    <a href="https://michaeljpark.github.io/gate2.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-dark">
-                            <img src="gate2thumb1.png" alt="Gate 2 project" class="thumb-default">
-                            <img src="gate2thumb2.png" alt="Gate 2 project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="34gate2.png" alt="Gate 2 details" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>October 17th, 2025 - November 10th, 2025</p>
-                            <p>(3 Weeks) - Phase 2</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Thesis Project</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/gate2.showcase/" target="_blank" class="view-demo-btn btn-gate2">View Live Demo</a>
-                </div>
-            </div>
-
-            <!-- Gate 1 Project -->
-            <div class="portfolio-card-wrapper" data-date="2026-01-03">
-                <div class="portfolio-media-row reversed">
-                    <a href="https://michaeljpark.github.io/gate1.showcase/" target="_blank" class="portfolio-image-link">
-                        <div class="portfolio-image bg-dark">
-                            <img src="gate1thumb1.png" alt="Gate 1 project" class="thumb-default">
-                            <img src="gate1thumb2.png" alt="Gate 1 project hover" class="thumb-hover">
-                        </div>
-                    </a>
-                    <div class="portfolio-video-container">
-                        <img src="gate1.png" alt="Gate 1 details" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                </div>
-                <div class="portfolio-info">
-                    <div class="portfolio-details">
-                        <div class="portfolio-left">
-                            <p>September 8th, 2025 - October 17th, 2025</p>
-                            <p>(5 Weeks) - Phase 1</p>
-                        </div>
-                        <div class="portfolio-right">
-                            <p>Thesis Project</p>
-                        </div>
-                    </div>
-                    <a href="https://michaeljpark.github.io/gate1.showcase/" target="_blank" class="view-demo-btn btn-gate1">View Live Demo</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="content-section about-section">
-        <div class="about-container">
-            <div class="about-block">
-                <h3>Experiences</h3>
-                
-                <div class="experience-item">
-                    <div class="exp-header">
-                        <h4>Swave Studios</h4>
-                        <a href="https://www.swavestudios.com/" target="_blank">https://www.swavestudios.com/</a>
-                    </div>
-                    <div class="exp-role">Junior Industrial Designer (Internship)</div>
-                    <div class="exp-date">2025 October - 2025 November</div>
-                    <p>Explored diverse design solutions and translated design methodologies into practical applications. Participated in stakeholder meetings and cross-functional collaboration, building expertise in project development workflows, design strategy positioning, and professional documentation practice</p>
-                </div>
-
-                <div class="experience-item">
-                    <div class="exp-header">
-                        <h4>Cadillac Fairview</h4>
-                        <a href="https://www.cadillacfairview.com/" target="_blank">https://www.cadillacfairview.com/</a>
-                    </div>
-                    <div class="exp-role">Student Designer (Co-op)</div>
-                    <div class="exp-date">2024 October - 2024 December</div>
-                    <p>UX research and project development for Cadillac Fairview as part of OCAD's Service Design co-op program, focusing on designing physical space interactions.</p>
-                </div>
-
-                <div class="experience-item">
-                    <div class="exp-header">
-                        <h4>OCAD University – Copy & Printing</h4>
-                        <a href="https://www.ocadu.ca/student-services/copy-and-print" target="_blank">https://www.ocadu.ca/student-services/copy-and-print</a>
-                    </div>
-                    <div class="exp-role">Student Monitor (Production)</div>
-                    <div class="exp-date">2023 September – 2024 April</div>
-                    <p>For my first paid job in Canada, I worked as a Student Monitor at OCAD University, managing printing-related tasks and production workflows. This experience introduced me to Canadian workplace culture, collaborative problem-solving approaches, and cross-cultural communication in a professional English-speaking environment</p>
-                </div>
-
-                <div class="experience-item">
-                    <div class="exp-header">
-                        <h4>Ieumgil (HR Consulting Firm)</h4>
-                        <a href="https://ieumgil.com/Main" target="_blank">https://ieumgil.com/Main</a>
-                    </div>
-                    <div class="exp-role">Graphic Designer/Proposal Designer (Part-time)</div>
-                    <div class="exp-date">2022 November – 2023 March</div>
-                    <p>Worked as an Proposal Designer for a company specializing in government projects, I gained hands-on experience in proposal design and high-volume service design environments. This role deepened my understanding of practical design requirements in professional settings and taught me to strategically apply formal visual design language to meet real-world business needs</p>
-                </div>
-
-                <div class="experience-item">
-                    <div class="exp-header">
-                        <h4>Military Service – Army, Military Police</h4>
-                        <a href="http://www.mnd.go.kr" target="_blank">www.mnd.go.kr</a>
-                    </div>
-                    <div class="exp-role">Sergeant (SGT), Squad Leader</div>
-                    <div class="exp-date">2021 May – 2022 November</div>
-                    <p>Completed 18-month mandatory military service as a Military Police officer, progressing to squad leader. Developed resilience in high-pressure situations, team leadership capabilities, and administrative skills. This experience strengthened my adaptability and ability to perform effectively across diverse work environments.</p>
-                </div>
-            </div>
-
-            <div class="about-block">
-                <h3>Expertise</h3>
-                <div class="expertise-grid">
-                    <div class="expertise-column">
-                        <h4>Documentation:</h4>
-                        <ul>
-                            <li>Microsoft PowerPoint - Professional</li>
-                            <li>Microsoft Excel - Pre Intermediate</li>
-                            <li>Adobe Illustrator - Intermediate</li>
-                            <li>Adobe Photoshop - Advanced</li>
-                            <li>Adobe Premiere Pro - Upper Intermediate</li>
-                        </ul>
-                    </div>
-                    <div class="expertise-column">
-                        <h4>Web Development:</h4>
-                        <ul>
-                            <li>HTML / CSS / JS / React</li>
-                            <li>- Tool Assisted level - Intermediate</li>
-                            <li>Figma - Advanced</li>
-                            <li>Framer - Pre Intermediate</li>
-                        </ul>
-                    </div>
-                    <div class="expertise-column">
-                        <h4>Prototyping/VFX:</h4>
-                        <ul>
-                            <li>Autodesk Fusion360 - Professional</li>
-                            <li>SolidWorks - Intermediate</li>
-                            <li>Rhino3D - Upper Intermediate</li>
-                            <li>Onshape - Advanced</li>
-                            <li>KeyShot - Professional</li>
-                            <li>Blender3D - Advanced</li>
-                            <li>Cinema4D - Pre Intermediate</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Blank Section for Logo Reveal -->
-    <section class="blank-section">
-        <div class="bottom-bg-logo">
-            <img src="mkpkgrey.svg" alt="Michael Park Logo">
-        </div>
-        <div class="copyright-text">
-            <p>2026 MICHAEL JOONGMIN PARK | All Rights Reserved &copy;</p>
-        </div>
-    </section>
-
-    <div id="report-modal" class="report-modal">
-        <span class="report-close">&times;</span>
-        <div class="report-modal-content">
-            <img src="pillioreport.png" alt="Pillio Report">
-        </div>
+      </a>
     </div>
 
-    <script src="js/main.js"></script>
+    <div class="work-block third reveal">
+      <a href="https://michaeljpark.github.io/pillio/" target="_blank" rel="noopener">
+        <div class="work"><img src="./pillio%20thumb1.png" alt="Pillio" loading="lazy" /></div>
+        <div class="w-info">
+          <div class="t"><span>Pillio</span><span class="arrow">→</span></div>
+          <div class="m"><span>2026</span><span>Digital Prescription</span></div>
+        </div>
+      </a>
+    </div>
+
+    <div class="work-block third reveal">
+      <a href="https://michaeljpark.github.io/MySub/index.html" target="_blank" rel="noopener">
+        <div class="work"><img src="./mysubthumb1.png" alt="MySub" loading="lazy" /></div>
+        <div class="w-info">
+          <div class="t"><span>MySub</span><span class="arrow">→</span></div>
+          <div class="m"><span>2026</span><span>Subscription Platform</span></div>
+        </div>
+      </a>
+    </div>
+
+    <div class="work-block third reveal">
+      <a href="https://michaeljpark.github.io/ult/" target="_blank" rel="noopener">
+        <div class="work"><img src="./ult%20thumb1.png" alt="ULT" loading="lazy" /></div>
+        <div class="w-info">
+          <div class="t"><span>ULT</span><span class="arrow">→</span></div>
+          <div class="m"><span>2025</span><span>Urban Logistics</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-head reveal">
+    <div>
+      <div class="label">Project Index</div>
+      <h2>Everything, archived</h2>
+    </div>
+    <p class="desc">Hover any title to preview. All projects are open — feel free to browse case studies and live demos.</p>
+  </div>
+
+  <div class="filters reveal">
+    <button class="filter on" data-cat="all">All<span class="c">14</span></button>
+    <button class="filter" data-cat="thesis">Thesis<span class="c">4</span></button>
+    <button class="filter" data-cat="service">Service<span class="c">1</span></button>
+    <button class="filter" data-cat="product">Product<span class="c">7</span></button>
+    <button class="filter" data-cat="collab">Collaborative<span class="c">3</span></button>
+  </div>
+
+  <div class="index" id="indexList">
+
+    <a class="row" data-cat="service collab" href="https://michaeljpark.github.io/tokentrustpt1/" target="_blank" rel="noopener"
+       data-thumb="./1tokentrustthumb1.png">
+      <div class="yr">2026 / Mar</div>
+      <div class="ti">Token Trust</div>
+      <div class="ty">Service Design, Strategic Research</div>
+      <div class="du">3 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="collab" href="https://michaeljpark.github.io/amazonproposal2/" target="_blank" rel="noopener"
+       data-thumb="./azathumb1.png">
+      <div class="yr">2026 / Feb</div>
+      <div class="ti">AZA — Proposal</div>
+      <div class="ty">Design Management</div>
+      <div class="du">2 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="collab" href="https://michaeljpark.github.io/amazonproposal1/" target="_blank" rel="noopener"
+       data-thumb="./aza1thumb1.png">
+      <div class="yr">2026 / Jan</div>
+      <div class="ti">AZA — Audit</div>
+      <div class="ty">Design Management, Audit</div>
+      <div class="du">2 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="thesis" href="https://michaeljpark.github.io/thesis.gate4.showcase/" target="_blank" rel="noopener"
+       data-thumb="./gate4thumb1.png">
+      <div class="yr">2026 / Jan</div>
+      <div class="ti">Gate 4 — Thesis</div>
+      <div class="ty">Thesis, Phase 4</div>
+      <div class="du">3 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="product" href="https://michaeljpark.github.io/pillio/" target="_blank" rel="noopener"
+       data-thumb="./pillio%20thumb1.png">
+      <div class="yr">2026 / Jan</div>
+      <div class="ti">Pillio</div>
+      <div class="ty">Digital Prescription Service</div>
+      <div class="du">1 Week</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="product" href="https://michaeljpark.github.io/MySub/index.html" target="_blank" rel="noopener"
+       data-thumb="./mysubthumb1.png">
+      <div class="yr">2026 / Jan</div>
+      <div class="ti">MySub</div>
+      <div class="ty">Subscription Management</div>
+      <div class="du">2 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="product" href="https://michaeljpark.github.io/ult/" target="_blank" rel="noopener"
+       data-thumb="./ult%20thumb1.png">
+      <div class="yr">2025 / Dec</div>
+      <div class="ti">ULT</div>
+      <div class="ty">Urban Logistics, Physical UX</div>
+      <div class="du">2 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="thesis" href="https://michaeljpark.github.io/gate3.showcase/" target="_blank" rel="noopener"
+       data-thumb="./gate3thumb1.png">
+      <div class="yr">2025 / Nov</div>
+      <div class="ti">Gate 3 — Thesis</div>
+      <div class="ty">Thesis, Phase 3</div>
+      <div class="du">4 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="thesis" href="https://michaeljpark.github.io/gate2.showcase/" target="_blank" rel="noopener"
+       data-thumb="./gate2thumb1.png">
+      <div class="yr">2025 / Oct</div>
+      <div class="ti">Gate 2 — Thesis</div>
+      <div class="ty">Thesis, Phase 2</div>
+      <div class="du">3 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="thesis" href="https://michaeljpark.github.io/gate1.showcase/" target="_blank" rel="noopener"
+       data-thumb="./gate1thumb1.png">
+      <div class="yr">2025 / Sep</div>
+      <div class="ti">Gate 1 — Thesis</div>
+      <div class="ty">Thesis, Phase 1</div>
+      <div class="du">5 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="product" href="https://michaeljpark.github.io/eedu/" target="_blank" rel="noopener"
+       data-thumb="./eedu%20thumb1.png">
+      <div class="yr">2025 / Dec</div>
+      <div class="ti">eedu</div>
+      <div class="ty">Future Educational System</div>
+      <div class="du">1 Week</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="product" href="https://michaeljpark.github.io/ixec/" target="_blank" rel="noopener"
+       data-thumb="./ixec%20thumb1.png">
+      <div class="yr">2025 / Dec</div>
+      <div class="ti">ixec</div>
+      <div class="ty">Hybrid Data Management</div>
+      <div class="du">1 Week</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="product" href="https://michaeljpark.github.io/chefi/" target="_blank" rel="noopener"
+       data-thumb="./Chefi%20thumb1.png">
+      <div class="yr">2025 / Dec</div>
+      <div class="ti">Chefi</div>
+      <div class="ty">Recipe Sharing Platform</div>
+      <div class="du">2 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+    <a class="row" data-cat="product" href="https://michaeljpark.github.io/valu/" target="_blank" rel="noopener"
+       data-thumb="./valu%20thumb1.png">
+      <div class="yr">2025 / Nov</div>
+      <div class="ti">valu</div>
+      <div class="ty">Value Assessment Platform</div>
+      <div class="du">2 Weeks</div>
+      <div class="ar">→</div>
+    </a>
+
+  </div>
+</section>
+
+<section id="about" class="wrap">
+  <div class="sec-head reveal">
+    <div>
+      <div class="label">About</div>
+      <h2>A short introduction</h2>
+    </div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-col reveal">
+      <h3>Approach</h3>
+      <p class="lead">I design fast, with intent.</p>
+      <p class="small">My work centres on identifying meaningful design value through user-centred, collaborative processes. I prototype quickly with HTML, CSS, and JavaScript to test usability, gather feedback, and refine — with a strong emphasis on interaction quality and accessibility.</p>
+      <p class="small">At the macro level, I align stakeholders around clear user goals and the purpose behind each design decision.</p>
+    </div>
+
+    <div class="about-col reveal">
+      <h3>Experience</h3>
+      <div class="xp-list">
+        <div class="xp">
+          <div class="yr">2025 / Oct–Nov</div>
+          <div class="role">Junior Industrial Designer<span>Swave Studios — Internship</span></div>
+          <div class="place">Toronto</div>
+        </div>
+        <div class="xp">
+          <div class="yr">2024 / Oct–Dec</div>
+          <div class="role">Student Designer<span>Cadillac Fairview — Co-op</span></div>
+          <div class="place">Toronto</div>
+        </div>
+        <div class="xp">
+          <div class="yr">2023–24</div>
+          <div class="role">Student Monitor, Production<span>OCAD U Copy &amp; Print</span></div>
+          <div class="place">Toronto</div>
+        </div>
+        <div class="xp">
+          <div class="yr">2022–23</div>
+          <div class="role">Graphic / Proposal Designer<span>Ieumgil — HR Consulting</span></div>
+          <div class="place">Seoul</div>
+        </div>
+        <div class="xp">
+          <div class="yr">2021–22</div>
+          <div class="role">Sergeant, Squad Leader<span>ROK Army, Military Police</span></div>
+          <div class="place">Korea</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-head reveal">
+    <div>
+      <div class="label">Toolkit</div>
+      <h2>Tools of the trade</h2>
+    </div>
+  </div>
+
+  <div class="tools reveal">
+    <div class="tool-grp">
+      <h4>Design &amp; Web</h4>
+      <ul>
+        <li>Figma <span>Advanced</span></li>
+        <li>Framer <span>Pre-int.</span></li>
+        <li>HTML / CSS / JS <span>Intermediate</span></li>
+        <li>React <span>Tool-assisted</span></li>
+      </ul>
+    </div>
+    <div class="tool-grp">
+      <h4>3D &amp; Prototyping</h4>
+      <ul>
+        <li>Fusion 360 <span>Professional</span></li>
+        <li>KeyShot <span>Professional</span></li>
+        <li>Onshape <span>Advanced</span></li>
+        <li>Blender <span>Advanced</span></li>
+        <li>Rhino 3D <span>Upper-int.</span></li>
+        <li>SolidWorks <span>Intermediate</span></li>
+        <li>Cinema 4D <span>Pre-int.</span></li>
+      </ul>
+    </div>
+    <div class="tool-grp">
+      <h4>Documentation</h4>
+      <ul>
+        <li>Adobe Photoshop <span>Advanced</span></li>
+        <li>Adobe Premiere <span>Upper-int.</span></li>
+        <li>Adobe Illustrator <span>Intermediate</span></li>
+        <li>Microsoft PPT <span>Professional</span></li>
+        <li>Microsoft Excel <span>Pre-int.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact wrap">
+  <div class="contact-inner">
+    <div class="reveal">
+      <div class="label">Contact</div>
+      <h2>Have a project in mind?</h2>
+    </div>
+    <div class="links reveal">
+      <a href="mailto:hello@michaeljpark.com"><span>Email</span>hello@michaeljpark.com →</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><span>LinkedIn</span>michaeljpark →</a>
+      <a href="https://github.com/michaeljpark" target="_blank" rel="noopener"><span>GitHub</span>michaeljpark →</a>
+      <a href="./2026%20Michael%20Joongmin%20Park.pdf" target="_blank" rel="noopener"><span>Résumé</span>Download PDF →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Michael Joongmin Park</span>
+  <span>Toronto</span>
+</footer>
+
+<script>
+  /* reveal on scroll */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .1 });
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* filters */
+  const filters = document.querySelectorAll('.filter');
+  const rows    = document.querySelectorAll('#indexList .row');
+  filters.forEach(b=>{
+    b.addEventListener('click', ()=>{
+      filters.forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      const cat = b.dataset.cat;
+      rows.forEach(r=>{
+        const cats = r.dataset.cat.split(' ');
+        const show = cat==='all' || cats.includes(cat);
+        r.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  /* cursor-following thumbnail */
+  const thumb = document.getElementById('thumb');
+  const thumbImg = document.getElementById('thumbImg');
+  let raf=null, tx=0, ty=0, cx=0, cy=0;
+
+  function loop(){
+    cx += (tx-cx)*.18;
+    cy += (ty-cy)*.18;
+    thumb.style.left = cx+'px';
+    thumb.style.top  = cy+'px';
+    raf = requestAnimationFrame(loop);
+  }
+
+  rows.forEach(r=>{
+    r.addEventListener('mouseenter', ()=>{
+      const src = r.dataset.thumb;
+      if(!src) return;
+      thumbImg.src = src;
+      thumb.classList.add('show');
+      if(!raf) loop();
+    });
+    r.addEventListener('mouseleave', ()=>{
+      thumb.classList.remove('show');
+    });
+    r.addEventListener('mousemove', (e)=>{
+      tx = e.clientX + 80;
+      ty = e.clientY;
+    });
+  });
+
+  /* smooth anchor scroll */
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',(e)=>{
+      const t = document.querySelector(a.getAttribute('href'));
+      if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+</script>
+
 </body>
 </html>
