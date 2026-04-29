@@ -50,7 +50,6 @@
     background:color-mix(in srgb, var(--bg) 88%, transparent);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom:1px solid var(--line);
   }
   .nav-inner{
     display:flex; align-items:center; justify-content:space-between;
@@ -64,37 +63,35 @@
 
   /* HERO */
   header.hero{
-    padding:120px var(--pad) 100px;
+    padding:72px var(--pad) 64px;
     border-bottom:1px solid var(--line);
   }
-  .hero-meta{
-    display:flex; justify-content:space-between;
-    font-size:13px; color:var(--muted);
-    margin-bottom:80px;
+  .hero-greeting{
+    font-size:17px; color:var(--muted); margin-bottom:6px;
   }
   .hero-name{
     font-weight:500;
-    font-size: clamp(56px, 11vw, 168px);
-    line-height:.95;
+    font-size: clamp(36px, 6vw, 88px);
+    line-height:1;
     letter-spacing:-0.05em;
   }
+  .hero-tagline{
+    font-size:16px; color:var(--muted); margin-top:14px;
+    line-height:1.5; white-space:nowrap;
+  }
   .hero-row{
-    display:grid; grid-template-columns: 1.4fr 1fr; gap:80px;
-    margin-top:80px; padding-top:32px; border-top:1px solid var(--line);
+    margin-top:36px; padding-top:24px; border-top:1px solid var(--line);
   }
-  .hero-bio{
-    font-size:17px; line-height:1.5; color:var(--ink); max-width:54ch;
-  }
-  .hero-bio span{ color:var(--muted); }
   .hero-side{
-    display:flex; flex-direction:column; gap:18px;
-    font-size:13px;
+    display:flex; flex-direction:row; justify-content:space-between;
+    flex-wrap:wrap; font-size:13px;
   }
   .hero-side .pair{ display:flex; flex-direction:column; gap:2px; }
   .hero-side dt{ color:var(--muted); }
+  .hero-info-mobile{ display:none; }
 
   /* SECTION */
-  section{ padding:96px 0; border-bottom:1px solid var(--line); }
+  section{ padding:48px 0; border-bottom:1px solid var(--line); }
   .sec-head{
     display:flex; align-items:baseline; justify-content:space-between;
     margin-bottom:56px; gap:32px; flex-wrap:wrap;
@@ -404,7 +401,14 @@
 
   /* RESPONSIVE */
   @media (max-width:880px){
-    .hero-row{ grid-template-columns:1fr; gap:40px; }
+    header.hero{ padding-bottom:24px; }
+    section{ padding-top:24px; padding-bottom:24px; }
+    .hero-tagline{ white-space:normal; }
+    .hero-row{ display:none; }
+    .sec-head{ margin-bottom:24px; }
+    .hero-info-mobile{ display:flex; flex-direction:column; gap:14px; font-size:13px; margin-top:24px; }
+    .hero-info-mobile .pair{ display:flex; flex-direction:column; gap:2px; }
+    .hero-info-mobile dt{ color:var(--muted); }
     .selected{ gap:36px 16px; }
     .work-block, .work-block.wide, .work-block.third{ grid-column: span 12; }
     .work-block.wide .work, .work-block.third .work{ aspect-ratio: 4/3; }
@@ -437,20 +441,14 @@
 </nav>
 
 <header class="hero wrap">
-  <div class="hero-meta reveal">
-    <div>Portfolio, 2026</div>
-    <div>Toronto, ON</div>
-  </div>
-
+  <div class="hero-greeting reveal">Hi! I'm</div>
   <h1 class="hero-name reveal">Michael Joongmin Park</h1>
+  <p class="hero-tagline reveal">My priority is defining design strategies, solutions, and possibility through data-driven research.</p>
 
   <div class="hero-row reveal">
-    <p class="hero-bio">
-      Digital product designer working at the intersection of human–AI experience, industrial design, and rapid prototyping. <span>I help teams turn fuzzy problems into concrete, well-crafted products through user research, interaction design, and code.</span>
-    </p>
     <dl class="hero-side">
       <div class="pair"><dt>Currently</dt><dd>BDes, OCAD University, 2026</dd></div>
-      <div class="pair"><dt>Focus</dt><dd>HAX, Product, Industrial</dd></div>
+      <div class="pair"><dt>Focus</dt><dd>Information System, Human-centred, Human-AI Experience</dd></div>
       <div class="pair"><dt>Status</dt><dd>Open to 2026 roles</dd></div>
     </dl>
   </div>
@@ -743,6 +741,12 @@
     </div>
   </div>
 
+  <dl class="hero-info-mobile reveal">
+    <div class="pair"><dt>Currently</dt><dd>BDes, OCAD University, 2026</dd></div>
+    <div class="pair"><dt>Focus</dt><dd>Information System, Human-centred, Human-AI Experience</dd></div>
+    <div class="pair"><dt>Status</dt><dd>Open to 2026 roles</dd></div>
+  </dl>
+
   <div class="about-grid">
     <div class="about-col reveal">
       <h3>Approach</h3>
@@ -851,7 +855,7 @@
   /* reveal on scroll */
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: .1 });
+  }, { threshold: .1, rootMargin: '0px 0px 300px 0px' });
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
   /* filters */
