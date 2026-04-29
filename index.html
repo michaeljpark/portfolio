@@ -281,6 +281,59 @@
     max-width:var(--max); margin:0 auto;
   }
 
+  /* AMELIA-RUFUS */
+  .ar-work{ background:#5281C4 !important; }
+  .ar-stage{
+    position:absolute; inset:0; z-index:0;
+    display:flex; align-items:center;
+    justify-content:center;
+  }
+  .ar-bubble{ width:65%; height:auto; }
+  .ar-work .ar-img{
+    position:absolute; inset:0; z-index:1;
+    width:100%; height:100%; object-fit:contain;
+    animation: ar-img-breath 3.5s ease-in-out infinite 0s;
+  }
+  #b-rot{
+    transform-box:view-box; transform-origin:350px 320px;
+    animation: b-rotate 28s linear infinite;
+  }
+  #bs-rot{
+    transform-box:fill-box; transform-origin:center;
+    animation: b-rotate 28s linear infinite;
+  }
+  #b-breath{
+    transform-box:view-box; transform-origin:350px 320px;
+    animation: b-gather 3.5s ease-in-out infinite;
+  }
+  #bc1,#bc2,#bc3,#bc4,#bc5,#bs1,#bs2,#bs3{
+    transform-box:fill-box; transform-origin:center;
+  }
+  #bc1{ animation: b-pulse 3.5s ease-in-out infinite 0s;     }
+  #bc2{ animation: b-pulse 3.5s ease-in-out infinite 0.44s;  }
+  #bc3{ animation: b-pulse 3.5s ease-in-out infinite 0.88s;  }
+  #bc4{ animation: b-pulse 3.5s ease-in-out infinite 1.31s;  }
+  #bc5{ animation: b-pulse 3.5s ease-in-out infinite 1.75s;  }
+  #bs1{ animation: b-pulse 3.5s ease-in-out infinite 2.1s;   }
+  #bs2{ animation: b-pulse 3.5s ease-in-out infinite 2.3s;   }
+  #bs3{ animation: b-pulse 3.5s ease-in-out infinite 2.5s;   }
+  @keyframes ar-img-breath{
+    0%,100%{ transform:scale(0.8);    }
+    50%    { transform:scale(0.84); }
+  }
+  @keyframes b-rotate{
+    from{ transform:rotate(0deg);   }
+    to  { transform:rotate(360deg); }
+  }
+  @keyframes b-gather{
+    0%,100%{ transform:scale(1);    }
+    50%    { transform:scale(0.91); }
+  }
+  @keyframes b-pulse{
+    0%,100%{ transform:scale(1);    }
+    50%    { transform:scale(1.06); }
+  }
+
   /* TOKEN TRUST */
   .tt-work{ background:#0a0a0a !important; }
   .tt-work .tt-bg{
@@ -439,7 +492,7 @@
         <div class="work tt-work">
           <img src="./tokentrust43.png" alt="Token Trust" loading="lazy" class="tt-bg" />
           <div class="tt-svg-wrap">
-            <svg width="673" height="188" viewBox="0 0 673 188" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="673" height="188" viewBox="-5 -12 688 212" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="tt-star">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M645.148 3.44127L629.96 42.9053L666.706 26.5118L670.27 35.0134L633.336 51.4047L670.27 67.798L666.706 76.0965L629.96 59.7029L645.148 99.3702L637.458 103.216L622.274 63.3453L607.085 103.216L599.399 99.3702L614.4 59.7029L577.841 76.0965L574.652 67.798L611.211 51.4047L574.652 35.0134L577.841 26.7151L614.4 42.9053L599.399 3.44127L607.085 0L622.274 39.4641L637.458 0L645.148 3.44127Z" fill="white"/>
               </g>
@@ -465,7 +518,27 @@
 
     <div class="work-block reveal">
       <a href="https://michaeljpark.github.io/amazonproposal2/" target="_blank" rel="noopener">
-        <div class="work"><img src="./amelia-rufus2.0.png" alt="AZA Proposal" loading="lazy" /></div>
+        <div class="work ar-work">
+          <div class="ar-stage">
+            <svg class="ar-bubble" viewBox="-20 -50 740 770" overflow="visible" xmlns="http://www.w3.org/2000/svg">
+              <g id="b-rot">
+                <g id="b-breath">
+                  <circle id="bc1" cx="275.5" cy="196.5" r="196.5" fill="white"/>
+                  <circle id="bc2" cx="223.5" cy="347.5" r="196.5" fill="white"/>
+                  <circle id="bc3" cx="347.5" cy="471.5" r="196.5" fill="white"/>
+                  <circle id="bc4" cx="505.5" cy="371.5" r="196.5" fill="white"/>
+                  <circle id="bc5" cx="436.5" cy="205.5" r="196.5" fill="white"/>
+                </g>
+              </g>
+              <g id="bs-rot">
+                <circle id="bs1" cx="48.5"  cy="632.5" r="38.5"  fill="white"/>
+                <circle id="bs2" cx="51.5"  cy="611.5" r="38.5"  fill="white"/>
+                <circle id="bs3" cx="38.5"  cy="621.5" r="38.5"  fill="white"/>
+              </g>
+            </svg>
+          </div>
+          <img src="./ameliarufus2.png" alt="Amelia-Rufus 2.0" loading="lazy" class="ar-img" />
+        </div>
         <div class="w-info">
           <div class="t"><span>Amelia-Rufus 2.0 Amazon Service Proposal</span><span class="arrow">→</span></div>
           <div class="m"><span>2026</span><span>Design Management</span><span>2 Weeks</span></div>
