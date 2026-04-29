@@ -311,11 +311,11 @@
   #bc1,#bc2,#bc3,#bc4,#bc5,#bs1,#bs2,#bs3{
     transform-box:fill-box; transform-origin:center;
   }
-  #bc1{ animation: b-pulse 3.5s ease-in-out infinite 0s;     }
-  #bc2{ animation: b-pulse 3.5s ease-in-out infinite 0.44s;  }
-  #bc3{ animation: b-pulse 3.5s ease-in-out infinite 0.88s;  }
-  #bc4{ animation: b-pulse 3.5s ease-in-out infinite 1.31s;  }
-  #bc5{ animation: b-pulse 3.5s ease-in-out infinite 1.75s;  }
+  #bc1{ animation: b-wave 5s ease-in-out infinite -2.5s; }
+  #bc2{ animation: b-wave 5s ease-in-out infinite -1.5s; }
+  #bc3{ animation: b-wave 5s ease-in-out infinite -0.5s; }
+  #bc4{ animation: b-wave 5s ease-in-out infinite  0.5s; }
+  #bc5{ animation: b-wave 5s ease-in-out infinite  1.5s; }
   #bs1{ animation: b-pulse 3.5s ease-in-out infinite 2.1s;   }
   #bs2{ animation: b-pulse 3.5s ease-in-out infinite 2.3s;   }
   #bs3{ animation: b-pulse 3.5s ease-in-out infinite 2.5s;   }
@@ -330,6 +330,10 @@
   @keyframes b-gather{
     0%,100%{ transform:scale(1);    }
     50%    { transform:scale(0.91); }
+  }
+  @keyframes b-wave{
+    0%,100%{ transform:scale(1);    }
+    50%    { transform:scale(1.12); }
   }
   @keyframes b-pulse{
     0%,100%{ transform:scale(1);    }
