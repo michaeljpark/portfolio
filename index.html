@@ -298,7 +298,7 @@
     aspect-ratio:1/1; object-fit:cover;
     top:50%; left:50%;
     transform:translate(-50%,-50%) scale(0.8);
-    animation: ar-img-anim 7s ease-in-out infinite;
+    animation: ar-img-breath 3.5s ease-in-out infinite;
   }
   #b-rot{
     transform-box:view-box; transform-origin:350px 320px;
@@ -323,12 +323,9 @@
   #bs1{ animation: b-pulse 3.5s ease-in-out infinite 2.1s;   }
   #bs2{ animation: b-pulse 3.5s ease-in-out infinite 2.3s;   }
   #bs3{ animation: b-pulse 3.5s ease-in-out infinite 2.5s;   }
-  @keyframes ar-img-anim{
-    0%  { transform:translate(-50%,-50%) scale(0.80) rotate(0deg);   }
-    25% { transform:translate(-50%,-50%) scale(0.84) rotate(15deg);  }
-    50% { transform:translate(-50%,-50%) scale(0.80) rotate(0deg);   }
-    75% { transform:translate(-50%,-50%) scale(0.84) rotate(-15deg); }
-    100%{ transform:translate(-50%,-50%) scale(0.80) rotate(0deg);   }
+  @keyframes ar-img-breath{
+    0%,100%{ transform:translate(-50%,-50%) scale(0.80); }
+    50%    { transform:translate(-50%,-50%) scale(0.84); }
   }
   @keyframes b-rotate{
     from{ transform:rotate(0deg);   }
