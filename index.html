@@ -281,6 +281,42 @@
     max-width:var(--max); margin:0 auto;
   }
 
+  /* ONGEN RADIO */
+  .ongen-work{ background:#000 !important; }
+  .ongen-stage{
+    position:absolute; inset:0; z-index:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ongen-dot{
+    position:absolute;
+    width:clamp(60px,13vw,150px); height:clamp(60px,13vw,150px);
+    border-radius:50%; background:#fff;
+    animation:ongen-breath 3.5s ease-in-out infinite;
+  }
+  .ongen-ripple{
+    position:absolute;
+    width:clamp(60px,13vw,150px); height:clamp(60px,13vw,150px);
+    border-radius:50%;
+    border:1.5px solid rgba(255,255,255,.45);
+    animation:ongen-ripple 3.2s ease-out infinite;
+  }
+  .ongen-ripple:nth-child(1){ animation-delay:0s; }
+  .ongen-ripple:nth-child(2){ animation-delay:1.07s; }
+  .ongen-ripple:nth-child(3){ animation-delay:2.13s; }
+  .ongen-img{
+    position:relative; z-index:1;
+    display:block; width:100%; height:100%;
+  }
+  .ongen-img img{ object-fit:contain; }
+  @keyframes ongen-breath{
+    0%,100%{ transform:scale(1); box-shadow:0 0 0 0 rgba(255,255,255,0); }
+    50%{ transform:scale(1.07); box-shadow:0 0 32px 8px rgba(255,255,255,.12); }
+  }
+  @keyframes ongen-ripple{
+    0%{ transform:scale(1); opacity:.5; }
+    100%{ transform:scale(3.5); opacity:0; }
+  }
+
   /* REVEAL */
   .reveal{ opacity:0; transform:translateY(16px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
   .reveal.in{ opacity:1; transform:translateY(0); }
@@ -351,10 +387,16 @@
   <div class="selected">
     <div class="work-block wide reveal">
       <a href="https://ongenradio.web.app/" target="_blank" rel="noopener">
-        <div class="work">
-          <picture>
-            <source media="(max-width:880px)" srcset="./ongenradio2026mobile.png">
-            <img src="./ongenradio2026.png" alt="OnGen Radio 2026" loading="lazy" />
+        <div class="work ongen-work">
+          <div class="ongen-stage">
+            <div class="ongen-ripple"></div>
+            <div class="ongen-ripple"></div>
+            <div class="ongen-ripple"></div>
+            <div class="ongen-dot"></div>
+          </div>
+          <picture class="ongen-img">
+            <source media="(max-width:880px)" srcset="./ongen43.png">
+            <img src="./ongen169.png" alt="OnGen Radio 2026" loading="lazy" />
           </picture>
         </div>
         <div class="w-info">
