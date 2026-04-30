@@ -295,49 +295,67 @@
   .ar-bubble{ width:65%; height:auto; }
   .ar-img-wrap{
     position:absolute; z-index:1;
-    width:auto; height:90%;
+    width:auto; height:75%;
     aspect-ratio:1/1;
     top:47%; left:50%;
-    transform:translate(-50%,-50%);
+    overflow:hidden;
+    transform:translate(-50%,-50%) scale(1);
+    animation: ar-wrap-breath 3.5s ease-in-out infinite;
+  }
+  @keyframes ar-wrap-breath{
+    0%,100%{ transform: translate(-50%,-50%) scale(1);    }
+    50%   { transform: translate(-50%,-50%) scale(1.06); }
   }
   .ar-morph {
     position: absolute;
     width: 100%; height: 100%;
     top: 0; left: 0;
     z-index: 1;
-    transform: scale(0);
-    opacity: 0;
-    animation: ar-morph-pop 15s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transform: translateY(-110%);
+    animation: ar-morph-slot 15s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   }
   .ar-morph-1 { animation-delay: 0s; }
   .ar-morph-2 { animation-delay: 5s; }
   .ar-morph-3 { animation-delay: 10s; }
   
-  @keyframes ar-morph-pop {
-    0%     { transform: scale(0); opacity: 0; }
-    5%     { transform: scale(0.64); opacity: 1; }
-    28%    { transform: scale(0.60); opacity: 1; }
-    33.33% { transform: scale(0); opacity: 0; }
-    100%   { transform: scale(0); opacity: 0; }
+  @keyframes ar-morph-slot {
+    0%     { transform: translateY(-110%); }
+    8%     { transform: translateY(8%);    }
+    13%    { transform: translateY(-3%);   }
+    18%    { transform: translateY(0);     }
+    28%    { transform: translateY(0);     }
+    33.33% { transform: translateY(110%);  }
+    100%   { transform: translateY(110%);  }
   }
 
   .ar-fixed-center {
-    position: absolute;
-    width: 110%;
+    width: 75%;
     height: auto;
-    top: 56%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top: 8%;
   }
-  .ar-work .ar-img, .ar-work .ar-fixed-img {
-    width: 100%; height: 100%;
+  .ar-work .ar-img{
+    width: 55%;
+    height: 55%;
+    object-fit: contain;
+    animation: ar-img-tilt 7s ease-in-out infinite;
+  }
+  .ar-work .ar-amelia-svg{
+    width: 75%;
+    height: 75%;
+  }
+  .ar-work .ar-fixed-img {
+    width: 100%;
+    height: auto;
     object-fit: contain;
     animation: ar-img-tilt 7s ease-in-out infinite;
   }
   .ar-work .ar-amazon-logo{
-    width: 100%;
-    height: auto;
     background: transparent;
   }
   #b-rot{
@@ -620,7 +638,7 @@
               </svg>
             </div>
             <div class="ar-morph ar-morph-3">
-              <svg class="ar-img" viewBox="0 0 345 345" xmlns="http://www.w3.org/2000/svg" aria-label="Amelia Logo">
+              <svg class="ar-img ar-amelia-svg" viewBox="0 0 345 345" xmlns="http://www.w3.org/2000/svg" aria-label="Amelia Logo">
                 <path d="M172.5 43.125C172.5 114.577 230.423 172.5 301.875 172.5C230.423 172.5 172.5 230.423 172.5 301.875C172.5 230.423 114.577 172.5 43.125 172.5C114.577 172.5 172.5 114.577 172.5 43.125Z" fill="#131921" stroke="#131921" stroke-width="21.5625" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
