@@ -295,15 +295,44 @@
   .ar-bubble{ width:65%; height:auto; }
   .ar-img-wrap{
     position:absolute; z-index:1;
-    width:auto; height:72%;
+    width:auto; height:90%;
     aspect-ratio:1/1;
-    top:50%; left:50%;
+    top:47%; left:50%;
     transform:translate(-50%,-50%);
   }
-  .ar-work .ar-img{
-    width:100%; height:100%; object-fit:cover;
-    animation: ar-img-breath 3.5s ease-in-out infinite,
-               ar-img-tilt   7s   ease-in-out infinite;
+  .ar-morph {
+    position: absolute;
+    width: 100%; height: 100%;
+    top: 0; left: 0;
+    z-index: 1;
+    transform: scale(0);
+    animation: ar-morph-pop 15s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+  }
+  .ar-morph-1 { animation-delay: 0s; }
+  .ar-morph-2 { animation-delay: 5s; }
+  .ar-morph-3 { animation-delay: 10s; }
+  
+  @keyframes ar-morph-pop {
+    0%     { transform: scale(0); }
+    5%     { transform: scale(0.64); }
+    28%    { transform: scale(0.60); }
+    33.33% { transform: scale(0); }
+    100%   { transform: scale(0); }
+  }
+
+  .ar-fixed-center {
+    position: absolute;
+    width: 80%;
+    height: auto;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+  .ar-work .ar-img, .ar-work .ar-fixed-img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    animation: ar-img-tilt 7s ease-in-out infinite;
   }
   #b-rot{
     transform-box:view-box; transform-origin:350px 320px;
@@ -329,8 +358,8 @@
   #bs2{ animation: b-pulse 3.5s ease-in-out infinite 2.3s;   }
   #bs3{ animation: b-pulse 3.5s ease-in-out infinite 2.5s;   }
   @keyframes ar-img-breath{
-    0%,100%{ transform:scale(0.80); filter:brightness(1.0); opacity:1.0; }
-    50%    { transform:scale(0.84); filter:brightness(1.2); opacity:0.9; }
+    0%,100%{ transform:scale(0.60); }
+    50%    { transform:scale(0.64); }
   }
   @keyframes ar-img-tilt{
     0%  { rotate:  0deg; }
@@ -340,8 +369,8 @@
     100%{ rotate:  0deg; }
   }
   @keyframes ar-stage-breath{
-    0%,100%{ filter:brightness(1.0); }
-    50%    { filter:brightness(1.2); }
+    0%,100%{ opacity:1.0; }
+    50%    { opacity:1.0; }
   }
   @keyframes b-rotate{
     from{ transform:rotate(0deg);   }
@@ -568,7 +597,12 @@
             </svg>
           </div>
           <div class="ar-img-wrap">
-            <img src="./ameliarufus2.png" alt="Amelia-Rufus 2.0" class="ar-img" />
+            <div class="ar-morph ar-morph-1">
+              <img src="./thinkbubble.svg" alt="Think Bubble" class="ar-img" />
+              <div class="ar-fixed-center"><img src="./amazonlogo.svg" alt="Amazon Logo" class="ar-fixed-img" /></div>
+            </div>
+            <div class="ar-morph ar-morph-2"><img src="./rufus logo.svg" alt="Rufus Logo" class="ar-img" /></div>
+            <div class="ar-morph ar-morph-3"><img src="./amelialogo.svg" alt="Amelia Logo" class="ar-img" /></div>
           </div>
         </div>
         <div class="w-info">
@@ -948,6 +982,12 @@
   });
 </script>
 
+
+</body>
+</html>
+    });
+  })();
+</script>
 
 </body>
 </html>
