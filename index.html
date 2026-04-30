@@ -393,21 +393,35 @@
   .tt-work{ background:#0a0a0a !important; }
   .tt-work .tt-bg{
     position:absolute; inset:0;
-    animation: tt-bg-breath 4.5s ease-in-out infinite;
+    width:100%; height:100%;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .tt-work .tt-bg iframe{
+    position:absolute;
+    top:50%; left:50%;
+    min-width:100%;
+    min-height:100%;
+    width:auto;
+    height:auto;
+    aspect-ratio: 16 / 9;
+    transform:translate(-50%, -50%);
+    border:0;
+    pointer-events:none;
+  }
+  .tt-work > img.tt-bg{
+    object-fit:cover;
   }
   .tt-svg-wrap{
     position:absolute; inset:0; z-index:1;
     display:flex; align-items:center; justify-content:center;
     padding:14%; pointer-events:none;
+    transform: translateY(-5%);
   }
   .tt-svg-wrap svg{ width:100%; height:auto; }
   #tt-star{
     transform-box:fill-box; transform-origin:center;
     animation: tt-star 10s linear infinite;
-  }
-  @keyframes tt-bg-breath{
-    0%,100%{ transform:scale(1); }
-    50%{ transform:scale(1.06); }
   }
   @keyframes tt-star{
     from{ transform:rotate(0deg);   }
@@ -489,6 +503,7 @@
 
 <div class="thumb-follow" id="thumb"><img src="" alt="" id="thumbImg" /></div>
 
+
 <nav class="top">
   <div class="nav-inner">
     <div class="nav-mark">Michael J. Park</div>
@@ -549,7 +564,14 @@
     <div class="work-block reveal">
       <a href="https://michaeljpark.github.io/tokentrustpt1/" target="_blank" rel="noopener">
         <div class="work tt-work">
-          <img src="./tokentrust43.png" alt="Token Trust" loading="lazy" class="tt-bg" />
+          <div class="tt-bg">
+            <iframe
+              src="https://player.vimeo.com/video/1188248176?background=1&autoplay=1&loop=1&muted=1&playsinline=1&autopause=0"
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+              title="Token Trust"></iframe>
+          </div>
           <div class="tt-svg-wrap">
             <svg width="673" height="188" viewBox="-5 -12 688 212" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="tt-star">
@@ -972,6 +994,7 @@
       ty = e.clientY;
     });
   });
+
 
   /* smooth anchor scroll */
   document.querySelectorAll('a[href^="#"]').forEach(a=>{
