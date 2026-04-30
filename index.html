@@ -306,6 +306,7 @@
     top: 0; left: 0;
     z-index: 1;
     transform: scale(0);
+    opacity: 0;
     animation: ar-morph-pop 15s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
   }
   .ar-morph-1 { animation-delay: 0s; }
@@ -313,16 +314,16 @@
   .ar-morph-3 { animation-delay: 10s; }
   
   @keyframes ar-morph-pop {
-    0%     { transform: scale(0); }
-    5%     { transform: scale(0.64); }
-    28%    { transform: scale(0.60); }
-    33.33% { transform: scale(0); }
-    100%   { transform: scale(0); }
+    0%     { transform: scale(0); opacity: 0; }
+    5%     { transform: scale(0.64); opacity: 1; }
+    28%    { transform: scale(0.60); opacity: 1; }
+    33.33% { transform: scale(0); opacity: 0; }
+    100%   { transform: scale(0); opacity: 0; }
   }
 
   .ar-fixed-center {
     position: absolute;
-    width: 80%;
+    width: 95%;
     height: auto;
     top: 56%;
     left: 50%;
@@ -333,6 +334,9 @@
     width: 100%; height: 100%;
     object-fit: contain;
     animation: ar-img-tilt 7s ease-in-out infinite;
+  }
+  .ar-work .ar-amazon-logo{
+    filter: brightness(0) saturate(100%) invert(15%) sepia(18%) saturate(900%) hue-rotate(176deg) brightness(95%) contrast(92%);
   }
   #b-rot{
     transform-box:view-box; transform-origin:350px 320px;
@@ -595,17 +599,11 @@
                   <circle id="bc5" cx="436.5" cy="205.5" r="196.5" fill="white"/>
                 </g>
               </g>
-              <g id="bs-rot">
-                <circle id="bs1" cx="48.5"  cy="632.5" r="38.5"  fill="white"/>
-                <circle id="bs2" cx="51.5"  cy="611.5" r="38.5"  fill="white"/>
-                <circle id="bs3" cx="38.5"  cy="621.5" r="38.5"  fill="white"/>
-              </g>
             </svg>
           </div>
           <div class="ar-img-wrap">
             <div class="ar-morph ar-morph-1">
-              <img src="./thinkbubble.svg" alt="Think Bubble" class="ar-img" />
-              <div class="ar-fixed-center"><img src="./amazonlogo.svg" alt="Amazon Logo" class="ar-fixed-img" /></div>
+              <div class="ar-fixed-center"><img src="./amazonlogo.svg" alt="Amazon Logo" class="ar-fixed-img ar-amazon-logo" /></div>
             </div>
             <div class="ar-morph ar-morph-2"><img src="./rufus logo.svg" alt="Rufus Logo" class="ar-img" /></div>
             <div class="ar-morph ar-morph-3"><img src="./amelialogo.svg" alt="Amelia Logo" class="ar-img" /></div>
