@@ -117,6 +117,17 @@
     text-align:right; max-width:52%;
   }
 
+  @media(max-width:640px){
+    .card-title{ font-size:clamp(30px,9vw,44px); }
+    .card-sub{
+      bottom:auto; top:28%;
+      font-size:clamp(11px,3.2vw,16px);
+      max-width:80%;
+    }
+    .card-logo{ top:62%; width:50%; }
+    .project-section + .project-section{ padding-top:0; }
+  }
+
   .card-logo{
     position:absolute; top:70%; left:50%;
     transform:translateX(-50%);
