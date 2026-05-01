@@ -117,6 +117,12 @@
     text-align:right; max-width:52%;
   }
 
+  .card-logo{
+    position:absolute; top:70%; left:50%;
+    transform:translateX(-50%);
+    width:50%; z-index:2; pointer-events:none;
+  }
+
   @media(max-width:640px){
     .card-title{ font-size:clamp(30px,9vw,44px); }
     .card-sub{
@@ -124,14 +130,8 @@
       font-size:clamp(11px,3.2vw,16px);
       max-width:80%;
     }
-    .card-logo{ top:62%; width:50%; }
+    .card-logo{ top:78%; width:80%; }
     .project-section + .project-section{ padding-top:0; }
-  }
-
-  .card-logo{
-    position:absolute; top:70%; left:50%;
-    transform:translateX(-50%);
-    width:50%; z-index:2; pointer-events:none;
   }
   .card-logo svg{ width:100%; height:auto; display:block; overflow:visible; }
   .card-wave{
