@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Amelia-Rufus 2.0 Amazon Service Audit-Proposal — Michael Joongmin Park</title>
+<title>Amelia-Rufus 2.0 Amazon Service Proposal — Michael Joongmin Park</title>
 <link rel="icon" type="image/svg+xml" href="./mkpkgrey.svg" />
 <style>
   :root{
@@ -12,7 +12,7 @@
     --font:"Helvetica Neue",Helvetica,Arial,sans-serif;
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html,body{ background:var(--bg); color:var(--ink); }
+  html,body{ background:var(--bg); color:var(--ink); scroll-behavior:smooth; }
   body{
     font-family:var(--font); font-size:14px; line-height:1.5; font-weight:400;
     letter-spacing:-0.05em; -webkit-font-smoothing:antialiased;
@@ -49,6 +49,11 @@
     line-height:1.05; letter-spacing:-0.05em;
   }
   .hero-tagline{ font-size:16px; color:var(--muted); margin-top:14px; line-height:1.5; }
+  .scroll-link{
+    color:var(--ink); border-bottom:1px solid var(--ink);
+    transition:opacity .2s;
+  }
+  .scroll-link:hover{ opacity:0.6; }
   .hero-row{ margin-top:36px; padding-top:24px; border-top:1px solid var(--line); }
   .hero-side{
     display:flex; flex-direction:row; justify-content:space-between;
@@ -56,10 +61,13 @@
   }
   .hero-side .pair{ display:flex; flex-direction:column; gap:2px; }
   .hero-side dt{ color:var(--muted); }
-  .view-link{ border-bottom:1px solid var(--ink); transition:opacity .2s; }
-  .view-link:hover{ opacity:0.6; }
   .status-live{ display:inline-flex; align-items:center; gap:7px; }
   .status-dot{ width:7px; height:7px; border-radius:50%; background:#22c55e; flex-shrink:0; }
+  .hero-team{ margin-top:24px; padding-top:24px; border-top:1px solid var(--line); font-size:13px; }
+  .hero-team > dt{ color:var(--muted); margin-bottom:8px; }
+  .hero-team-list{ display:flex; flex-direction:column; gap:4px; }
+  .hero-team-member{ display:flex; gap:12px; }
+  .hero-team-role{ color:var(--muted); }
 
   .project-section{ padding-top:48px; padding-bottom:48px; }
   .project-stage{
@@ -84,8 +92,29 @@
   }
   .kpi-label{ font-size:13px; color:var(--muted); }
 
+  /* AUDIT SECTION */
+  .audit-section{ border-top:1px solid var(--line); }
+  .audit-header{
+    padding:64px var(--pad) 64px;
+    border-bottom:1px solid var(--line);
+  }
+  .audit-label{ font-size:17px; color:var(--muted); margin-bottom:6px; }
+  .audit-name{
+    font-weight:500; font-size:clamp(24px,3.5vw,52px);
+    line-height:1.05; letter-spacing:-0.05em;
+  }
+  .audit-tagline{ font-size:16px; color:var(--muted); margin-top:14px; line-height:1.5; }
+  .audit-meta{
+    margin-top:36px; padding-top:24px; border-top:1px solid var(--line);
+    display:flex; flex-direction:row; justify-content:space-between;
+    flex-wrap:wrap; font-size:13px; gap:16px;
+  }
+  .audit-meta .pair{ display:flex; flex-direction:column; gap:2px; }
+  .audit-meta dt{ color:var(--muted); }
+
   @media(max-width:880px){
     .hero-name{ font-size:clamp(24px,7vw,48px); }
+    .audit-name{ font-size:clamp(20px,6vw,40px); }
     .kpi-row{ padding:24px 0; }
     .kpi{ padding:0 20px; }
   }
@@ -105,17 +134,26 @@
   </div>
 </nav>
 
-<header class="hero wrap">
+<!-- PROPOSAL -->
+<header id="proposal" class="hero wrap">
   <div class="hero-back"><a href="./index.html">← Back to Work</a></div>
   <div class="hero-greeting">Design Management</div>
-  <h1 class="hero-name">Amelia-Rufus 2.0 Amazon Service Audit-Proposal</h1>
-  <p class="hero-tagline">Design Management</p>
+  <h1 class="hero-name">Amelia-Rufus 2.0<br>Amazon Service Proposal</h1>
+  <p class="hero-tagline">Design Management &nbsp;·&nbsp; <a href="#audit" class="scroll-link">Audit Process →</a></p>
   <div class="hero-row">
     <dl class="hero-side">
       <div class="pair"><dt>Year</dt><dd>2026 / Feb</dd></div>
       <div class="pair"><dt>Type</dt><dd>Design Management</dd></div>
       <div class="pair"><dt>Duration</dt><dd>2 Weeks</dd></div>
       <div class="pair"><dt>Status</dt><dd class="status-live"><span class="status-dot"></span>Online · Published via GitHub</dd></div>
+    </dl>
+    <dl class="hero-team">
+      <dt>Team</dt>
+      <div class="hero-team-list">
+        <div class="hero-team-member"><span>Michael Joongmin Park</span><span class="hero-team-role">Team Lead, Data Analyst</span></div>
+        <div class="hero-team-member"><span>Jaehong Hwang</span><span class="hero-team-role">Research</span></div>
+        <div class="hero-team-member"><span>Elsie Jang</span><span class="hero-team-role">Research</span></div>
+      </div>
     </dl>
   </div>
 </header>
@@ -126,19 +164,45 @@
 
 <section class="kpi-section wrap">
   <div class="kpi-row">
-    <div class="kpi">
-      <div class="kpi-num">—</div>
-      <div class="kpi-label">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-num">—</div>
-      <div class="kpi-label">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-num">—</div>
-      <div class="kpi-label">—</div>
-    </div>
+    <div class="kpi"><div class="kpi-num">—</div><div class="kpi-label">—</div></div>
+    <div class="kpi"><div class="kpi-num">—</div><div class="kpi-label">—</div></div>
+    <div class="kpi"><div class="kpi-num">—</div><div class="kpi-label">—</div></div>
   </div>
+</section>
+
+<!-- AUDIT -->
+<section id="audit" class="audit-section">
+  <header class="audit-header wrap">
+    <div class="audit-label">Design Management · Audit</div>
+    <h2 class="audit-name">Amelia-Rufus 2.0<br>Amazon Service Audit</h2>
+    <p class="audit-tagline">Design Management, Audit &nbsp;·&nbsp; <a href="#proposal" class="scroll-link">Proposal Process →</a></p>
+    <dl class="audit-meta">
+      <div class="pair"><dt>Year</dt><dd>2026 / Jan</dd></div>
+      <div class="pair"><dt>Type</dt><dd>Design Management, Audit</dd></div>
+      <div class="pair"><dt>Duration</dt><dd>2 Weeks</dd></div>
+      <div class="pair"><dt>Status</dt><dd class="status-live"><span class="status-dot"></span>Online · Published via GitHub</dd></div>
+    </dl>
+    <dl class="hero-team">
+      <dt>Team</dt>
+      <div class="hero-team-list">
+        <div class="hero-team-member"><span>Michael Joongmin Park</span><span class="hero-team-role">Team Lead, Data Analyst</span></div>
+        <div class="hero-team-member"><span>Jaehong Hwang</span><span class="hero-team-role">Research</span></div>
+        <div class="hero-team-member"><span>Elsie Jang</span><span class="hero-team-role">Research</span></div>
+      </div>
+    </dl>
+  </header>
+
+  <section class="project-section wrap">
+    <div class="project-stage"></div>
+  </section>
+
+  <section class="kpi-section wrap">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-num">—</div><div class="kpi-label">—</div></div>
+      <div class="kpi"><div class="kpi-num">—</div><div class="kpi-label">—</div></div>
+      <div class="kpi"><div class="kpi-num">—</div><div class="kpi-label">—</div></div>
+    </div>
+  </section>
 </section>
 
 </body>

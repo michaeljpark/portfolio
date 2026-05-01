@@ -60,6 +60,11 @@
   .view-link:hover{ opacity:0.6; }
   .status-live{ display:inline-flex; align-items:center; gap:7px; }
   .status-dot{ width:7px; height:7px; border-radius:50%; background:#22c55e; flex-shrink:0; }
+  .hero-team{ margin-top:24px; padding-top:24px; border-top:1px solid var(--line); font-size:13px; }
+  .hero-team > dt{ color:var(--muted); margin-bottom:8px; }
+  .hero-team-list{ display:flex; flex-direction:column; gap:4px; }
+  .hero-team-member{ display:flex; gap:12px; }
+  .hero-team-role{ color:var(--muted); }
 
   .project-section{ padding-top:48px; padding-bottom:48px; }
   .project-stage{
@@ -114,8 +119,16 @@
     <dl class="hero-side">
       <div class="pair"><dt>Year</dt><dd>2026 / Mar</dd></div>
       <div class="pair"><dt>Type</dt><dd>Service Design, Strategic Research</dd></div>
-      <div class="pair"><dt>Duration</dt><dd>3 Weeks</dd></div>
+      <div class="pair"><dt>Duration</dt><dd>6 Weeks</dd></div>
       <div class="pair"><dt>Status</dt><dd class="status-live"><span class="status-dot"></span>Online · Published via GitHub</dd></div>
+    </dl>
+    <dl class="hero-team">
+      <dt>Team</dt>
+      <div class="hero-team-list">
+        <div class="hero-team-member"><span>Michael Joongmin Park</span><span class="hero-team-role">Team Lead, Data Analyst</span></div>
+        <div class="hero-team-member"><span>Jaehong Hwang</span><span class="hero-team-role">Research</span></div>
+        <div class="hero-team-member"><span>Elsie Jang</span><span class="hero-team-role">Research</span></div>
+      </div>
     </dl>
   </div>
 </header>
