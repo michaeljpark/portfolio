@@ -43,6 +43,18 @@
   }
   .hero-back{ font-size:13px; color:var(--muted); margin-bottom:32px; }
   .hero-back a:hover{ color:var(--ink); }
+  .tagline-row{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:32px; }
+  .tagline-row > p{ margin:0; }
+  .hero-team-inline{ margin:0; padding:0; border:0; font-size:10px; line-height:1.4; display:flex; align-items:baseline; gap:10px; flex-wrap:nowrap; min-width:0; }
+  dl.hero-team.hero-team-inline{ margin:0; padding:0; border-top:0; }
+  .hero-team-inline > dt{ margin:0; color:var(--muted); flex-shrink:0; }
+  .hero-team-inline .hero-team-list{ display:flex; flex-direction:row; flex-wrap:nowrap; gap:12px; grid-template-columns:none; min-width:0; }
+  .hero-team-inline .hero-team-member,
+  .hero-team-inline .hero-team-member:nth-child(2),
+  .hero-team-inline .hero-team-member:nth-child(3){ justify-content:flex-start; text-align:left; gap:4px; flex-wrap:nowrap; white-space:nowrap; }
+  @media (max-width: 640px){
+    .hero-team-inline{ display:none !important; }
+  }
   .hero-greeting{ font-size:17px; color:var(--muted); margin-bottom:6px; }
   .hero-name{
     font-weight:500; font-size:clamp(28px,4.5vw,64px);
@@ -147,21 +159,23 @@
   <div class="hero-back"><a href="./index.html">← Back to Work</a></div>
   <div class="hero-greeting">Design Management</div>
   <h1 class="hero-name">Amelia-Rufus 2.0<br>Amazon Service Proposal</h1>
-  <p class="hero-tagline">Design Management &nbsp;·&nbsp; <a href="#audit" class="scroll-link">Audit Process →</a></p>
-  <div class="hero-row">
-    <dl class="hero-side">
-      <div class="pair"><dt>Year</dt><dd>2026 / Feb</dd></div>
-      <div class="pair"><dt>Type</dt><dd>Design Management</dd></div>
-      <div class="pair"><dt>Duration</dt><dd>2 Weeks</dd></div>
-      <div class="pair"><dt>Status</dt><dd class="status-live"><span class="status-dot"></span>Online · Published via GitHub</dd></div>
-    </dl>
-    <dl class="hero-team">
+  <div class="tagline-row">
+    <p class="hero-tagline">Design Management &nbsp;·&nbsp; <a href="#audit" class="scroll-link">Audit Process →</a></p>
+    <dl class="hero-team hero-team-inline">
       <dt>Team</dt>
       <div class="hero-team-list">
         <div class="hero-team-member"><span>Michael Joongmin Park</span><span class="hero-team-role">Team Lead, Data Analyst</span></div>
         <div class="hero-team-member"><span>Jaehong Hwang</span><span class="hero-team-role">Research</span></div>
         <div class="hero-team-member"><span>Elsie Jang</span><span class="hero-team-role">Research</span></div>
       </div>
+    </dl>
+  </div>
+  <div class="hero-row">
+    <dl class="hero-side">
+      <div class="pair"><dt>Year</dt><dd>2026 / Feb</dd></div>
+      <div class="pair"><dt>Type</dt><dd>Design Management</dd></div>
+      <div class="pair"><dt>Duration</dt><dd>2 Weeks</dd></div>
+      <div class="pair"><dt>Status</dt><dd class="status-live"><span class="status-dot"></span>Online · Published via GitHub</dd></div>
     </dl>
   </div>
 </header>
@@ -183,20 +197,22 @@
   <header class="audit-header wrap">
     <div class="audit-label">Design Management · Audit</div>
     <h2 class="audit-name">Amelia-Rufus 2.0<br>Amazon Service Audit</h2>
-    <p class="audit-tagline">Design Management, Audit &nbsp;·&nbsp; <a href="#proposal" class="scroll-link">Proposal Process →</a></p>
+    <div class="tagline-row">
+      <p class="audit-tagline">Design Management, Audit &nbsp;·&nbsp; <a href="#proposal" class="scroll-link">Proposal Process →</a></p>
+      <dl class="hero-team hero-team-inline">
+        <dt>Team</dt>
+        <div class="hero-team-list">
+          <div class="hero-team-member"><span>Michael Joongmin Park</span><span class="hero-team-role">Team Lead, Data Analyst</span></div>
+          <div class="hero-team-member"><span>Jaehong Hwang</span><span class="hero-team-role">Research</span></div>
+          <div class="hero-team-member"><span>Elsie Jang</span><span class="hero-team-role">Research</span></div>
+        </div>
+      </dl>
+    </div>
     <dl class="audit-meta">
       <div class="pair"><dt>Year</dt><dd>2026 / Jan</dd></div>
       <div class="pair"><dt>Type</dt><dd>Design Management, Audit</dd></div>
       <div class="pair"><dt>Duration</dt><dd>2 Weeks</dd></div>
       <div class="pair"><dt>Status</dt><dd class="status-live"><span class="status-dot"></span>Online · Published via GitHub</dd></div>
-    </dl>
-    <dl class="hero-team">
-      <dt>Team</dt>
-      <div class="hero-team-list">
-        <div class="hero-team-member"><span>Michael Joongmin Park</span><span class="hero-team-role">Team Lead, Data Analyst</span></div>
-        <div class="hero-team-member"><span>Jaehong Hwang</span><span class="hero-team-role">Research</span></div>
-        <div class="hero-team-member"><span>Elsie Jang</span><span class="hero-team-role">Research</span></div>
-      </div>
     </dl>
   </header>
 
