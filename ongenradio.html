@@ -133,8 +133,8 @@
 
   @media(max-width:640px){
     .card-title{ font-size:clamp(30px,9vw,44px); }
-    .card-sub{ font-size:clamp(11px,3.2vw,16px); max-width:80%; }
-    .card-row{ flex-direction:column; gap:3%; }
+    .card-sub{ font-size:clamp(11px,3.2vw,16px); max-width:100%; width:100%; }
+    .card-row{ flex-direction:column; gap:3%; align-items:stretch; }
     .card-logo{ top:78%; width:80%; }
     .project-section + .project-section{ padding-top:0; }
     .card-ticker-track span{ font-size:clamp(14px,3.8vw,18px); }
@@ -179,7 +179,7 @@
   .app-embed-row{
     display:flex;
     gap:56px;
-    align-items:center;
+    align-items:stretch;
   }
   .app-embed-frame{
     flex:0 0 36%;
@@ -195,40 +195,34 @@
   .app-embed-info{
     flex:1;
     display:flex;
-    flex-direction:column;
-    gap:48px;
-  }
-  .app-embed-logo svg{ width:55%; height:auto; }
-  .app-waveform{
-    display:flex;
+    justify-content:center;
     align-items:center;
-    gap:5px;
-    height:72px;
   }
-  .wv{
-    width:5px;
-    background:#0a0a0a;
-    border-radius:3px;
-    animation:wvAnim 1.4s ease-in-out infinite alternate;
+  .app-embed-logo{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
   }
-  @keyframes wvAnim{
-    from{ height:6px; opacity:.3; }
-    to{ height:64px; opacity:1; }
+  .app-embed-logo svg{ width:55%; height:auto; overflow:visible; display:block; }
+  .embed-wave{
+    fill:none; stroke:#ffffff; stroke-width:1.2;
+    transform-origin:84.5px 84.5px;
+    opacity:0;
+    animation:embedWave 4.8s cubic-bezier(.22,.61,.36,1) infinite;
   }
-  .wv:nth-child(1){ animation-delay:0s; }
-  .wv:nth-child(2){ animation-delay:.12s; }
-  .wv:nth-child(3){ animation-delay:.24s; }
-  .wv:nth-child(4){ animation-delay:.36s; }
-  .wv:nth-child(5){ animation-delay:.48s; }
-  .wv:nth-child(6){ animation-delay:.60s; }
-  .wv:nth-child(7){ animation-delay:.48s; }
-  .wv:nth-child(8){ animation-delay:.36s; }
-  .wv:nth-child(9){ animation-delay:.24s; }
-  .wv:nth-child(10){ animation-delay:.12s; }
-  .wv:nth-child(11){ animation-delay:0s; }
+  .embed-wave.ew2{ animation-delay:1.6s; }
+  .embed-wave.ew3{ animation-delay:3.2s; }
+  @keyframes embedWave{
+    0%  { transform:scale(1);   opacity:0;   stroke-width:1.4; }
+    8%  { opacity:.4; }
+    100%{ transform:scale(2.6); opacity:0;   stroke-width:.3; }
+  }
   @media(max-width:640px){
     .app-embed-row{ flex-direction:column; gap:32px; }
-    .app-embed-frame{ flex:none; width:85%; align-self:center; }
+    .app-embed-frame{ flex:none; width:100%; }
+    .app-embed-info{ padding-top:16px; }
+    .app-embed-logo svg{ width:50%; }
   }
 
   .kpi-section{ padding-bottom:64px; }
@@ -338,15 +332,12 @@
     </div>
     <div class="app-embed-info">
       <div class="app-embed-logo">
-        <svg viewBox="0 0 366 169" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M84.5 0C112.993 0 138.191 14.1027 153.497 35.708C144.147 42.3237 138.034 53.2109 138.001 65.5283C138.013 65.5623 138.027 65.5959 138.039 65.6299H166.884C167.583 68.6933 168.115 71.8199 168.471 75H86.627C81.3804 75.0002 77.127 79.2534 77.127 84.5C77.127 89.7466 81.3804 93.9998 86.627 94H168.471C168.115 97.1801 167.583 100.307 166.884 103.37H138.039C138.027 103.404 138.013 103.437 138.001 103.471C138.034 115.788 144.147 126.675 153.497 133.291C138.191 154.897 112.993 169 84.5 169C37.8319 169 0 131.168 0 84.5C0 37.8319 37.8319 0 84.5 0ZM85.6699 29C54.9243 29.0001 30 53.8483 30 84.5C30 115.152 54.9243 140 85.6699 140C109.732 140 130.227 124.78 138.001 103.471L138 103.37H85.0557C74.6341 103.37 66.1855 94.9216 66.1855 84.5C66.1855 74.0784 74.6341 65.6299 85.0557 65.6299H138C138 65.596 138.001 65.5622 138.001 65.5283C130.227 44.2193 109.732 29 85.6699 29ZM246 140H174.63C166.759 140 159.468 137.516 153.497 133.291C159.776 124.428 164.39 114.303 166.884 103.37H246V140ZM310 29C340.376 29 365 53.6243 365 84V140H326V87.5C326 78.3873 318.613 71 309.5 71C300.387 71 293 78.3873 293 87.5V140H255V84C255 53.6243 279.624 29 310 29ZM246 94H168.471C168.82 90.8814 169 87.7117 169 84.5C169 81.2883 168.82 78.1186 168.471 75H246V94ZM246 65.6299H166.884C164.39 54.6968 159.776 44.5712 153.497 35.708C159.468 31.4832 166.759 29 174.63 29H246V65.6299Z" fill="#0a0a0a"/>
+        <svg viewBox="0 0 366 169" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+          <circle class="embed-wave"      cx="84.5" cy="84.5" r="84.5"/>
+          <circle class="embed-wave ew2"  cx="84.5" cy="84.5" r="84.5"/>
+          <circle class="embed-wave ew3"  cx="84.5" cy="84.5" r="84.5"/>
+          <path d="M84.5 0C112.993 0 138.191 14.1027 153.497 35.708C144.147 42.3237 138.034 53.2109 138.001 65.5283C138.013 65.5623 138.027 65.5959 138.039 65.6299H166.884C167.583 68.6933 168.115 71.8199 168.471 75H86.627C81.3804 75.0002 77.127 79.2534 77.127 84.5C77.127 89.7466 81.3804 93.9998 86.627 94H168.471C168.115 97.1801 167.583 100.307 166.884 103.37H138.039C138.027 103.404 138.013 103.437 138.001 103.471C138.034 115.788 144.147 126.675 153.497 133.291C138.191 154.897 112.993 169 84.5 169C37.8319 169 0 131.168 0 84.5C0 37.8319 37.8319 0 84.5 0ZM85.6699 29C54.9243 29.0001 30 53.8483 30 84.5C30 115.152 54.9243 140 85.6699 140C109.732 140 130.227 124.78 138.001 103.471L138 103.37H85.0557C74.6341 103.37 66.1855 94.9216 66.1855 84.5C66.1855 74.0784 74.6341 65.6299 85.0557 65.6299H138C138 65.596 138.001 65.5622 138.001 65.5283C130.227 44.2193 109.732 29 85.6699 29ZM246 140H174.63C166.759 140 159.468 137.516 153.497 133.291C159.776 124.428 164.39 114.303 166.884 103.37H246V140ZM310 29C340.376 29 365 53.6243 365 84V140H326V87.5C326 78.3873 318.613 71 309.5 71C300.387 71 293 78.3873 293 87.5V140H255V84C255 53.6243 279.624 29 310 29ZM246 94H168.471C168.82 90.8814 169 87.7117 169 84.5C169 81.2883 168.82 78.1186 168.471 75H246V94ZM246 65.6299H166.884C164.39 54.6968 159.776 44.5712 153.497 35.708C159.468 31.4832 166.759 29 174.63 29H246V65.6299Z" fill="#ffffff"/>
         </svg>
-      </div>
-      <div class="app-waveform">
-        <div class="wv"></div><div class="wv"></div><div class="wv"></div>
-        <div class="wv"></div><div class="wv"></div><div class="wv"></div>
-        <div class="wv"></div><div class="wv"></div><div class="wv"></div>
-        <div class="wv"></div><div class="wv"></div>
       </div>
     </div>
   </div>
@@ -484,6 +475,13 @@
     requestAnimationFrame(loop);
   }
   document.fonts.ready.then(function(){ requestAnimationFrame(loop); });
+})();
+</script>
+<script>
+(function(){
+  var frame = document.querySelector('.app-embed-frame');
+  if(!frame) return;
+  frame.addEventListener('touchmove', function(e){ e.preventDefault(); }, { passive: false });
 })();
 </script>
 </body>
