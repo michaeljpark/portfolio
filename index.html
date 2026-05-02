@@ -290,16 +290,39 @@
     position:absolute; inset:0; z-index:0;
     display:flex; align-items:center;
     justify-content:center;
-    animation: ar-stage-breath 3.5s ease-in-out infinite;
   }
-  .ar-bubble{ width:65%; height:auto; overflow:visible; }
-
-  /* Bubble content (masked) */
-  .ar-bubble-content{
+  /* Bubble shape via CSS mask (iOS-safe) */
+  .ar-bubble-shape{
     position:relative;
-    width:100%; height:100%;
+    width:65%;
+    aspect-ratio: 740 / 770;
+    --ar-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-20 -50 740 770'><circle cx='275.5' cy='196.5' r='196.5' fill='black'/><circle cx='223.5' cy='347.5' r='196.5' fill='black'/><circle cx='347.5' cy='471.5' r='196.5' fill='black'/><circle cx='505.5' cy='371.5' r='196.5' fill='black'/><circle cx='436.5' cy='205.5' r='196.5' fill='black'/></svg>");
+    -webkit-mask-image: var(--ar-mask);
+            mask-image: var(--ar-mask);
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+            mask-position: center;
+    -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+    animation: ar-bubble-rot 28s linear infinite;
+  }
+  @keyframes ar-bubble-rot{
+    from{ transform: rotate(0deg);   }
+    to  { transform: rotate(360deg); }
+  }
+
+  /* Bubble content (inside masked shape) */
+  .ar-bubble-content{
+    position:absolute; inset:0;
     background:#ffffff;
     overflow:hidden;
+    /* Counter-rotate so the marquee/logo stay upright */
+    animation: ar-bubble-counter 28s linear infinite;
+  }
+  @keyframes ar-bubble-counter{
+    from{ transform: rotate(0deg);   }
+    to  { transform: rotate(-360deg); }
   }
 
   /* Product marquee inside bubble mask */
@@ -655,29 +678,15 @@
       <a href="https://michaeljpark.github.io/amazonproposal2/" target="_blank" rel="noopener">
         <div class="work ar-work">
           <div class="ar-stage">
-            <svg class="ar-bubble" viewBox="-20 -50 740 770" overflow="visible" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <mask id="ar-bubble-mask" maskUnits="userSpaceOnUse" x="-20" y="-50" width="740" height="770">
-                  <g id="b-rot">
-                    <g id="b-breath">
-                      <circle id="bc1" cx="275.5" cy="196.5" r="196.5" fill="white"/>
-                      <circle id="bc2" cx="223.5" cy="347.5" r="196.5" fill="white"/>
-                      <circle id="bc3" cx="347.5" cy="471.5" r="196.5" fill="white"/>
-                      <circle id="bc4" cx="505.5" cy="371.5" r="196.5" fill="white"/>
-                      <circle id="bc5" cx="436.5" cy="205.5" r="196.5" fill="white"/>
-                    </g>
-                  </g>
-                </mask>
-              </defs>
-              <foreignObject x="-20" y="-50" width="740" height="770" mask="url(#ar-bubble-mask)">
-                <div xmlns="http://www.w3.org/1999/xhtml" class="ar-bubble-content">
-                  <div class="ar-marquee">
-                    <div class="ar-marquee-row">
-                      <div class="ar-marquee-track">
-                        <img src="./prod1.png" alt=""/>
-                        <img src="./prod2.png" alt=""/>
-                        <img src="./prod3.png" alt=""/>
-                        <img src="./prod4.png" alt=""/>
+            <div class="ar-bubble-shape">
+              <div class="ar-bubble-content">
+                <div class="ar-marquee">
+                  <div class="ar-marquee-row">
+                    <div class="ar-marquee-track">
+                      <img src="./prod1.png" alt=""/>
+                      <img src="./prod2.png" alt=""/>
+                      <img src="./prod3.png" alt=""/>
+                      <img src="./prod4.png" alt=""/>
                         <img src="./prod5.png" alt=""/>
                         <img src="./prod6.png" alt=""/>
                         <img src="./prod1.png" alt="" aria-hidden="true"/>
@@ -714,8 +723,8 @@
                     </div>
                   </div>
                 </div>
-              </foreignObject>
-            </svg>
+              </div>
+            </div>
           </div>
         </div>
         <div class="w-info">
