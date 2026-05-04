@@ -602,6 +602,10 @@
     .contact .links{ font-size:15px; }
     .contact .links a{ flex-direction:column; align-items:flex-start; gap:3px; }
   }
+  video::-webkit-media-controls,
+  video::-webkit-media-controls-panel,
+  video::-webkit-media-controls-play-button,
+  video::-webkit-media-controls-start-playback-button{ display:none !important; }
 </style>
 </head>
 <body>
@@ -1131,12 +1135,14 @@
 
   /* 영상 자동재생 보장 */
   (function(){
-    var v = document.getElementById('promo-vid');
-    if(!v) return;
-    v.addEventListener('pause', function(){ if(v.loop) v.play(); });
-    v.addEventListener('ended', function(){ v.play(); });
+    document.querySelectorAll('video').forEach(function(v){
+      v.muted = true;
+      v.play().catch(function(){});
+      v.addEventListener('pause', function(){ if(!v.ended) v.play().catch(function(){}); });
+      v.addEventListener('ended',  function(){ v.currentTime=0; v.play().catch(function(){}); });
+    });
     document.addEventListener('visibilitychange', function(){
-      if(!document.hidden) v.play().catch(function(){});
+      if(!document.hidden) document.querySelectorAll('video').forEach(function(v){ v.play().catch(function(){}); });
     });
   })();
 
