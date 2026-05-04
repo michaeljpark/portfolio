@@ -484,17 +484,35 @@
 
   /* TOKEN TRUST */
   .tt-work{ background:#0a0a0a !important; }
-  .tt-work .tt-bg{
+  #tt-grid-wrap{
     position:absolute; inset:0;
-    width:100%; height:100%;
-    object-fit:cover;
-    transform-origin:center center;
-    filter: brightness(0.9) contrast(1.1);
-    animation: tt-breathe 6s ease-in-out infinite;
+    display:grid;
   }
-  @keyframes tt-breathe{
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.06); }
+  .tt-cell{ perspective:600px; }
+  .tt-coin{
+    width:100%; height:100%;
+    position:relative;
+    transform-style:preserve-3d;
+    animation:tt-coin-flip 5s linear infinite;
+    animation-delay:var(--tt-d,0s);
+  }
+  .tt-face{
+    position:absolute; inset:0;
+    border-radius:50%;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    background-image:url('./tokentrustimg.png');
+    background-repeat:no-repeat;
+  }
+  .tt-face-back{
+    transform:rotateY(180deg);
+  }
+  @keyframes tt-coin-flip{
+    0%   { transform:rotateY(0deg);   }   /* 앞면 시작 */
+    40%  { transform:rotateY(0deg);   }   /* 앞면 2s 유지 */
+    46%  { transform:rotateY(180deg); }   /* 빠른 전환 */
+    86%  { transform:rotateY(180deg); }   /* 뒷면 2s 유지 */
+    100% { transform:rotateY(360deg); }   /* 원위치 */
   }
   .tt-svg-wrap{
     position:absolute; inset:0; z-index:1;
@@ -648,7 +666,7 @@
     <div class="work-block reveal">
       <a href="https://michaeljpark.github.io/tokentrustpt1/" target="_blank" rel="noopener">
         <div class="work tt-work">
-          <img src="./tokentrustimg.png" alt="Token Trust" class="tt-bg" />
+          <div id="tt-grid-wrap"></div>
           <div class="tt-svg-wrap">
             <svg width="673" height="188" viewBox="-5 -12 688 212" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="tt-star">
@@ -1106,6 +1124,62 @@
       clearTimeout(rt);
       rt = setTimeout(setupAll, 120);
     });
+  })();
+
+  /* Token Trust — circular grid coin-flip */
+  (function(){
+    var wrap = document.getElementById('tt-grid-wrap');
+    if(!wrap) return;
+    var COLS=14, GAP=3, PAD=5;
+    var IMG_FRONT='./tokentrustimg.jpg';
+    var IMG_BACK='./tokentrust2.jpg';
+    function build(){
+      var r=wrap.getBoundingClientRect();
+      var W=r.width, H=r.height;
+      if(!W||!H) return;
+      // square cell size: derive from width, then use same value for height
+      var cs=((W-2*PAD-(COLS-1)*GAP)/COLS);
+      var ROWS=Math.floor((H-2*PAD+GAP)/(cs+GAP));
+      wrap.innerHTML='';
+      wrap.style.cssText=[
+        'position:absolute','inset:0',
+        'display:grid',
+        'grid-template-columns:repeat('+COLS+','+ cs.toFixed(2)+'px)',
+        'grid-template-rows:repeat('+ROWS+','+cs.toFixed(2)+'px)',
+        'gap:'+GAP+'px',
+        'padding:'+PAD+'px',
+        'align-content:center',
+        'justify-content:center'
+      ].join(';');
+      for(var row=0;row<ROWS;row++){
+        for(var col=0;col<COLS;col++){
+          var delay=((col*1.0+row*0.65)*0.07).toFixed(3);
+          var ox=(PAD+col*(cs+GAP)).toFixed(1);
+          var oy=(PAD+row*(cs+GAP)).toFixed(1);
+          var bgs=W+'px '+H+'px';
+          var bgp='-'+ox+'px -'+oy+'px';
+          var cell=document.createElement('div');
+          cell.className='tt-cell';
+          var coin=document.createElement('div');
+          coin.className='tt-coin';
+          coin.style.setProperty('--tt-d',delay+'s');
+          [{cls:'tt-face tt-face-front',img:IMG_FRONT},
+           {cls:'tt-face tt-face-back', img:IMG_BACK}].forEach(function(d){
+            var face=document.createElement('div');
+            face.className=d.cls;
+            face.style.backgroundImage='url(\''+d.img+'\')';
+            face.style.backgroundSize=bgs;
+            face.style.backgroundPosition=bgp;
+            coin.appendChild(face);
+          });
+          cell.appendChild(coin);
+          wrap.appendChild(cell);
+        }
+      }
+    }
+    requestAnimationFrame(function(){ requestAnimationFrame(build); });
+    var rt;
+    window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(build,150); });
   })();
 </script>
 
