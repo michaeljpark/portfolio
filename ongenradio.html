@@ -329,7 +329,7 @@
 <section class="project-section wrap" style="padding-top:8px;">
   <div class="app-embed-row">
     <div class="app-embed-frame">
-      <iframe src="https://ongenradio.web.app/" allow="autoplay"></iframe>
+      <iframe data-src="https://ongenradio.web.app/" allow="autoplay" tabindex="-1"></iframe>
     </div>
     <div class="app-embed-info">
       <div class="app-embed-logo">
@@ -484,6 +484,26 @@
   if(!frame) return;
   frame.addEventListener('touchmove', function(e){ e.preventDefault(); }, { passive: false });
 })();
+
+// iframe 내부 autofocus로 인한 자동 스크롤 방지
+// 사용자가 직접 스크롤하기 전까지 3초간 맨 위 고정
+window.addEventListener('load', function(){
+  window.scrollTo(0, 0);
+
+  var userScrolled = false;
+  function markUserScroll(){ userScrolled = true; }
+  window.addEventListener('wheel',      markUserScroll, {once:true, passive:true});
+  window.addEventListener('touchstart', markUserScroll, {once:true, passive:true});
+  window.addEventListener('keydown',    markUserScroll, {once:true});
+
+  var iframe = document.querySelector('.app-embed-frame iframe[data-src]');
+  if(iframe) iframe.src = iframe.dataset.src;
+
+  var guard = setInterval(function(){
+    if(!userScrolled && window.scrollY > 0) window.scrollTo(0, 0);
+  }, 50);
+  setTimeout(function(){ clearInterval(guard); }, 3000);
+});
 </script>
 </body>
 </html>
