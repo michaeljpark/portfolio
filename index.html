@@ -487,6 +487,8 @@
   #tt-grid-wrap{
     position:absolute; inset:0;
     display:grid;
+    pointer-events:none;
+    touch-action:none;
   }
   .tt-cell{ perspective:600px; }
   .tt-coin{
@@ -501,8 +503,9 @@
     border-radius:50%;
     backface-visibility:hidden;
     -webkit-backface-visibility:hidden;
-    background-image:url('./tokentrustimg.png');
+    background-image:url('./tokentrustimg.jpg');
     background-repeat:no-repeat;
+    filter:brightness(0.85);
   }
   .tt-face-back{
     transform:rotateY(180deg);
