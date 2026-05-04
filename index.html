@@ -698,9 +698,9 @@
     <div class="work-block reveal">
       <a href="./proposal-audit.html">
         <div class="work ar-work">
-          <video
+          <video id="promo-vid"
             src="./amazonproposalthumb.mp4"
-            autoplay loop muted playsinline
+            autoplay loop muted playsinline preload="auto"
             style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.9);"></video>
         </div>
         <div class="w-info">
@@ -1126,6 +1126,17 @@
     window.addEventListener('resize', ()=>{
       clearTimeout(rt);
       rt = setTimeout(setupAll, 120);
+    });
+  })();
+
+  /* 영상 자동재생 보장 */
+  (function(){
+    var v = document.getElementById('promo-vid');
+    if(!v) return;
+    v.addEventListener('pause', function(){ if(v.loop) v.play(); });
+    v.addEventListener('ended', function(){ v.play(); });
+    document.addEventListener('visibilitychange', function(){
+      if(!document.hidden) v.play().catch(function(){});
     });
   })();
 
