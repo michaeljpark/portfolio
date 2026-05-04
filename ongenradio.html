@@ -67,7 +67,7 @@
   .project-section{ padding-top:48px; padding-bottom:48px; }
   .project-stage{
     position:relative; width:100%; aspect-ratio:16/9;
-    background:#1a1a1a; border-radius:20px; overflow:hidden;
+    background:#ffffff; border-radius:20px; overflow:hidden;
   }
   .ongen-logo{
     position:absolute; bottom:6%; left:50%;
@@ -75,7 +75,7 @@
     width:11%; z-index:2; pointer-events:none;
   }
   .stage-caption{
-    position:absolute; bottom:8%; left:50%;
+    position:absolute; top:8%; left:50%;
     transform:translateX(-50%);
     z-index:2; pointer-events:none;
     font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -282,10 +282,11 @@
 
 <section class="project-section wrap">
   <div class="project-stage" id="stage">
+    <img src="./tower.png" alt="" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:80%;width:auto;object-fit:contain;z-index:1;pointer-events:none;" />
     <div class="stage-caption">in the age of Augmented Reality</div>
     <svg id="glasses-svg" viewBox="0 0 1362 429" overflow="visible"
       xmlns="http://www.w3.org/2000/svg"
-      style="position:absolute;width:70%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;">
+      style="position:absolute;width:95%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;opacity:0.35;display:none;">
       <defs>
         <linearGradient id="gl" gradientUnits="userSpaceOnUse" x1="200" y1="0" x2="600" y2="429">
           <stop offset="0%"   stop-color="#b8d4f4" stop-opacity="0.07"/>
@@ -296,7 +297,7 @@
         fill="url(#gl)" stroke="none"/>
       <path d="M929.159 397.117C978.582 429.895 1243.15 452.038 1297.64 387.827C1380.65 290.018 1386.21 43.6331 1297.64 18.8705C1224.82 -1.49087 920.666 -20.312 826.37 47.347C753.896 99.3489 844.933 341.259 929.159 397.117Z"
         fill="url(#gl)" stroke="none"/>
-      <image href="./glasses.png" x="-204.38" y="-56" width="1770.76" height="541"/>
+      <image href="./glasses.png" x="-204.38" y="-56" width="1770.76" height="541" style="display:none"/>
     </svg>
   </div>
 </section>
@@ -385,8 +386,8 @@
       'precision mediump float;',
       'uniform sampler2D uTex;',
       'varying vec2 vUv;',
-      'const vec2 LC=vec2(.300,.500),RC=vec2(.700,.500),LR=vec2(.162,.216);',
-      'const float RS=.58;',
+      'const vec2 LC=vec2(.214,.500),RC=vec2(.786,.500),LR=vec2(.232,.260);',
+      'const float RS=1.10;',
       'vec4 glass(vec2 u,vec2 c){',
       '  vec2 d=(u-c)/LR;float t=dot(d,d);',
       '  if(t>=1.)return texture2D(uTex,u);',
