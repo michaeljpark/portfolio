@@ -282,11 +282,15 @@
 
 <section class="project-section wrap">
   <video
+    id="ongen-showcase-video"
     src="./OnGen2026Showcase.mp4"
     autoplay
     loop
     muted
+    defaultMuted
     playsinline
+    webkit-playsinline
+    disableRemotePlayback
     preload="auto"
     style="width:100%; display:block; border-radius:20px; background:#0a0a0a;"
   ></video>
@@ -515,6 +519,27 @@ window.addEventListener('load', function(){
     if(!userScrolled && window.scrollY > 0) window.scrollTo(0, 0);
   }, 50);
   setTimeout(function(){ clearInterval(guard); }, 3000);
+
+  // Mobile autoplay fallback (iOS Safari, Android Chrome)
+  var v = document.getElementById('ongen-showcase-video');
+  if(v){
+    v.muted = true;
+    v.defaultMuted = true;
+    v.setAttribute('muted','');
+    v.playsInline = true;
+    var tryPlay = function(){
+      var p = v.play();
+      if(p && p.catch) p.catch(function(){});
+    };
+    tryPlay();
+    document.addEventListener('visibilitychange', function(){
+      if(!document.hidden) tryPlay();
+    });
+    var kick = function(){ tryPlay(); };
+    ['touchstart','touchend','click','scroll'].forEach(function(e){
+      window.addEventListener(e, kick, { once:true, passive:true });
+    });
+  }
 });
 </script>
 </body>
