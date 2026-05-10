@@ -225,28 +225,60 @@
     .app-embed-logo svg{ width:50%; }
   }
 
-  .kpi-section{ padding-bottom:64px; }
-  .kpi-row{
-    display:grid; grid-template-columns:1fr 1fr 1fr;
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    padding:32px 0;
+  .kpi-section{ padding-top:64px; padding-bottom:64px; }
+  .kpi-head{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    margin-bottom:48px; gap:24px;
   }
-  .kpi{ display:flex; flex-direction:column; gap:6px; padding:0 40px; }
-  .kpi:first-child{ padding-left:0; }
-  .kpi:last-child{ padding-right:0; }
-  .kpi + .kpi{ border-left:1px solid var(--line); }
-  .kpi-num{
-    font-size:clamp(28px,3.5vw,48px); font-weight:500;
+  .kpi-title-wrap{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .kpi-title{
+    font-size:clamp(32px,4vw,56px); font-weight:400;
     letter-spacing:-0.05em; line-height:1;
   }
-  .kpi-label{ font-size:13px; color:var(--muted); }
+  .kpi-title-meta{
+    font-size:clamp(11px,0.9vw,14px); color:var(--muted);
+    letter-spacing:-0.03em;
+  }
+  .kpi-hero{ display:flex; align-items:baseline; gap:10px; }
+  .kpi-hero-num{
+    font-size:clamp(32px,4vw,56px); font-weight:400;
+    letter-spacing:-0.05em; line-height:1;
+  }
+  .kpi-hero-label{
+    font-size:clamp(13px,1.1vw,16px); color:var(--ink);
+    letter-spacing:-0.03em;
+  }
+
+  .kpi-grid{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:24px; flex-wrap:wrap;
+  }
+  .kpi-item{ display:flex; flex-direction:column; gap:8px; }
+  .kpi-num{
+    font-size:clamp(28px,3.2vw,44px); font-weight:400;
+    letter-spacing:-0.05em; line-height:1; color:var(--muted);
+    display:flex; align-items:baseline; gap:6px;
+  }
+  .kpi-num .unit{
+    font-size:clamp(11px,0.9vw,14px); color:var(--muted); font-weight:400;
+    letter-spacing:-0.03em;
+  }
+  .kpi-label{
+    font-size:clamp(12px,0.95vw,14px); color:var(--muted); line-height:1.4;
+    letter-spacing:-0.03em;
+  }
 
   @media(max-width:880px){
     .hero-name{ font-size:clamp(24px,7vw,48px); }
-    .kpi-row{ padding:24px 0; }
-    .kpi{ padding:0 20px; }
     .stage-caption{ font-size:clamp(10px,2.4vw,14px); }
+    .kpi-section{ padding-top:48px; padding-bottom:48px; }
+    .kpi-head{ margin-bottom:40px; }
+    .kpi-grid{
+      display:grid; grid-template-columns:1fr 1fr; gap:32px 24px;
+      justify-content:initial;
+    }
+    .kpi-item:nth-child(2),
+    .kpi-item:nth-child(4){ align-items:flex-end; text-align:right; }
   }
 </style>
 </head>
@@ -361,18 +393,32 @@
 </section>
 
 <section class="kpi-section wrap">
-  <div class="kpi-row">
-    <div class="kpi">
-      <div class="kpi-num">—</div>
-      <div class="kpi-label">—</div>
+  <div class="kpi-head">
+    <div class="kpi-title-wrap">
+      <div class="kpi-title">KPIs</div>
+      <div class="kpi-title-meta">(Projected · April 19 – May 11, 2026)</div>
     </div>
-    <div class="kpi">
-      <div class="kpi-num">—</div>
-      <div class="kpi-label">—</div>
+    <div class="kpi-hero">
+      <span class="kpi-hero-num">408</span>
+      <span class="kpi-hero-label">Sessions</span>
     </div>
-    <div class="kpi">
-      <div class="kpi-num">—</div>
-      <div class="kpi-label">—</div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-item">
+      <div class="kpi-num"><span>147</span><span class="unit">Test Users</span></div>
+      <div class="kpi-label">(Guest 121 / Registered 26)</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-num"><span>34.6%</span></div>
+      <div class="kpi-label">Personal Podcast Adoption (9)</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-num"><span>35.6</span><span class="unit">Sec</span></div>
+      <div class="kpi-label">Interaction Median</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-num"><span>2.4</span><span class="unit">Sec</span></div>
+      <div class="kpi-label">per interaction</div>
     </div>
   </div>
 </section>
