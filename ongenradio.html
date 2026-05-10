@@ -280,6 +280,39 @@
     .kpi-item:nth-child(2),
     .kpi-item:nth-child(4){ align-items:flex-end; text-align:right; }
   }
+
+  .hyp-section{ padding-top:64px; padding-bottom:64px; border-top:1px solid var(--line); }
+  .hyp-head{ margin-bottom:48px; }
+  .hyp-title{
+    font-size:clamp(32px,4vw,56px); font-weight:400;
+    letter-spacing:-0.05em; line-height:1;
+  }
+  .hyp-list{
+    list-style:none; padding:0; margin:0;
+    display:flex; flex-direction:column;
+  }
+  .hyp-list li{
+    display:flex; gap:32px; align-items:baseline;
+    padding:24px 0;
+    border-top:1px solid var(--line);
+  }
+  .hyp-list li:last-child{ border-bottom:1px solid var(--line); }
+  .hyp-num{
+    font-size:clamp(18px,1.8vw,28px); color:var(--muted);
+    letter-spacing:-0.04em; line-height:1.35; flex-shrink:0;
+    min-width:48px;
+  }
+  .hyp-text{
+    font-size:clamp(18px,1.8vw,28px); font-weight:400;
+    letter-spacing:-0.04em; line-height:1.35;
+    color:var(--ink);
+  }
+  @media(max-width:880px){
+    .hyp-section{ padding-top:48px; padding-bottom:48px; }
+    .hyp-head{ margin-bottom:32px; }
+    .hyp-list li{ gap:20px; padding:20px 0; }
+    .hyp-num{ min-width:28px; }
+  }
 </style>
 </head>
 <body>
@@ -421,6 +454,26 @@
       <div class="kpi-label">per interaction</div>
     </div>
   </div>
+</section>
+
+<section class="hyp-section wrap">
+  <div class="hyp-head">
+    <div class="hyp-title">Hypothesis</div>
+  </div>
+  <ol class="hyp-list">
+    <li>
+      <span class="hyp-num">01</span>
+      <span class="hyp-text">Location-based discovery will integrate naturally within an AR environment.</span>
+    </li>
+    <li>
+      <span class="hyp-num">02</span>
+      <span class="hyp-text">Utilizing a radio-style format will boost engagement within the AR interface.</span>
+    </li>
+    <li>
+      <span class="hyp-num">03</span>
+      <span class="hyp-text">Micro-interactions will extend user dwell time and session duration.</span>
+    </li>
+  </ol>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
