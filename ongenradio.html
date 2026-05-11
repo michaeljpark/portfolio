@@ -359,16 +359,10 @@
     display:flex; flex-direction:column;
     gap:14px;
     min-height:100%;
-    transition:flex-grow .5s cubic-bezier(.22,.61,.36,1),
-               background-color .35s ease;
-    will-change:flex-grow;
+    transition:background-color .35s ease;
   }
   @media (hover:hover){
-    .tl-gate-row:hover .tl-card{ flex-grow:0.85; }
-    .tl-gate-row .tl-card:hover{
-      flex-grow:1.4;
-      background:#1a1a1a;
-    }
+    .tl-card:hover{ background:#1a1a1a; }
   }
 
   .tl-card-head{
@@ -771,8 +765,6 @@
     </div>
   </div>
 </section>
-
-<section class="hyp-section wrap">
 
 <section class="hyp-section wrap">
   <div class="hyp-head">
