@@ -655,8 +655,7 @@
   .ft-head{ margin-bottom:56px; }
   .ft-grid{
     list-style:none; padding:0; margin:0;
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    display:flex;
     gap:20px;
   }
   .ft-card{
@@ -667,6 +666,14 @@
     justify-content:space-between;
     min-height:clamp(220px,22vw,300px);
     gap:48px;
+    flex:1 1 0;
+    min-width:0;
+    transition:flex-grow .5s cubic-bezier(.22,.61,.36,1),
+               background-color .4s ease;
+  }
+  @media(min-width:881px){
+    .ft-grid:hover .ft-card{ flex-grow:0.7; }
+    .ft-grid .ft-card:hover{ flex-grow:1.9; background:#161616; }
   }
   .ft-title{
     font-size:clamp(18px,1.55vw,24px);
@@ -687,12 +694,14 @@
     font-size:clamp(11px,0.8vw,13px);
     color:var(--muted);
     letter-spacing:-0.01em;
+    align-self:flex-end;
+    text-align:right;
   }
 
   @media(max-width:880px){
     .ft-section{ padding-top:72px; padding-bottom:80px; }
     .ft-head{ margin-bottom:36px; }
-    .ft-grid{ grid-template-columns:1fr; gap:14px; }
+    .ft-grid{ flex-direction:column; gap:14px; }
     .ft-card{ min-height:0; gap:24px; padding:24px; }
     .ft-title{ font-size:clamp(18px,5vw,22px); }
     .ft-sub{ font-size:clamp(12px,3.4vw,14px); }
