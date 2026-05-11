@@ -339,9 +339,17 @@
   }
   .tl-phase-meta .strong{ color:var(--ink); }
 
-  /* === Timeline: node-based with floating card === */
+  /* Scroll-driven desktop sticky wrapper */
+  .tl-scroll{
+    position:relative;
+    height:600vh;
+    padding:30vh 0;
+  }
   .tl-board{
     display:block;
+    position:sticky;
+    top:50vh;
+    transform:translateY(-50%);
   }
 
   /* Card stage — fixed-height frame; cards are absolutely positioned and cross-fade */
@@ -474,22 +482,16 @@
   .tl-node.is-active .tl-node-tag,
   .tl-node:hover .tl-node-tag{ color:#bdbdbd; }
 
-  /* Phase divider between Gate 3 and Gate 4 on the desktop track */
-  .tl-node[data-gate="4"]::before{
-    content:'';
-    position:absolute;
-    top:-4px;
-    left:-0.5px;
-    width:1px; height:26px;
-    background:#3a3a3a;
-  }
+  /* Phase divider removed */
 
   @media(max-width:880px){
     .tl-section{ padding-top:48px; padding-bottom:48px; }
     .tl-head{ margin-bottom:16px; flex-direction:column; gap:6px; }
     .tl-phase-meta{ text-align:left; }
 
+    .tl-scroll{ height:auto; }
     .tl-board{
+      position:static;
       display:grid;
       grid-template-columns:64px 1fr;
       column-gap:14px;
@@ -768,6 +770,7 @@
     </div>
   </div>
 
+  <div class="tl-scroll" data-tl-scroll>
   <div class="tl-board" data-tl-board>
     <div class="tl-stage">
       <article class="tl-card is-active" data-gate="1">
@@ -910,6 +913,7 @@
       </button>
     </div>
   </div>
+  </div>
 </section>
 
 <section class="hyp-section wrap">
@@ -933,7 +937,7 @@
 </section>
 
 <script>
-/* Timeline node interaction: hover (desktop) + scroll-active (mobile) */
+/* Timeline node interaction: scroll-driven (desktop+mobile) with hover override on desktop */
 (function(){
   var boards = document.querySelectorAll('[data-tl-board]');
   if(!boards.length) return;
@@ -944,6 +948,7 @@
     var nodes = Array.prototype.slice.call(board.querySelectorAll('.tl-node'));
     var cards = board.querySelectorAll('.tl-card');
     var track = board.querySelector('.tl-track');
+    var scrollWrap = board.closest('[data-tl-scroll]');
 
     function activate(gate){
       var idx = 0;
@@ -955,14 +960,13 @@
       cards.forEach(function(c){
         c.classList.toggle('is-active', c.getAttribute('data-gate') === gate);
       });
-      // mobile progress fill — fill up to active dot
       if(track && nodes.length > 1){
         var pct = (idx / (nodes.length - 1)) * 100;
         track.style.setProperty('--tl-progress', pct + '%');
       }
     }
 
-    // Hover / focus (desktop) + click (always)
+    // Hover / focus (desktop only) + click (always)
     nodes.forEach(function(node){
       var gate = node.getAttribute('data-gate');
       node.addEventListener('mouseenter', function(){
@@ -973,31 +977,39 @@
       node.addEventListener('click', function(){ activate(gate); });
     });
 
-    // Scroll-driven activation (mobile)
-    var io = null;
-    function setupObserver(){
-      if(io){ io.disconnect(); io = null; }
-      if(!mqMobile.matches) return;
-      io = new IntersectionObserver(function(entries){
-        var best = null;
-        var bestDist = Infinity;
-        var center = window.innerHeight / 2;
-        nodes.forEach(function(n){
-          var r = n.getBoundingClientRect();
-          var d = Math.abs((r.top + r.height/2) - center);
-          if(d < bestDist){ bestDist = d; best = n; }
-        });
-        if(best){ activate(best.getAttribute('data-gate')); }
-      }, {
-        root: null,
-        rootMargin: '-45% 0px -45% 0px',
-        threshold: 0
+    // Scroll-driven activation (desktop via scroll wrapper, mobile via node positions)
+    var ticking = false;
+    function onScroll(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){
+        ticking = false;
+        if(mqMobile.matches){
+          // mobile: closest node to viewport center
+          var best = null;
+          var bestDist = Infinity;
+          var center = window.innerHeight / 2;
+          nodes.forEach(function(n){
+            var r = n.getBoundingClientRect();
+            var d = Math.abs((r.top + r.height/2) - center);
+            if(d < bestDist){ bestDist = d; best = n; }
+          });
+          if(best){ activate(best.getAttribute('data-gate')); }
+        } else if(scrollWrap){
+          // desktop: progress through scroll wrapper
+          var r = scrollWrap.getBoundingClientRect();
+          var total = r.height - window.innerHeight;
+          if(total <= 0) return;
+          var p = Math.min(1, Math.max(0, -r.top / total));
+          // map to one of N nodes
+          var idx = Math.min(nodes.length - 1, Math.floor(p * nodes.length));
+          activate(nodes[idx].getAttribute('data-gate'));
+        }
       });
-      nodes.forEach(function(n){ io.observe(n); });
     }
-    setupObserver();
-    mqMobile.addEventListener ? mqMobile.addEventListener('change', setupObserver)
-                              : mqMobile.addListener(setupObserver);
+    window.addEventListener('scroll', onScroll, { passive:true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
   });
 })();
 </script>
