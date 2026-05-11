@@ -344,7 +344,7 @@
   .tl-scroll{
     position:relative;
     height:600vh;
-    padding:30vh 0;
+    padding:30vh 0 10vh;
   }
   .tl-board{
     display:block;
@@ -550,6 +550,49 @@
     }
     .tl-node-meta{ display:none; }
     .tl-node[data-gate="4"]::before{ display:none; }
+  }
+
+  /* === Departure section === */
+  .dep-section{
+    padding-top:120px;
+    padding-bottom:120px;
+    border-top:1px solid var(--line);
+  }
+  .dep-block{
+    font-size:clamp(28px,4vw,64px);
+    font-weight:400;
+    letter-spacing:-0.05em;
+    line-height:1.08;
+    color:var(--ink);
+  }
+  /* Alternating white/grey glow */
+  .dep-block .a,
+  .dep-block .b{
+    transition:color 1.6s ease, text-shadow 1.6s ease;
+  }
+  .dep-block .a{
+    color:var(--ink);
+    animation:depPulseA 4s ease-in-out infinite;
+  }
+  .dep-block .b{
+    color:var(--muted);
+    animation:depPulseB 4s ease-in-out infinite;
+  }
+  @keyframes depPulseA{
+    0%,100%   { color:var(--ink);   text-shadow:0 0 24px rgba(255,255,255,0.18); }
+    50%       { color:#3a3a3a;      text-shadow:0 0 0 rgba(255,255,255,0); }
+  }
+  @keyframes depPulseB{
+    0%,100%   { color:#3a3a3a;      text-shadow:0 0 0 rgba(255,255,255,0); }
+    50%       { color:var(--ink);   text-shadow:0 0 24px rgba(255,255,255,0.18); }
+  }
+  .dep-block + .dep-block{
+    margin-top:clamp(80px,12vw,180px);
+    text-align:right;
+  }
+  @media(max-width:880px){
+    .dep-section{ padding-top:80px; padding-bottom:80px; }
+    .dep-block + .dep-block{ margin-top:64px; }
   }
 
   .hyp-section{ padding-top:64px; padding-bottom:64px; border-top:1px solid var(--line); }
@@ -913,6 +956,17 @@
       </button>
     </div>
   </div>
+  </div>
+</section>
+
+<section class="dep-section wrap">
+  <div class="dep-block">
+    <span class="a">User-Centric Context</span><br>
+    <span class="b">and AR Device Integration</span>
+  </div>
+  <div class="dep-block">
+    <span class="a">Recreating Physical</span> <span class="b">interactions<br>
+    in Digital Environments</span>
   </div>
 </section>
 
