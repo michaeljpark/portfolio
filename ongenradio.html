@@ -339,30 +339,37 @@
   }
   .tl-phase-meta .strong{ color:var(--ink); }
 
-  .tl-shell{
-    border-radius:24px;
-    padding:0;
-    display:flex; flex-direction:column;
-    gap:clamp(16px,1.6vw,20px);
+  /* === Timeline: node-based with floating card === */
+  .tl-board{
+    display:block;
   }
 
-  .tl-gate-row{
-    display:flex;
-    gap:clamp(12px,1.4vw,20px);
+  /* Card stage — fixed-height frame; cards are absolutely positioned and cross-fade */
+  .tl-stage{
+    position:relative;
+    min-height:320px;
   }
-
   .tl-card{
-    flex:1 1 0;
-    background:transparent;
+    position:absolute;
+    inset:0;
+    background:#121212;
+    border:1px solid #1f1f1f;
     border-radius:20px;
-    padding:clamp(16px,1.6vw,22px);
+    padding:clamp(20px,2vw,28px);
     display:flex; flex-direction:column;
     gap:14px;
-    min-height:100%;
-    transition:background-color .35s ease;
+    opacity:0; visibility:hidden;
+    transform:translateY(10px);
+    transition:opacity .45s cubic-bezier(.22,.61,.36,1),
+               transform .45s cubic-bezier(.22,.61,.36,1),
+               visibility 0s linear .45s;
+    pointer-events:none;
   }
-  @media (hover:hover){
-    .tl-card:hover{ background:#1a1a1a; }
+  .tl-card.is-active{
+    opacity:1; visibility:visible;
+    transform:translateY(0);
+    transition-delay:0s;
+    pointer-events:auto;
   }
 
   .tl-card-head{
@@ -371,62 +378,176 @@
   }
   .tl-gate-id{
     font-size:clamp(11px,0.85vw,12px);
-    font-weight:500;
-    letter-spacing:-0.02em;
+    font-weight:500; letter-spacing:-0.02em;
     color:var(--muted);
   }
   .tl-gate-tag{
-    font-size:11px;
-    color:var(--muted);
+    font-size:11px; color:var(--muted);
     letter-spacing:-0.02em;
     padding:4px 10px;
     border:1px solid #2e2e2e;
     border-radius:999px;
     white-space:nowrap;
   }
-
   .tl-card-title{
-    font-size:clamp(16px,1.4vw,20px);
-    font-weight:500;
-    letter-spacing:-0.04em;
-    line-height:1.25;
-    color:var(--ink);
+    font-size:clamp(18px,1.6vw,24px);
+    font-weight:500; letter-spacing:-0.04em;
+    line-height:1.25; color:var(--ink);
   }
   .tl-card-sub{
     font-size:clamp(12px,0.95vw,14px);
-    color:var(--muted);
-    letter-spacing:-0.03em;
-    line-height:1.4;
-    margin-top:-6px;
+    color:var(--muted); letter-spacing:-0.03em;
+    line-height:1.4; margin-top:-6px;
   }
-
   .tl-card-list{
-    list-style:none; padding:0; margin:0;
-    display:flex; flex-direction:column;
-    gap:8px;
+    list-style:none; padding:14px 0 0; margin:0;
+    display:flex; flex-direction:column; gap:8px;
     border-top:1px solid #262626;
-    padding-top:14px;
-  }  .tl-card-list li{
-    font-size:clamp(11px,0.82vw,12px);
-    color:#cfcfcf;
-    letter-spacing:-0.03em;
-    line-height:1.4;
-    transition:font-size .35s cubic-bezier(.22,.61,.36,1);
+  }
+  .tl-card-list li{
+    font-size:clamp(12px,0.9vw,13px);
+    color:#cfcfcf; letter-spacing:-0.03em;
+    line-height:1.45;
   }
   .tl-card-list li .dim{ color:var(--muted); }
-  @media (hover:hover){
-    .tl-card:hover .tl-card-list li{
-      font-size:clamp(12px,0.95vw,14px);
-    }
+
+  /* Track + nodes (desktop horizontal) */
+  .tl-track{
+    position:relative;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:32px 0 4px;
+    margin-top:clamp(20px,2.4vw,32px);
+  }
+  .tl-track::before{
+    content:'';
+    position:absolute;
+    left:4%; right:4%;
+    top:calc(32px + 9px);
+    height:1px;
+    background:#262626;
+  }
+  .tl-node{
+    position:relative;
+    flex:1 1 0;
+    display:flex; flex-direction:column;
+    align-items:center; gap:12px;
+    background:transparent; border:0;
+    cursor:pointer;
+    color:var(--muted);
+    padding:0; font:inherit;
+    z-index:1;
+  }
+  .tl-node-dot{
+    width:18px; height:18px;
+    border-radius:50%;
+    background:var(--bg);
+    border:1px solid #3a3a3a;
+    transition:transform .35s cubic-bezier(.22,.61,.36,1),
+               background-color .35s, border-color .35s,
+               box-shadow .35s;
+  }
+  .tl-node-meta{
+    display:flex; flex-direction:column;
+    align-items:center; gap:4px;
+  }
+  .tl-node-label{
+    font-size:12px; letter-spacing:-0.02em;
+    color:var(--muted);
+    transition:color .35s;
+  }
+  .tl-node-tag{
+    font-size:10.5px; letter-spacing:-0.02em;
+    color:#5a5a5a;
+    transition:color .35s;
+  }
+  .tl-node.is-active .tl-node-dot,
+  .tl-node:hover .tl-node-dot{
+    background:var(--ink);
+    border-color:var(--ink);
+    transform:scale(1.35);
+    box-shadow:0 0 0 6px rgba(255,255,255,0.06);
+  }
+  .tl-node.is-active .tl-node-label,
+  .tl-node:hover .tl-node-label{ color:var(--ink); }
+  .tl-node.is-active .tl-node-tag,
+  .tl-node:hover .tl-node-tag{ color:#bdbdbd; }
+
+  /* Phase divider between Gate 3 and Gate 4 on the desktop track */
+  .tl-node[data-gate="4"]::before{
+    content:'';
+    position:absolute;
+    top:-4px;
+    left:-0.5px;
+    width:1px; height:26px;
+    background:#3a3a3a;
   }
 
   @media(max-width:880px){
     .tl-section{ padding-top:48px; padding-bottom:48px; }
-    .tl-phase + .tl-phase{ margin-top:32px; }
     .tl-head{ margin-bottom:16px; flex-direction:column; gap:6px; }
     .tl-phase-meta{ text-align:left; }
-    .tl-gate-row{ flex-direction:column; }
-    .tl-card{ flex:none; }
+
+    .tl-board{
+      display:grid;
+      grid-template-columns:64px 1fr;
+      column-gap:14px;
+      align-items:start;
+    }
+    .tl-stage{
+      grid-column:2;
+      grid-row:1;
+      position:sticky;
+      top:calc((100vh - 60vh) / 2);
+      align-self:start;
+      min-height:60vh;
+      background:var(--bg);
+    }
+    .tl-track{
+      grid-column:1;
+      grid-row:1;
+      flex-direction:column;
+      justify-content:space-between;
+      align-items:center;
+      padding:24px 0 48vh;
+      margin-top:0;
+      min-height:240vh;
+    }
+    .tl-track::before{
+      left:50%;
+      right:auto;
+      top:24px; bottom:24px;
+      width:1px; height:auto;
+      background:#262626;
+      transform:translateX(-0.5px);
+    }
+    /* progress fill on left indicator */
+    .tl-track::after{
+      content:'';
+      position:absolute;
+      left:50%;
+      top:24px;
+      width:1px;
+      height:var(--tl-progress, 0%);
+      background:var(--ink);
+      transform:translateX(-0.5px);
+      transition:height .4s cubic-bezier(.22,.61,.36,1);
+      pointer-events:none;
+    }
+    .tl-node{
+      flex:none;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      padding:0;
+      width:100%;
+    }
+    .tl-node-dot{
+      width:12px; height:12px;
+    }
+    .tl-node-meta{ display:none; }
+    .tl-node[data-gate="4"]::before{ display:none; }
   }
 
   .hyp-section{ padding-top:64px; padding-bottom:64px; border-top:1px solid var(--line); }
@@ -639,129 +760,154 @@
 </section>
 
 <section class="tl-section wrap">
-  <div class="hyp-head" style="margin-bottom:32px;">
+  <div class="tl-head" style="margin-bottom:32px;">
     <div class="hyp-title">Timeline</div>
-  </div>
-
-  <div class="tl-phase">
-    <div class="tl-head">
-      <div class="tl-phase-title">Phase I — Fall 2025</div>
-      <div class="tl-phase-meta">
-        <div><span class="strong">Sep 8, 2025 – Dec 8, 2025</span></div>
-        <div>3 Months · 13 Weeks</div>
-      </div>
-    </div>
-
-    <div class="tl-shell">
-      <div class="tl-gate-row">
-        <div class="tl-card">
-          <div class="tl-card-head">
-            <span class="tl-gate-id">Gate 1</span>
-            <span class="tl-gate-tag">Research</span>
-          </div>
-          <div class="tl-card-title">Thesis Foundation</div>
-          <div class="tl-card-sub">Digitalize the Physical World</div>
-          <ul class="tl-card-list">
-            <li>Thesis Statement <span class="dim">— Design is not a fixed result</span></li>
-            <li>Guiding Research Questions <span class="dim">— AR Ecosystem / Context / Hybrid Experience</span></li>
-            <li>Case Study Analysis</li>
-            <li>Technical Research</li>
-          </ul>
-        </div>
-
-        <div class="tl-card">
-          <div class="tl-card-head">
-            <span class="tl-gate-id">Gate 2</span>
-            <span class="tl-gate-tag">Systems</span>
-          </div>
-          <div class="tl-card-title">Artificial Ecosystem</div>
-          <div class="tl-card-sub">Physicalize Digital Experience</div>
-          <ul class="tl-card-list">
-            <li>Concept Framework <span class="dim">— Ecosystem Thinking</span></li>
-            <li>Market Opportunity</li>
-            <li>Thesis Direction — Signals</li>
-            <li>System Mapping</li>
-          </ul>
-        </div>
-
-        <div class="tl-card">
-          <div class="tl-card-head">
-            <span class="tl-gate-id">Gate 3</span>
-            <span class="tl-gate-tag">Interaction</span>
-          </div>
-          <div class="tl-card-title">HAX Repositioning</div>
-          <div class="tl-card-sub">Artificial Ecosystem &amp; Human-AI Experience</div>
-          <ul class="tl-card-list">
-            <li>Perceptual Mapping / Brand Positioning</li>
-            <li>User Flow <span class="dim">— Journey Mapping</span></li>
-            <li>Service Scope Setting</li>
-            <li>Technology Selection <span class="dim">— Gemini 3.1 / ElevenLabs / Firebase</span></li>
-            <li>Benchmark Analysis</li>
-          </ul>
-        </div>
-      </div>
+    <div class="tl-phase-meta">
+      <div><span class="strong">Sep 8, 2025 – Apr 20, 2026</span></div>
+      <div>6 Months · 28 Weeks · Phase I + II</div>
     </div>
   </div>
 
-  <div class="tl-phase">
-    <div class="tl-head">
-      <div class="tl-phase-title">Phase II — Winter 2026</div>
-      <div class="tl-phase-meta">
-        <div><span class="strong">Jan 6, 2026 – Apr 20, 2026</span></div>
-        <div>3 Months · 15 Weeks</div>
-      </div>
+  <div class="tl-board" data-tl-board>
+    <div class="tl-stage">
+      <article class="tl-card is-active" data-gate="1">
+        <div class="tl-card-head">
+          <span class="tl-gate-id">Gate 1 · Phase I</span>
+          <span class="tl-gate-tag">Research</span>
+        </div>
+        <div class="tl-card-title">Thesis Foundation</div>
+        <div class="tl-card-sub">Digitalize the Physical World</div>
+        <ul class="tl-card-list">
+          <li>Thesis Statement <span class="dim">— Design is not a fixed result</span></li>
+          <li>Guiding Research Questions <span class="dim">— AR Ecosystem / Context / Hybrid Experience</span></li>
+          <li>Case Study Analysis</li>
+          <li>Technical Research</li>
+        </ul>
+      </article>
+
+      <article class="tl-card" data-gate="2">
+        <div class="tl-card-head">
+          <span class="tl-gate-id">Gate 2 · Phase I</span>
+          <span class="tl-gate-tag">Systems</span>
+        </div>
+        <div class="tl-card-title">Artificial Ecosystem</div>
+        <div class="tl-card-sub">Physicalize Digital Experience</div>
+        <ul class="tl-card-list">
+          <li>Concept Framework <span class="dim">— Ecosystem Thinking</span></li>
+          <li>Market Opportunity</li>
+          <li>Thesis Direction — Signals</li>
+          <li>System Mapping</li>
+        </ul>
+      </article>
+
+      <article class="tl-card" data-gate="3">
+        <div class="tl-card-head">
+          <span class="tl-gate-id">Gate 3 · Phase I</span>
+          <span class="tl-gate-tag">Interaction</span>
+        </div>
+        <div class="tl-card-title">HAX Repositioning</div>
+        <div class="tl-card-sub">Artificial Ecosystem &amp; Human-AI Experience</div>
+        <ul class="tl-card-list">
+          <li>Perceptual Mapping / Brand Positioning</li>
+          <li>User Flow <span class="dim">— Journey Mapping</span></li>
+          <li>Service Scope Setting</li>
+          <li>Technology Selection <span class="dim">— Gemini 3.1 / ElevenLabs / Firebase</span></li>
+          <li>Benchmark Analysis</li>
+        </ul>
+      </article>
+
+      <article class="tl-card" data-gate="4">
+        <div class="tl-card-head">
+          <span class="tl-gate-id">Gate 4 · Phase II</span>
+          <span class="tl-gate-tag">Prototype</span>
+        </div>
+        <div class="tl-card-title">Technical Feasibility</div>
+        <div class="tl-card-sub">Audio Layer &amp; Artificial Ecosystem</div>
+        <ul class="tl-card-list">
+          <li>Validation I <span class="dim">— Peer Critique [20] · Internal Pilot</span></li>
+          <li>Business Model Sketch</li>
+          <li>User Engagement <span class="dim">— UAT · KPIs</span></li>
+          <li>Theme / Pitch</li>
+        </ul>
+      </article>
+
+      <article class="tl-card" data-gate="5">
+        <div class="tl-card-head">
+          <span class="tl-gate-id">Gate 5 · Phase II</span>
+          <span class="tl-gate-tag">Management</span>
+        </div>
+        <div class="tl-card-title">Design Management</div>
+        <div class="tl-card-sub">AR &amp; Audio Digital Layer</div>
+        <ul class="tl-card-list">
+          <li>Service Blueprinting <span class="dim">— Feasibility Test</span></li>
+          <li>Decision-Making Framework</li>
+          <li>Prototypes I &amp; II</li>
+          <li>Data Pipeline <span class="dim">— SQL / Technical</span></li>
+          <li>Branding · Essence · Attributes</li>
+          <li>Video Making</li>
+        </ul>
+      </article>
+
+      <article class="tl-card" data-gate="6">
+        <div class="tl-card-head">
+          <span class="tl-gate-id">Gate 6 · Phase II</span>
+          <span class="tl-gate-tag">Publication</span>
+        </div>
+        <div class="tl-card-title">General Level · Pre-pilot</div>
+        <div class="tl-card-sub">OnGen Radio 2026</div>
+        <ul class="tl-card-list">
+          <li>Validation II <span class="dim">— Closed Pilot [50–100]</span></li>
+          <li>Design Audit Process</li>
+          <li>Prototype III · Platform Stabilization</li>
+          <li>Visual Brand Language</li>
+          <li>Marketing Strategies</li>
+        </ul>
+      </article>
     </div>
 
-    <div class="tl-shell">
-      <div class="tl-gate-row">
-        <div class="tl-card">
-          <div class="tl-card-head">
-            <span class="tl-gate-id">Gate 4</span>
-            <span class="tl-gate-tag">Prototype</span>
-          </div>
-          <div class="tl-card-title">Technical Feasibility</div>
-          <div class="tl-card-sub">Audio Layer &amp; Artificial Ecosystem</div>
-          <ul class="tl-card-list">
-            <li>Validation I <span class="dim">— Peer Critique [20] · Internal Pilot</span></li>
-            <li>Business Model Sketch</li>
-            <li>User Engagement <span class="dim">— UAT · KPIs</span></li>
-            <li>Theme / Pitch</li>
-          </ul>
-        </div>
-
-        <div class="tl-card">
-          <div class="tl-card-head">
-            <span class="tl-gate-id">Gate 5</span>
-            <span class="tl-gate-tag">Management</span>
-          </div>
-          <div class="tl-card-title">Design Management</div>
-          <div class="tl-card-sub">AR &amp; Audio Digital Layer</div>
-          <ul class="tl-card-list">
-            <li>Service Blueprinting <span class="dim">— Feasibility Test</span></li>
-            <li>Decision-Making Framework</li>
-            <li>Prototypes I &amp; II</li>
-            <li>Data Pipeline <span class="dim">— SQL / Technical</span></li>
-            <li>Branding · Essence · Attributes</li>
-            <li>Video Making</li>
-          </ul>
-        </div>
-
-        <div class="tl-card">
-          <div class="tl-card-head">
-            <span class="tl-gate-id">Gate 6</span>
-            <span class="tl-gate-tag">Publication</span>
-          </div>
-          <div class="tl-card-title">General Level · Pre-pilot</div>
-          <div class="tl-card-sub">OnGen Radio 2026</div>
-          <ul class="tl-card-list">
-            <li>Validation II <span class="dim">— Closed Pilot [50–100]</span></li>
-            <li>Design Audit Process</li>
-            <li>Prototype III · Platform Stabilization</li>
-            <li>Visual Brand Language</li>
-            <li>Marketing Strategies</li>
-          </ul>
-        </div>
-      </div>
+    <div class="tl-track">
+      <button type="button" class="tl-node is-active" data-gate="1">
+        <span class="tl-node-dot"></span>
+        <span class="tl-node-meta">
+          <span class="tl-node-label">Gate 1</span>
+          <span class="tl-node-tag">Research</span>
+        </span>
+      </button>
+      <button type="button" class="tl-node" data-gate="2">
+        <span class="tl-node-dot"></span>
+        <span class="tl-node-meta">
+          <span class="tl-node-label">Gate 2</span>
+          <span class="tl-node-tag">Systems</span>
+        </span>
+      </button>
+      <button type="button" class="tl-node" data-gate="3">
+        <span class="tl-node-dot"></span>
+        <span class="tl-node-meta">
+          <span class="tl-node-label">Gate 3</span>
+          <span class="tl-node-tag">Interaction</span>
+        </span>
+      </button>
+      <button type="button" class="tl-node" data-gate="4">
+        <span class="tl-node-dot"></span>
+        <span class="tl-node-meta">
+          <span class="tl-node-label">Gate 4</span>
+          <span class="tl-node-tag">Prototype</span>
+        </span>
+      </button>
+      <button type="button" class="tl-node" data-gate="5">
+        <span class="tl-node-dot"></span>
+        <span class="tl-node-meta">
+          <span class="tl-node-label">Gate 5</span>
+          <span class="tl-node-tag">Management</span>
+        </span>
+      </button>
+      <button type="button" class="tl-node" data-gate="6">
+        <span class="tl-node-dot"></span>
+        <span class="tl-node-meta">
+          <span class="tl-node-label">Gate 6</span>
+          <span class="tl-node-tag">Publication</span>
+        </span>
+      </button>
     </div>
   </div>
 </section>
@@ -785,6 +931,76 @@
     </li>
   </ol>
 </section>
+
+<script>
+/* Timeline node interaction: hover (desktop) + scroll-active (mobile) */
+(function(){
+  var boards = document.querySelectorAll('[data-tl-board]');
+  if(!boards.length) return;
+
+  var mqMobile = window.matchMedia('(max-width: 880px)');
+
+  boards.forEach(function(board){
+    var nodes = Array.prototype.slice.call(board.querySelectorAll('.tl-node'));
+    var cards = board.querySelectorAll('.tl-card');
+    var track = board.querySelector('.tl-track');
+
+    function activate(gate){
+      var idx = 0;
+      nodes.forEach(function(n, i){
+        var on = n.getAttribute('data-gate') === gate;
+        n.classList.toggle('is-active', on);
+        if(on) idx = i;
+      });
+      cards.forEach(function(c){
+        c.classList.toggle('is-active', c.getAttribute('data-gate') === gate);
+      });
+      // mobile progress fill — fill up to active dot
+      if(track && nodes.length > 1){
+        var pct = (idx / (nodes.length - 1)) * 100;
+        track.style.setProperty('--tl-progress', pct + '%');
+      }
+    }
+
+    // Hover / focus (desktop) + click (always)
+    nodes.forEach(function(node){
+      var gate = node.getAttribute('data-gate');
+      node.addEventListener('mouseenter', function(){
+        if(mqMobile.matches) return;
+        activate(gate);
+      });
+      node.addEventListener('focus', function(){ activate(gate); });
+      node.addEventListener('click', function(){ activate(gate); });
+    });
+
+    // Scroll-driven activation (mobile)
+    var io = null;
+    function setupObserver(){
+      if(io){ io.disconnect(); io = null; }
+      if(!mqMobile.matches) return;
+      io = new IntersectionObserver(function(entries){
+        var best = null;
+        var bestDist = Infinity;
+        var center = window.innerHeight / 2;
+        nodes.forEach(function(n){
+          var r = n.getBoundingClientRect();
+          var d = Math.abs((r.top + r.height/2) - center);
+          if(d < bestDist){ bestDist = d; best = n; }
+        });
+        if(best){ activate(best.getAttribute('data-gate')); }
+      }, {
+        root: null,
+        rootMargin: '-45% 0px -45% 0px',
+        threshold: 0
+      });
+      nodes.forEach(function(n){ io.observe(n); });
+    }
+    setupObserver();
+    mqMobile.addEventListener ? mqMobile.addEventListener('change', setupObserver)
+                              : mqMobile.addListener(setupObserver);
+  });
+})();
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
