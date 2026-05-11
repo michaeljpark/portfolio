@@ -323,7 +323,7 @@
   }
 
   /* Timeline */
-  .tl-section{ padding-top:64px; padding-bottom:64px; border-top:1px solid var(--line); }
+  .tl-section{ padding-top:64px; padding-bottom:24px; border-top:1px solid var(--line); }
   .tl-phase + .tl-phase{ margin-top:48px; }
   .tl-head{
     display:flex; justify-content:space-between; align-items:flex-start;
@@ -344,7 +344,7 @@
   .tl-scroll{
     position:relative;
     height:600vh;
-    padding:30vh 0 10vh;
+    padding:30vh 0 0;
   }
   .tl-board{
     display:block;
@@ -484,7 +484,7 @@
   /* Phase divider removed */
 
   @media(max-width:880px){
-    .tl-section{ padding-top:48px; padding-bottom:48px; }
+    .tl-section{ padding-top:48px; padding-bottom:24px; }
     .tl-head{ margin-bottom:16px; flex-direction:column; gap:6px; }
     .tl-phase-meta{ text-align:left; }
 
@@ -554,7 +554,7 @@
 
   /* === Departure section === */
   .dep-section{
-    padding-top:120px;
+    padding-top:64px;
     padding-bottom:120px;
     border-top:1px solid var(--line);
   }
@@ -591,7 +591,7 @@
     text-align:right;
   }
   @media(max-width:880px){
-    .dep-section{ padding-top:80px; padding-bottom:80px; }
+    .dep-section{ padding-top:48px; padding-bottom:80px; }
     .dep-block + .dep-block{ margin-top:64px; }
   }
 
