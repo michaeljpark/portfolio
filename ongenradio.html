@@ -266,6 +266,87 @@
     .app-embed-logo svg{ width:50%; }
   }
 
+  /* Seek section */
+  .seek-section{
+    padding-top:120px; padding-bottom:120px;
+    border-top:1px solid var(--line);
+  }
+  .seek-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(24px,4vw,64px);
+    align-items:center;
+  }
+  .seek-left{
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    min-height:clamp(280px,32vw,460px);
+  }
+  .seek-word{
+    position:relative;
+    font-size:clamp(72px,12vw,200px);
+    font-weight:400;
+    letter-spacing:-0.06em;
+    line-height:1;
+    color:var(--ink);
+    z-index:2;
+    animation:seekBreath 3.6s ease-in-out infinite;
+  }
+  @keyframes seekBreath{
+    0%, 100% {
+      opacity:0.78;
+      text-shadow:0 0 0 rgba(255,255,255,0);
+      transform:scale(1);
+    }
+    50% {
+      opacity:1;
+      text-shadow:0 0 48px rgba(255,255,255,0.32);
+      transform:scale(1.025);
+    }
+  }
+  .seek-wave{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:clamp(160px,18vw,260px);
+    height:clamp(160px,18vw,260px);
+    border-radius:50%;
+    border:1px solid var(--ink);
+    opacity:0;
+    pointer-events:none;
+    z-index:1;
+  }
+  .seek-wave.w1{ animation:seekWave 3.6s cubic-bezier(.22,.61,.36,1) infinite; }
+  .seek-wave.w2{ animation:seekWave 3.6s cubic-bezier(.22,.61,.36,1) infinite; animation-delay:1.2s; }
+  .seek-wave.w3{ animation:seekWave 3.6s cubic-bezier(.22,.61,.36,1) infinite; animation-delay:2.4s; }
+  @keyframes seekWave{
+    0%   { transform:translate(-50%,-50%) scale(0.4); opacity:0.45; }
+    70%  { opacity:0; }
+    100% { transform:translate(-50%,-50%) scale(2.4);  opacity:0; }
+  }
+  .seek-right{
+    position:relative;
+    width:100%;
+    border-radius:20px;
+    overflow:hidden;
+    background:#121212;
+    aspect-ratio:3/4;
+  }
+  .seek-right video{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  @media(max-width:880px){
+    .seek-section{ padding-top:72px; padding-bottom:72px; }
+    .seek-grid{ grid-template-columns:1fr; gap:28px; }
+    .seek-left{ min-height:200px; padding:24px 0; }
+    .seek-word{ font-size:clamp(56px,18vw,96px); }
+    .seek-wave{ width:clamp(120px,38vw,180px); height:clamp(120px,38vw,180px); }
+    .seek-right{ max-width:420px; margin:0 auto; }
+  }
+
   .kpi-section{ padding-top:120px; padding-bottom:120px; border-top:1px solid var(--line); }
   .kpi-head{
     display:flex; justify-content:space-between; align-items:flex-start;
@@ -726,7 +807,7 @@
     .ft-section{ padding-top:72px; padding-bottom:80px; }
     .ft-head{ margin-bottom:36px; }
     .ft-grid{ flex-direction:column; gap:14px; }
-    .ft-card{ min-height:0; gap:24px; padding:24px; }
+    .ft-card{ flex:0 0 auto; min-height:0; gap:24px; padding:24px; }
     .ft-title{ font-size:clamp(18px,5vw,22px); }
     .ft-sub{ font-size:clamp(12px,3.4vw,14px); }
     .ft-tag{ font-size:clamp(11px,3vw,13px); }
@@ -906,6 +987,20 @@
       <img src="./appleglasses.png" alt="">
       <img src="./rokid.png" alt="">
       <img src="./rayneo.png" alt="">
+    </div>
+  </div>
+</section>
+
+<section class="seek-section wrap">
+  <div class="seek-grid">
+    <div class="seek-left">
+      <span class="seek-wave w1"></span>
+      <span class="seek-wave w2"></span>
+      <span class="seek-wave w3"></span>
+      <span class="seek-word">Seek</span>
+    </div>
+    <div class="seek-right">
+      <video src="./seek.mp4" autoplay muted loop playsinline></video>
     </div>
   </div>
 </section>
