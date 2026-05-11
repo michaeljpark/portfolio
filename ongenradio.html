@@ -321,6 +321,121 @@
     .kpi-item:nth-child(4){ align-items:flex-end; text-align:right; }
   }
 
+  /* Timeline */
+  .tl-section{ padding-top:64px; padding-bottom:64px; border-top:1px solid var(--line); }
+  .tl-phase + .tl-phase{ margin-top:48px; }
+  .tl-head{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    margin-bottom:24px; gap:24px;
+  }
+  .tl-phase-title{
+    font-size:clamp(28px,3.4vw,44px); font-weight:400;
+    letter-spacing:-0.05em; line-height:1;
+  }
+  .tl-phase-meta{
+    text-align:right;
+    font-size:clamp(12px,1vw,14px); color:var(--muted);
+    letter-spacing:-0.03em; line-height:1.5;
+  }
+  .tl-phase-meta .strong{ color:var(--ink); }
+
+  .tl-shell{
+    border-radius:24px;
+    padding:0;
+    display:flex; flex-direction:column;
+    gap:clamp(16px,1.6vw,20px);
+  }
+
+  .tl-gate-row{
+    display:flex;
+    gap:clamp(12px,1.4vw,20px);
+  }
+
+  .tl-card{
+    flex:1 1 0;
+    background:transparent;
+    border-radius:20px;
+    padding:clamp(16px,1.6vw,22px);
+    display:flex; flex-direction:column;
+    gap:14px;
+    min-height:100%;
+    transition:flex-grow .5s cubic-bezier(.22,.61,.36,1),
+               background-color .35s ease;
+    will-change:flex-grow;
+  }
+  @media (hover:hover){
+    .tl-gate-row:hover .tl-card{ flex-grow:0.85; }
+    .tl-gate-row .tl-card:hover{
+      flex-grow:1.4;
+      background:#1a1a1a;
+    }
+  }
+
+  .tl-card-head{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px;
+  }
+  .tl-gate-id{
+    font-size:clamp(11px,0.85vw,12px);
+    font-weight:500;
+    letter-spacing:0.04em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+  .tl-gate-tag{
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:-0.02em;
+    padding:4px 10px;
+    border:1px solid #2e2e2e;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+
+  .tl-card-title{
+    font-size:clamp(16px,1.4vw,20px);
+    font-weight:500;
+    letter-spacing:-0.04em;
+    line-height:1.25;
+    color:var(--ink);
+  }
+  .tl-card-sub{
+    font-size:clamp(12px,0.95vw,14px);
+    color:var(--muted);
+    letter-spacing:-0.03em;
+    line-height:1.4;
+    margin-top:-6px;
+  }
+
+  .tl-card-list{
+    list-style:none; padding:0; margin:0;
+    display:flex; flex-direction:column;
+    gap:8px;
+    border-top:1px solid #262626;
+    padding-top:14px;
+  }  .tl-card-list li{
+    font-size:clamp(11px,0.82vw,12px);
+    color:#cfcfcf;
+    letter-spacing:-0.03em;
+    line-height:1.4;
+    transition:font-size .35s cubic-bezier(.22,.61,.36,1);
+  }
+  .tl-card-list li .dim{ color:var(--muted); }
+  @media (hover:hover){
+    .tl-card:hover .tl-card-list li{
+      font-size:clamp(12px,0.95vw,14px);
+    }
+  }
+
+  @media(max-width:880px){
+    .tl-section{ padding-top:48px; padding-bottom:48px; }
+    .tl-phase + .tl-phase{ margin-top:32px; }
+    .tl-head{ margin-bottom:16px; flex-direction:column; gap:6px; }
+    .tl-phase-meta{ text-align:left; }
+    .tl-gate-row{ flex-direction:column; }
+    .tl-card{ flex:none; }
+  }
+
   .hyp-section{ padding-top:64px; padding-bottom:64px; border-top:1px solid var(--line); }
   .hyp-head{ margin-bottom:48px; }
   .hyp-title{
@@ -529,6 +644,136 @@
     </div>
   </div>
 </section>
+
+<section class="tl-section wrap">
+  <div class="hyp-head" style="margin-bottom:32px;">
+    <div class="hyp-title">Timeline</div>
+  </div>
+
+  <div class="tl-phase">
+    <div class="tl-head">
+      <div class="tl-phase-title">Phase I — Fall 2025</div>
+      <div class="tl-phase-meta">
+        <div><span class="strong">Sep 8, 2025 – Dec 8, 2025</span></div>
+        <div>3 Months · 13 Weeks</div>
+      </div>
+    </div>
+
+    <div class="tl-shell">
+      <div class="tl-gate-row">
+        <div class="tl-card">
+          <div class="tl-card-head">
+            <span class="tl-gate-id">G1</span>
+            <span class="tl-gate-tag">Research</span>
+          </div>
+          <div class="tl-card-title">Thesis Foundation</div>
+          <div class="tl-card-sub">Digitalize the Physical World</div>
+          <ul class="tl-card-list">
+            <li>Thesis Statement <span class="dim">— Design is not a fixed result</span></li>
+            <li>Guiding Research Questions <span class="dim">— AR Ecosystem / Context / Hybrid Experience</span></li>
+            <li>Case Study Analysis</li>
+            <li>Technical Research</li>
+          </ul>
+        </div>
+
+        <div class="tl-card">
+          <div class="tl-card-head">
+            <span class="tl-gate-id">G2</span>
+            <span class="tl-gate-tag">Systems</span>
+          </div>
+          <div class="tl-card-title">Artificial Ecosystem</div>
+          <div class="tl-card-sub">Physicalize Digital Experience</div>
+          <ul class="tl-card-list">
+            <li>Concept Framework <span class="dim">— Ecosystem Thinking</span></li>
+            <li>Market Opportunity</li>
+            <li>Thesis Direction — Signals</li>
+            <li>System Mapping</li>
+          </ul>
+        </div>
+
+        <div class="tl-card">
+          <div class="tl-card-head">
+            <span class="tl-gate-id">G3</span>
+            <span class="tl-gate-tag">Interaction</span>
+          </div>
+          <div class="tl-card-title">HAX Repositioning</div>
+          <div class="tl-card-sub">Artificial Ecosystem &amp; Human-AI Experience</div>
+          <ul class="tl-card-list">
+            <li>Perceptual Mapping / Brand Positioning</li>
+            <li>User Flow <span class="dim">— Journey Mapping</span></li>
+            <li>Service Scope Setting</li>
+            <li>Technology Selection <span class="dim">— Gemini 3.1 / ElevenLabs / Firebase</span></li>
+            <li>Benchmark Analysis</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tl-phase">
+    <div class="tl-head">
+      <div class="tl-phase-title">Phase II — Winter 2026</div>
+      <div class="tl-phase-meta">
+        <div><span class="strong">Jan 6, 2026 – Apr 20, 2026</span></div>
+        <div>3 Months · 15 Weeks</div>
+      </div>
+    </div>
+
+    <div class="tl-shell">
+      <div class="tl-gate-row">
+        <div class="tl-card">
+          <div class="tl-card-head">
+            <span class="tl-gate-id">G4</span>
+            <span class="tl-gate-tag">Prototype</span>
+          </div>
+          <div class="tl-card-title">Technical Feasibility</div>
+          <div class="tl-card-sub">Audio Layer &amp; Artificial Ecosystem</div>
+          <ul class="tl-card-list">
+            <li>Validation I <span class="dim">— Peer Critique [20] · Internal Pilot</span></li>
+            <li>Business Model Sketch</li>
+            <li>User Engagement <span class="dim">— UAT · KPIs</span></li>
+            <li>Theme / Pitch</li>
+          </ul>
+        </div>
+
+        <div class="tl-card">
+          <div class="tl-card-head">
+            <span class="tl-gate-id">G5</span>
+            <span class="tl-gate-tag">Management</span>
+          </div>
+          <div class="tl-card-title">Design Management</div>
+          <div class="tl-card-sub">AR &amp; Audio Digital Layer</div>
+          <ul class="tl-card-list">
+            <li>Service Blueprinting <span class="dim">— Feasibility Test</span></li>
+            <li>Decision-Making Framework</li>
+            <li>Prototypes I &amp; II</li>
+            <li>Data Pipeline <span class="dim">— SQL / Technical</span></li>
+            <li>Branding · Essence · Attributes</li>
+            <li>Video Making</li>
+          </ul>
+        </div>
+
+        <div class="tl-card">
+          <div class="tl-card-head">
+            <span class="tl-gate-id">G6</span>
+            <span class="tl-gate-tag">Publication</span>
+          </div>
+          <div class="tl-card-title">General Level · Pre-pilot</div>
+          <div class="tl-card-sub">OnGen Radio 2026</div>
+          <ul class="tl-card-list">
+            <li>Validation II <span class="dim">— Closed Pilot [50–100]</span></li>
+            <li>Design Audit Process</li>
+            <li>Prototype III · Platform Stabilization</li>
+            <li>Visual Brand Language</li>
+            <li>Marketing Strategies</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hyp-section wrap">
 
 <section class="hyp-section wrap">
   <div class="hyp-head">
