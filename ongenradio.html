@@ -362,7 +362,6 @@
     position:absolute;
     inset:0;
     background:#121212;
-    border:1px solid #1f1f1f;
     border-radius:20px;
     padding:clamp(20px,2vw,28px);
     display:flex; flex-direction:column;
@@ -593,6 +592,111 @@
   @media(max-width:880px){
     .dep-section{ padding-top:48px; padding-bottom:80px; }
     .dep-block + .dep-block{ margin-top:64px; }
+  }
+
+  /* === Value Shift section === */
+  .vs-section{
+    padding-top:96px;
+    padding-bottom:120px;
+    border-top:1px solid var(--line);
+  }
+  .vs-head{ margin-bottom:64px; }
+  .vs-stage{
+    position:relative;
+    width:100%;
+    overflow:visible;
+  }
+  .vs-stage-large{ min-height:clamp(220px,26vw,360px); }
+  .vs-stage-small{
+    min-height:clamp(96px,9vw,140px);
+    margin-top:clamp(32px,4vw,56px);
+  }
+  .vs-text{
+    position:absolute; top:0; left:0; right:0;
+    font-weight:400;
+    letter-spacing:-0.05em;
+    line-height:1.05;
+    will-change:color;
+    color:#3a3a3a;
+  }
+  .vs-line{
+    white-space:nowrap;
+    display:block;
+    width:-moz-fit-content;
+    width:fit-content;
+    max-width:100%;
+    position:relative;
+    will-change:left,transform;
+  }
+  .vs-stage-large .vs-text{
+    font-size:clamp(40px,6.4vw,96px);
+  }
+  .vs-stage-small .vs-text{
+    font-size:clamp(15px,1.4vw,22px);
+    line-height:1.55;
+    letter-spacing:-0.03em;
+  }
+
+  @media(max-width:880px){
+    .vs-section{ padding-top:64px; padding-bottom:80px; }
+    .vs-head{ margin-bottom:40px; }
+    .vs-stage-large{ min-height:clamp(140px,32vw,220px); }
+    .vs-stage-small{ min-height:clamp(70px,14vw,110px); margin-top:28px; }
+    .vs-stage-large .vs-text{ font-size:clamp(28px,7vw,52px); }
+    .vs-stage-small .vs-text{ font-size:clamp(13px,3.2vw,18px); line-height:1.5; }
+  }
+
+  /* Features section */
+  .ft-section{
+    padding-top:120px;
+    padding-bottom:140px;
+    border-top:1px solid var(--line);
+  }
+  .ft-head{ margin-bottom:56px; }
+  .ft-grid{
+    list-style:none; padding:0; margin:0;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  .ft-card{
+    background:#121212;
+    border-radius:20px;
+    padding:clamp(28px,2.4vw,40px);
+    display:flex; flex-direction:column;
+    justify-content:space-between;
+    min-height:clamp(220px,22vw,300px);
+    gap:48px;
+  }
+  .ft-title{
+    font-size:clamp(18px,1.55vw,24px);
+    font-weight:400;
+    letter-spacing:-0.03em;
+    line-height:1.2;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .ft-sub{
+    font-size:clamp(12px,0.9vw,14px);
+    color:var(--muted);
+    letter-spacing:-0.01em;
+    line-height:1.45;
+    margin:0;
+  }
+  .ft-tag{
+    font-size:clamp(11px,0.8vw,13px);
+    color:var(--muted);
+    letter-spacing:-0.01em;
+  }
+
+  @media(max-width:880px){
+    .ft-section{ padding-top:72px; padding-bottom:80px; }
+    .ft-head{ margin-bottom:36px; }
+    .ft-grid{ grid-template-columns:1fr; gap:14px; }
+    .ft-card{ min-height:0; gap:24px; padding:24px; }
+    .ft-title{ font-size:clamp(18px,5vw,22px); }
+    .ft-sub{ font-size:clamp(12px,3.4vw,14px); }
+    .ft-tag{ font-size:clamp(11px,3vw,13px); }
   }
 
   .hyp-section{ padding-top:64px; padding-bottom:64px; border-top:1px solid var(--line); }
@@ -989,6 +1093,182 @@
     </li>
   </ol>
 </section>
+
+<section class="vs-section wrap">
+  <div class="vs-head">
+    <div class="hyp-title">Value Shift</div>
+  </div>
+
+  <div class="vs-stage vs-stage-large">
+    <div class="vs-text" data-vs-text data-vs-dir="lr"
+         data-vs-a="Outdated&#10;Radio&#10;Station"
+         data-vs-b="AI to AI&#10;Regional Channel /&#10;Contextual Ecosystem"></div>
+  </div>
+
+  <div class="vs-stage vs-stage-small">
+    <div class="vs-text" data-vs-text data-vs-dir="rl"
+         data-vs-a="Slow&#10;Confined&#10;Outdated Media"
+         data-vs-b="Alternative Channel&#10;Regional&#10;Stable"></div>
+  </div>
+</section>
+
+<section class="ft-section wrap">
+  <div class="ft-head">
+    <div class="hyp-title">Features</div>
+  </div>
+
+  <ul class="ft-grid">
+    <li class="ft-card">
+      <div class="ft-text">
+        <h3 class="ft-title">LLM Powered System</h3>
+        <p class="ft-sub">for AR Devices</p>
+      </div>
+      <div class="ft-tag">LLM-Based Analysis</div>
+    </li>
+    <li class="ft-card">
+      <div class="ft-text">
+        <h3 class="ft-title">Self-developing Design</h3>
+        <p class="ft-sub">Context-Aware</p>
+      </div>
+      <div class="ft-tag">Realtime Context</div>
+    </li>
+    <li class="ft-card">
+      <div class="ft-text">
+        <h3 class="ft-title">Hybrid Experience</h3>
+        <p class="ft-sub">Adaptive Layers</p>
+      </div>
+      <div class="ft-tag">Enhanced Learnability</div>
+    </li>
+  </ul>
+</section>
+
+<script>
+/* Value Shift: slide back-and-forth with per-character scramble morph */
+(function(){
+  var els = document.querySelectorAll('[data-vs-text]');
+  if(!els.length) return;
+
+  var POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz/.-';
+  var HOLD = 1600;
+  var MORPH = 2800;
+
+  function easeInOut(t){
+    // smoother sine-based easing
+    return 0.5 - Math.cos(Math.PI * t) / 2;
+  }
+
+  function scrambleLine(from, to, t){
+    var len = Math.max(from.length, to.length);
+    if(len === 0) return '';
+    // Sequential per-character morph: each char has its own slot in time,
+    // a short scramble window inside the slot, then settles to target.
+    var out = '';
+    var scrambleRatio = 0.55; // fraction of each slot spent scrambling
+    for(var i = 0; i < len; i++){
+      var fc = from.charAt(i);
+      var tc = to.charAt(i);
+      // same char (incl. matching spaces) — no change, no flicker
+      if(fc === tc){ out += fc; continue; }
+
+      var slotStart = i / len;
+      var slotEnd   = (i + 1) / len;
+      var winEnd    = slotStart + (slotEnd - slotStart) * scrambleRatio;
+
+      if(t <= slotStart){
+        // not its turn yet — keep original (or empty if being generated)
+        out += fc;
+      } else if(t >= winEnd){
+        // settled to target (or removed if target empty)
+        out += tc;
+      } else {
+        // scrambling window
+        if(tc === ''){
+          // being removed: random flicker, will disappear at winEnd
+          out += POOL.charAt(Math.floor(Math.random() * POOL.length));
+        } else if(fc === '' || fc === ' '){
+          // being generated from nothing/space: flicker random
+          out += POOL.charAt(Math.floor(Math.random() * POOL.length));
+        } else {
+          out += POOL.charAt(Math.floor(Math.random() * POOL.length));
+        }
+      }
+    }
+    return out;
+  }
+
+  function colorAt(p){
+    var c = Math.round(58 + (255 - 58) * p);
+    return 'rgb(' + c + ',' + c + ',' + c + ')';
+  }
+
+  els.forEach(function(el){
+    var Atxt = (el.getAttribute('data-vs-a') || '').split('\n');
+    var Btxt = (el.getAttribute('data-vs-b') || '').split('\n');
+    var lineCount = Math.max(Atxt.length, Btxt.length);
+    var dirLR = (el.getAttribute('data-vs-dir') || 'lr') === 'lr';
+
+    // Build line spans
+    el.innerHTML = '';
+    var lineEls = [];
+    for(var i = 0; i < lineCount; i++){
+      var s = document.createElement('span');
+      s.className = 'vs-line';
+      s.textContent = Atxt[i] || '';
+      el.appendChild(s);
+      lineEls.push(s);
+    }
+
+    function applyPos(p){
+      var anchor = dirLR ? p : (1 - p);
+      // Each line anchors continuously by its own width — no discrete flex flip.
+      var leftPct = (anchor * 100) + '%';
+      var txPct   = 'translateX(' + (-anchor * 100) + '%)';
+      for(var i = 0; i < lineEls.length; i++){
+        lineEls[i].style.left = leftPct;
+        lineEls[i].style.transform = txPct;
+      }
+      el.style.color = colorAt(p);
+      var glow = Math.max(0, (p - 0.5) * 2) * 0.18;
+      el.style.textShadow = glow > 0 ? '0 0 32px rgba(255,255,255,' + glow + ')' : 'none';
+    }
+
+    function renderLines(from, to, t){
+      for(var i = 0; i < lineCount; i++){
+        var f = from[i] || '';
+        var g = to[i]   || '';
+        lineEls[i].textContent = (t >= 1) ? g : (t <= 0 ? f : scrambleLine(f, g, t));
+      }
+    }
+
+    renderLines(Atxt, Btxt, 0);
+    applyPos(0);
+
+    var phase = 'hold-A';
+    var phaseStart = performance.now();
+
+    function tick(now){
+      var elapsed = now - phaseStart;
+      if(phase === 'hold-A'){
+        if(elapsed >= HOLD){ phase = 'A-to-B'; phaseStart = now; }
+      } else if(phase === 'A-to-B'){
+        var t = Math.min(1, elapsed / MORPH);
+        applyPos(easeInOut(t));
+        renderLines(Atxt, Btxt, t);
+        if(t >= 1){ phase = 'hold-B'; phaseStart = now; }
+      } else if(phase === 'hold-B'){
+        if(elapsed >= HOLD){ phase = 'B-to-A'; phaseStart = now; }
+      } else if(phase === 'B-to-A'){
+        var t2 = Math.min(1, elapsed / MORPH);
+        applyPos(1 - easeInOut(t2));
+        renderLines(Btxt, Atxt, t2);
+        if(t2 >= 1){ phase = 'hold-A'; phaseStart = now; }
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+})();
+</script>
 
 <script>
 /* Timeline node interaction: scroll-driven (desktop+mobile) with hover override on desktop */
