@@ -848,6 +848,158 @@
     .ft-tag{ font-size:clamp(11px,3vw,13px); }
   }
 
+  /* SAM section */
+  .sam-section{
+    padding-top:120px; padding-bottom:140px;
+    border-top:1px solid var(--line);
+  }
+  .sam-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    column-gap:clamp(48px,8vw,140px);
+    row-gap:clamp(48px,6vw,96px);
+    align-items:start;
+  }
+  .sam-main{ position:relative; display:flex; flex-direction:column; }
+  .sam-side{
+    display:flex; flex-direction:column;
+    gap:clamp(56px,7vw,96px);
+    padding-top:clamp(8px,1vw,24px);
+    text-align:right;
+    align-items:flex-end;
+  }
+  .sam-eyebrow{
+    font-size:clamp(18px,1.6vw,24px);
+    font-weight:400;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+    line-height:1.1;
+  }
+  .sam-eyebrow-sub{
+    font-size:clamp(12px,0.95vw,14px);
+    color:var(--muted);
+    margin-top:6px;
+    letter-spacing:-0.01em;
+    line-height:1.4;
+  }
+  .sam-big{
+    margin-top:clamp(16px,1.8vw,32px);
+    display:flex; align-items:flex-end;
+    line-height:0.9;
+  }
+  .sam-big .sam-count{
+    font-size:clamp(110px,16vw,220px);
+    font-weight:400;
+    letter-spacing:-0.06em;
+    line-height:0.88;
+  }
+  .sam-big .sam-unit{
+    font-size:clamp(42px,6vw,90px);
+    line-height:1;
+    letter-spacing:-0.04em;
+    margin-left:0.04em;
+    padding-bottom:0.12em;
+    color:var(--ink);
+  }
+  .sam-foot{
+    margin-top:clamp(32px,4vw,56px);
+    font-size:clamp(24px,2.6vw,38px);
+    letter-spacing:-0.03em;
+    line-height:1.1;
+  }
+  .sam-stat{ display:flex; flex-direction:column; align-items:flex-end; }
+  .sam-mid{
+    margin-top:clamp(10px,1.2vw,18px);
+    display:flex; align-items:flex-end;
+    justify-content:flex-end;
+    line-height:0.9;
+  }
+  .sam-mid .sam-count{
+    font-size:clamp(56px,7.6vw,112px);
+    font-weight:400;
+    letter-spacing:-0.05em;
+    line-height:0.9;
+  }
+  .sam-mid .sam-unit{
+    font-size:clamp(24px,3vw,44px);
+    letter-spacing:-0.03em;
+    line-height:1;
+    margin-left:0.05em;
+    padding-bottom:0.1em;
+  }
+  .sam-mid .sam-unit-pre{ margin-left:0; margin-right:0.02em; padding-bottom:0; align-self:flex-end; }
+  .sam-cap{
+    margin-top:12px;
+    font-size:clamp(12px,0.95vw,14px);
+    color:var(--muted);
+    letter-spacing:-0.01em;
+    line-height:1.45;
+  }
+  .sam-blurb{
+    margin:clamp(28px,3vw,44px) 0 0;
+    max-width:none;
+    text-align:left;
+    font-size:clamp(14px,1.05vw,17px);
+    color:var(--ink);
+    letter-spacing:-0.01em;
+    line-height:1.45;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .sam-sources{
+    margin-top:clamp(14px,1.6vw,22px);
+    display:flex; flex-direction:column; gap:4px;
+    font-size:clamp(11px,0.8vw,12px);
+    color:#6a6a6a;
+    letter-spacing:-0.01em;
+    line-height:1.5;
+  }
+
+  /* SAM reveal */
+  .sam-count,
+  .sam-unit,
+  .sam-eyebrow,
+  .sam-eyebrow-sub,
+  .sam-foot,
+  .sam-cap,
+  .sam-blurb,
+  .sam-sources{
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .9s ease, transform .9s cubic-bezier(.22,.61,.36,1);
+  }
+  .sam-section.is-revealed .sam-eyebrow{ transition-delay:.05s; }
+  .sam-section.is-revealed .sam-eyebrow-sub{ transition-delay:.12s; }
+  .sam-section.is-revealed .sam-count{ transition-delay:.2s; }
+  .sam-section.is-revealed .sam-unit{ transition-delay:.25s; }
+  .sam-section.is-revealed .sam-foot{ transition-delay:.35s; }
+  .sam-section.is-revealed .sam-cap{ transition-delay:.4s; }
+  .sam-section.is-revealed .sam-blurb{ transition-delay:.5s; }
+  .sam-section.is-revealed .sam-sources{ transition-delay:.6s; }
+  .sam-section.is-revealed .sam-count,
+  .sam-section.is-revealed .sam-unit,
+  .sam-section.is-revealed .sam-eyebrow,
+  .sam-section.is-revealed .sam-eyebrow-sub,
+  .sam-section.is-revealed .sam-foot,
+  .sam-section.is-revealed .sam-cap,
+  .sam-section.is-revealed .sam-blurb,
+  .sam-section.is-revealed .sam-sources{
+    opacity:1; transform:translateY(0);
+  }
+
+  @media(max-width:880px){
+    .sam-section{ padding-top:72px; padding-bottom:80px; }
+    .sam-grid{ grid-template-columns:1fr; gap:48px; }
+    .sam-side{ flex-direction:column; gap:40px; padding-top:0; }
+    .sam-big .sam-count{ font-size:clamp(96px,32vw,180px); }
+    .sam-big .sam-unit{ font-size:clamp(40px,12vw,72px); }
+    .sam-mid .sam-count{ font-size:clamp(60px,18vw,110px); }
+    .sam-mid .sam-unit{ font-size:clamp(26px,7vw,42px); }
+    .sam-foot{ font-size:clamp(22px,6.5vw,32px); margin-top:32px; }
+    .sam-blurb{ font-size:clamp(14px,4vw,17px); white-space:normal; }
+  }
+
   .hyp-section{ padding-top:64px; padding-bottom:64px; border-top:1px solid var(--line); }
   .hyp-head{ margin-bottom:48px; }
   .hyp-title{
@@ -1289,35 +1441,83 @@
   </div>
 </section>
 
-<section class="ft-section wrap">
+<section class="sam-section wrap">
   <div class="ft-head">
-    <div class="hyp-title">Features</div>
+    <div class="hyp-title">Serviceable Addressable Market</div>
   </div>
 
-  <ul class="ft-grid">
-    <li class="ft-card">
-      <div class="ft-text">
-        <h3 class="ft-title">LLM Powered System</h3>
-        <p class="ft-sub">for AR Devices</p>
+  <div class="sam-grid">
+    <div class="sam-main">
+      <div class="sam-eyebrow">CAGR</div>
+      <div class="sam-eyebrow-sub">AR Glasses 2025 – 2030</div>
+      <div class="sam-big">
+        <span class="sam-count" data-count-to="59" data-count-suffix="">0</span><span class="sam-unit sam-unit-pct">%</span>
       </div>
-      <div class="ft-tag">LLM-Based Analysis</div>
-    </li>
-    <li class="ft-card">
-      <div class="ft-text">
-        <h3 class="ft-title">Geolocation Design</h3>
-        <p class="ft-sub">Context-Aware</p>
+      <div class="sam-foot">Growth</div>
+
+      <p class="sam-blurb">Led by Apple and Meta, the AR glasses market is maturing, while audio-based AR apps are still an emerging sector.</p>
+
+      <div class="sam-sources">
+        <div>AR Glasses Market by 2030 · marketsandmarkets.com/Market-Reports/ar-glass-market-130690160.html</div>
+        <div>AR Glasses 2025→2030 · marketsandmarkets.com/Market-Reports/ar-glass-market-130690160.html</div>
+        <div>AR Hardware Users by 2030 · statista.com/outlook/amo/ar-vr/augmented-reality/worldwide</div>
       </div>
-      <div class="ft-tag">Realtime Context</div>
-    </li>
-    <li class="ft-card">
-      <div class="ft-text">
-        <h3 class="ft-title">Hybrid Experience</h3>
-        <p class="ft-sub">Adaptive Layers</p>
+    </div>
+
+    <div class="sam-side">
+      <div class="sam-stat">
+        <div class="sam-eyebrow">AR Users</div>
+        <div class="sam-mid">
+          <span class="sam-count" data-count-to="160" data-count-suffix="">0</span><span class="sam-unit">M</span>
+        </div>
+        <div class="sam-cap">AR Hardware Users by 2030</div>
       </div>
-      <div class="ft-tag">Digitalized City</div>
-    </li>
-  </ul>
+      <div class="sam-stat">
+        <div class="sam-eyebrow">AR Market</div>
+        <div class="sam-mid">
+          <span class="sam-unit sam-unit-pre">$</span><span class="sam-count" data-count-to="10" data-count-suffix="">0</span><span class="sam-unit">B</span>
+        </div>
+        <div class="sam-cap">AR Glasses Market by 2030</div>
+      </div>
+    </div>
+  </div>
 </section>
+
+<script>
+/* SAM: reveal on scroll + count-up numbers */
+(function(){
+  var section = document.querySelector('.sam-section');
+  if(!section) return;
+  var counts = section.querySelectorAll('[data-count-to]');
+
+  function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+
+  function runCount(el){
+    var target = parseFloat(el.getAttribute('data-count-to')) || 0;
+    var suffix = el.getAttribute('data-count-suffix') || '';
+    var dur = 1600;
+    var start = performance.now() + 200; // small stagger after reveal
+    function frame(now){
+      var t = Math.max(0, Math.min(1, (now - start) / dur));
+      var v = Math.round(easeOut(t) * target);
+      el.textContent = v + suffix;
+      if(t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        section.classList.add('is-revealed');
+        counts.forEach(runCount);
+        io.disconnect();
+      }
+    });
+  },{ threshold:0.25 });
+  io.observe(section);
+})();
+</script>
 
 <script>
 /* Value Shift: slide back-and-forth with per-character scramble morph */
