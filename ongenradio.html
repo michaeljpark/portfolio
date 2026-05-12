@@ -8,8 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root{
     --bg:#0a0a0a; --ink:#ffffff; --muted:#8a8a8a; --line:#2a2a2a;
@@ -778,39 +776,14 @@
     border-radius:20px;
     padding:clamp(28px,2.4vw,40px);
     display:flex; flex-direction:column;
-    min-height:clamp(360px,30vw,460px);
-    gap:20px;
+    justify-content:space-between;
+    min-height:clamp(220px,22vw,300px);
+    gap:48px;
     flex:1 1 0;
     min-width:0;
     transition:flex-grow .5s cubic-bezier(.22,.61,.36,1),
                background-color .4s ease;
   }
-  .ft-anim{
-    flex:1 1 auto;
-    position:relative;
-    border-radius:12px;
-    overflow:hidden;
-    background:#0d0d0d;
-    min-height:140px;
-  }
-  .ft-anim > svg,
-  .ft-anim > .ft-map{
-    position:absolute; inset:0;
-    width:100%; height:100%;
-    display:block;
-  }
-  .ft-map{
-    background:#0d0d0d;
-  }
-  .ft-map .leaflet-container{
-    background:#0d0d0d;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
-  .ft-map .leaflet-container *{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  }
-  .ft-map .leaflet-control-attribution,
-  .ft-map .leaflet-control-zoom{ display:none !important; }
   @media(min-width:881px){
     .ft-grid:hover .ft-card{ flex-grow:0.7; }
     .ft-grid .ft-card:hover{ flex-grow:1.9; background:#161616; }
@@ -1300,18 +1273,12 @@
         <h3 class="ft-title">LLM Powered System</h3>
         <p class="ft-sub">for AR Devices</p>
       </div>
-      <div class="ft-anim">
-        <svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true" data-ft-iso></svg>
-      </div>
       <div class="ft-tag">LLM-Based Analysis</div>
     </li>
     <li class="ft-card">
       <div class="ft-text">
         <h3 class="ft-title">Geolocation Design</h3>
         <p class="ft-sub">Context-Aware</p>
-      </div>
-      <div class="ft-anim">
-        <div class="ft-map" data-ft-map></div>
       </div>
       <div class="ft-tag">Realtime Context</div>
     </li>
@@ -1320,248 +1287,10 @@
         <h3 class="ft-title">Hybrid Experience</h3>
         <p class="ft-sub">Adaptive Layers</p>
       </div>
-      <div class="ft-anim"></div>
       <div class="ft-tag">Digitalized City</div>
     </li>
   </ul>
 </section>
-
-<script>
-/* Features animations: metaballs, leaflet dark map, isometric node layers */
-(function(){
-  // ---- 1) Metaballs traveling L->R across horizontal lines ----
-  var ballHost = document.querySelector('[data-ft-balls]');
-  if(ballHost){
-    var SVGNS = 'http://www.w3.org/2000/svg';
-    var rows = [40, 80, 120, 160, 200];
-    var balls = [];
-    // build many small circles per row, with phase offsets
-    rows.forEach(function(y, ri){
-      var count = 8;
-      for(var i = 0; i < count; i++){
-        var c = document.createElementNS(SVGNS, 'circle');
-        c.setAttribute('r', String(9 + Math.random()*5));
-        c.setAttribute('cy', String(y));
-        c.setAttribute('cx', '-20');
-        ballHost.appendChild(c);
-        balls.push({
-          el:c, y:y,
-          speed: 30 + Math.random()*22,
-          offset: -(ri*40 + i*55 + Math.random()*40)
-        });
-      }
-    });
-    var start = performance.now();
-    function tickBalls(now){
-      var t = (now - start) / 1000;
-      for(var i = 0; i < balls.length; i++){
-        var b = balls[i];
-        var x = ((b.offset + t * b.speed) % 500 + 500) % 500 - 50; // wrap -50..450
-        b.el.setAttribute('cx', x.toFixed(1));
-      }
-      requestAnimationFrame(tickBalls);
-    }
-    requestAnimationFrame(tickBalls);
-  }
-
-  // ---- 2) Leaflet dark map ----
-  function initMap(){
-    var host = document.querySelector('[data-ft-map]');
-    if(!host || !window.L) return;
-    var map = L.map(host, {
-      zoomControl:false, attributionControl:false,
-      dragging:false, scrollWheelZoom:false, doubleClickZoom:false,
-      boxZoom:false, keyboard:false, touchZoom:false, tap:false,
-      zoomAnimation:true
-    }).setView([43.6532, -79.3832], 14); // Toronto downtown
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19,
-      subdomains:'abcd'
-    }).addTo(map);
-
-    var path = [
-      [43.6532, -79.3832], // Downtown
-      [43.6426, -79.3871], // CN Tower
-      [43.6629, -79.3957], // Kensington / U of T
-      [43.6677, -79.3948], // Annex
-      [43.6510, -79.3470]  // Distillery / east
-    ];
-    var idx = 0;
-    function drift(){
-      idx = (idx + 1) % path.length;
-      map.panTo(path[idx], { animate:true, duration:6, easeLinearity:0.5 });
-    }
-    setInterval(drift, 6500);
-
-    // make sure map sizes correctly once visible
-    setTimeout(function(){ map.invalidateSize(); }, 300);
-    var ro = new ResizeObserver(function(){ map.invalidateSize(); });
-    ro.observe(host);
-  }
-  if(window.L){ initMap(); }
-  else { window.addEventListener('load', initMap); }
-
-  // ---- 3) Isometric layered node grid (4x4, layers stacked left -> right) ----
-  var isoSvg = document.querySelector('[data-ft-iso]');
-  if(isoSvg){
-    var SVGNS2 = 'http://www.w3.org/2000/svg';
-    var W = 400, H = 240;
-    isoSvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-
-    var LAYERS = 7;
-    var COLS = 5, ROWS = 5;
-    var TILE = 28;
-    var ISO_X = TILE;
-    var ISO_Y = TILE * 0.5;
-    var LAYER_GAP_X = 54;
-    var LAYER_GAP_Y = 0;
-
-    // total horizontal extent (after 90° rotation each grid spans (COLS+ROWS-2)*ISO_Y wide, (COLS+ROWS-2)*ISO_X tall)
-    var oneGridW = (COLS + ROWS - 2) * ISO_Y;
-    var totalW = oneGridW + (LAYERS - 1) * LAYER_GAP_X;
-    var oneGridH = (COLS + ROWS - 2) * ISO_X;
-    var ox0 = (W - totalW) / 2;
-    var oy0 = H / 2 + (COLS - 1) * ISO_X / 2 - oneGridH / 2 + oneGridH / 2; // center vertically
-    oy0 = (H - oneGridH) / 2 + (COLS - 1) * ISO_X; // shift so r-c range fits
-
-    function project(c, r, layer){
-      // rotated 90° iso: diamond stands tall (vertical) instead of wide
-      var x = ox0 + layer * LAYER_GAP_X + (c + r) * ISO_Y;
-      var y = oy0 + layer * LAYER_GAP_Y + (r - c) * ISO_X;
-      return { x:x, y:y };
-    }
-
-    var nodesByLayer = [];
-    for(var L0 = 0; L0 < LAYERS; L0++){
-      var g = document.createElementNS(SVGNS2, 'g');
-      g.setAttribute('opacity', String(0.35 + L0 * 0.18));
-      isoSvg.appendChild(g);
-
-      var meshG = document.createElementNS(SVGNS2, 'g');
-      meshG.setAttribute('stroke', '#ffffff');
-      meshG.setAttribute('stroke-width', '1');
-      meshG.setAttribute('stroke-opacity', String(0.25 + L0 * 0.08));
-      meshG.setAttribute('fill', 'none');
-      for(var r = 0; r < ROWS; r++){
-        var p1 = project(0, r, L0);
-        var p2 = project(COLS - 1, r, L0);
-        var ln = document.createElementNS(SVGNS2, 'line');
-        ln.setAttribute('x1', p1.x); ln.setAttribute('y1', p1.y);
-        ln.setAttribute('x2', p2.x); ln.setAttribute('y2', p2.y);
-        meshG.appendChild(ln);
-      }
-      for(var c0 = 0; c0 < COLS; c0++){
-        var q1 = project(c0, 0, L0);
-        var q2 = project(c0, ROWS - 1, L0);
-        var ln2 = document.createElementNS(SVGNS2, 'line');
-        ln2.setAttribute('x1', q1.x); ln2.setAttribute('y1', q1.y);
-        ln2.setAttribute('x2', q2.x); ln2.setAttribute('y2', q2.y);
-        meshG.appendChild(ln2);
-      }
-      g.appendChild(meshG);
-
-      var picks = [];
-      var nPick = 4 + Math.floor(Math.random() * 3);
-      var slots = [];
-      for(var rr = 0; rr < ROWS; rr++) for(var cc = 0; cc < COLS; cc++) slots.push([cc, rr]);
-      for(var p = 0; p < nPick && slots.length; p++){
-        var idx2 = Math.floor(Math.random() * slots.length);
-        var pick = slots.splice(idx2, 1)[0];
-        picks.push({ c:pick[0], r:pick[1], layer:L0 });
-      }
-      picks.forEach(function(n){
-        var pos = project(n.c, n.r, n.layer);
-        n.pos = pos;
-        var dot = document.createElementNS(SVGNS2, 'circle');
-        dot.setAttribute('cx', pos.x);
-        dot.setAttribute('cy', pos.y);
-        dot.setAttribute('r', '2.5');
-        dot.setAttribute('fill', '#ffffff');
-        g.appendChild(dot);
-        n.el = dot;
-      });
-      nodesByLayer.push({ group:g, nodes:picks });
-    }
-
-    // connections between adjacent layers (left -> right)
-    var linkG = document.createElementNS(SVGNS2, 'g');
-    linkG.setAttribute('stroke', '#ffffff');
-    linkG.setAttribute('stroke-width', '1');
-    linkG.setAttribute('fill', 'none');
-    linkG.setAttribute('opacity', '0.7');
-    isoSvg.appendChild(linkG);
-
-    var links = [];
-    for(var L1 = 0; L1 < LAYERS - 1; L1++){
-      var a = nodesByLayer[L1].nodes;
-      var b = nodesByLayer[L1 + 1].nodes;
-      if(!a.length || !b.length) continue;
-      // For each node in layer A, connect to its nearest 1-2 neighbors in layer B
-      a.forEach(function(na, ai){
-        // compute distances to all in b
-        var scored = b.map(function(nb){
-          return { nb:nb, d:Math.hypot(nb.pos.x - na.pos.x, nb.pos.y - na.pos.y) };
-        }).sort(function(x,y){ return x.d - y.d; });
-        var pickN = 1 + (Math.random() < 0.45 ? 1 : 0); // 1 or 2 nearest
-        for(var k = 0; k < pickN && k < scored.length; k++){
-          var nb = scored[k].nb;
-          var ln3 = document.createElementNS(SVGNS2, 'line');
-          ln3.setAttribute('x1', na.pos.x); ln3.setAttribute('y1', na.pos.y);
-          ln3.setAttribute('x2', nb.pos.x); ln3.setAttribute('y2', nb.pos.y);
-          var len = scored[k].d;
-          ln3.setAttribute('stroke-dasharray', len);
-          ln3.setAttribute('stroke-dashoffset', len);
-          linkG.appendChild(ln3);
-          links.push({ el:ln3, len:len, delay: L1*700 + ai*180 + k*120 + Math.random()*250 });
-        }
-      });
-    }
-
-    // easing
-    function easeIO(t){ return 0.5 - Math.cos(Math.PI * t) / 2; }
-
-    // animate: draw lines in, hold, then fade, redraw next cycle
-    var t0 = performance.now();
-    function animateIso(now){
-      var t = now - t0;
-      var cycle = 7200;
-      var p = (t % cycle) / cycle; // 0..1
-      links.forEach(function(L2){
-        var localStart = (L2.delay % cycle) / cycle;
-        var drawSpan = 0.32; // 32% of cycle to draw a line
-        var localEnd   = Math.min(1, localStart + drawSpan);
-        var draw = 0;
-        if(p >= localStart && p <= localEnd){
-          draw = easeIO((p - localStart) / (localEnd - localStart));
-        } else if(p > localEnd){
-          draw = 1;
-        }
-        // fade out near end
-        var alpha = (p > 0.82) ? (1 - (p - 0.82) / 0.18) : 1;
-        L2.el.setAttribute('stroke-dashoffset', (L2.len * (1 - draw)).toFixed(1));
-        L2.el.setAttribute('opacity', (0.7 * alpha).toFixed(2));
-      });
-      requestAnimationFrame(animateIso);
-    }
-    requestAnimationFrame(animateIso);
-
-    // node pulse
-    var allNodes = [];
-    nodesByLayer.forEach(function(nl){ nl.nodes.forEach(function(n){ allNodes.push(n); }); });
-    var pulseT0 = performance.now();
-    function pulseNodes(now){
-      var tt = (now - pulseT0) / 1000;
-      allNodes.forEach(function(n, i){
-        var s = 1 + Math.sin(tt * 1.6 + i * 0.7) * 0.35;
-        n.el.setAttribute('r', (2.5 * s).toFixed(2));
-      });
-      requestAnimationFrame(pulseNodes);
-    }
-    requestAnimationFrame(pulseNodes);
-  }
-})();
-</script>
 
 <script>
 /* Value Shift: slide back-and-forth with per-character scramble morph */
