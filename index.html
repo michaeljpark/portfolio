@@ -501,9 +501,6 @@
   #tt-grid-wrap{
     position:absolute; inset:0;
     overflow:hidden;
-    animation:tt-breath 3.8s ease-in-out infinite;
-    animation-play-state: paused;
-    will-change: transform;
   }
   .tt-face{
     position:absolute; inset:0;
@@ -512,6 +509,10 @@
     filter:brightness(0.85);
     transition:opacity 1.2s ease;
   }
+  .tt-face video{
+    width:100%; height:100%;
+    object-fit:cover; display:block;
+  }
   .tt-face-back{ opacity:0; }
   .tt-swapped .tt-face-front{ opacity:0; }
   .tt-swapped .tt-face-back{ opacity:1; }
@@ -519,23 +520,7 @@
     0%,100%{ transform:scale(1); }
     50%{ transform:scale(1.06); }
   }
-  .tt-svg-wrap{
-    position:absolute; inset:0; z-index:1;
-    display:flex; align-items:center; justify-content:center;
-    padding:14%; pointer-events:none;
-    transform: translateY(-5%);
-  }
-  .tt-svg-wrap svg{ width:100%; height:auto; }
-  #tt-star{
-    transform-box:fill-box; transform-origin:center;
-    animation: tt-star 10s linear infinite;
-    animation-play-state: paused;
-    will-change: transform;
-  }
-  @keyframes tt-star{
-    from{ transform:rotate(0deg);   }
-    to  { transform:rotate(360deg); }
-  }
+  .tt-svg-wrap{ display:none; }
 
   /* ONGEN RADIO */
   .ongen-work{ background:#000 !important; }
@@ -1205,21 +1190,19 @@
     },{threshold:0.1}).observe(vid);
   })();
 
-  /* Token Trust — breathing image crossfade */
+  /* Token Trust — looping preview video */
   (function(){
     var wrap = document.getElementById('tt-grid-wrap');
     if(!wrap) return;
-    var IMG_FRONT='./tokentrustimg.jpg';
-    var IMG_BACK='./tokentrust2.jpg';
-    var front=document.createElement('div');
-    front.className='tt-face tt-face-front';
-    front.style.backgroundImage='url(\''+IMG_FRONT+'\')';
-    var back=document.createElement('div');
-    back.className='tt-face tt-face-back';
-    back.style.backgroundImage='url(\''+IMG_BACK+'\')';
-    wrap.appendChild(front);
-    wrap.appendChild(back);
-    setInterval(function(){ wrap.classList.toggle('tt-swapped'); }, 5000);
+    var face=document.createElement('div');
+    face.className='tt-face tt-face-front';
+    var vid=document.createElement('video');
+    vid.src='./tokentrustprev.mp4';
+    vid.autoplay=true; vid.muted=true; vid.loop=true;
+    vid.playsInline=true; vid.setAttribute('playsinline','');
+    vid.preload='metadata';
+    face.appendChild(vid);
+    wrap.appendChild(face);
   })();
 </script>
 
