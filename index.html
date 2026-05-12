@@ -145,6 +145,58 @@
   .work-block.third{ grid-column: span 4; }
   .work-block.third .work{ aspect-ratio: 1/1; }
 
+  /* More button (bottom-left of every .work card) */
+  .more-btn{
+    position:absolute;
+    left:18px; bottom:18px;
+    z-index:5;
+    height:48px;
+    display:inline-flex; align-items:center;
+    background:rgba(255,255,255,0.92);
+    color:#0a0a0a;
+    border-radius:999px;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    box-shadow:0 4px 18px rgba(0,0,0,0.18);
+    pointer-events:none;
+    overflow:hidden;
+    padding-right:0;
+    transition:padding-right .35s cubic-bezier(.7,0,.2,1),
+               background-color .25s ease;
+  }
+  .more-btn .more-icon{
+    width:48px; height:48px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    transform:rotate(45deg);
+    transition:transform .35s cubic-bezier(.7,0,.2,1);
+  }
+  .more-btn .more-icon svg{ width:20px; height:20px; display:block; }
+  .more-btn .more-label{
+    font-size:14px; font-weight:500; letter-spacing:-0.01em;
+    white-space:nowrap;
+    max-width:0;
+    opacity:0;
+    overflow:hidden;
+    transition:max-width .35s cubic-bezier(.7,0,.2,1),
+               opacity .25s ease .05s;
+  }
+  .work-block:hover .more-btn{
+    background:#fff;
+    padding-right:18px;
+  }
+  .work-block:hover .more-btn .more-icon{
+    transform:rotate(0deg);
+  }
+  .work-block:hover .more-btn .more-label{
+    max-width:120px;
+    opacity:1;
+  }
+  @media(max-width:880px){
+    .more-btn{ left:14px; bottom:14px; height:42px; }
+    .more-btn .more-icon{ width:42px; height:42px; }
+    .more-btn .more-icon svg{ width:18px; height:18px; }
+  }
+
   /* INDEX */
   .filters{
     display:flex; gap:24px; flex-wrap:wrap;
@@ -1203,6 +1255,19 @@
     vid.preload='metadata';
     face.appendChild(vid);
     wrap.appendChild(face);
+  })();
+
+  /* Inject "More" button into every .work card */
+  (function(){
+    var ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>';
+    document.querySelectorAll('.work').forEach(function(card){
+      if(card.querySelector('.more-btn')) return;
+      var btn = document.createElement('div');
+      btn.className = 'more-btn';
+      btn.setAttribute('aria-hidden','true');
+      btn.innerHTML = '<span class="more-icon">'+ICON+'</span><span class="more-label">More</span>';
+      card.appendChild(btn);
+    });
   })();
 </script>
 
