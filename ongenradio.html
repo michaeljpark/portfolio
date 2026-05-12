@@ -851,8 +851,14 @@
   /* SAM section */
   .sam-section{
     padding-top:120px; padding-bottom:140px;
-    border-top:1px solid var(--line);
   }
+  /* When used as a panel inside the market stack, neutralize padding/border */
+  .market-panel.sam-section{
+    padding:clamp(40px,6vh,80px) 0;
+    border-top:0;
+    overflow:hidden;
+  }
+  .market-panel .wrap{ width:100%; max-height:100%; }
   .sam-grid{
     display:grid;
     grid-template-columns:1.5fr 1fr;
@@ -888,13 +894,13 @@
     line-height:0.9;
   }
   .sam-big .sam-count{
-    font-size:clamp(110px,16vw,220px);
+    font-size:clamp(96px,13vw,180px);
     font-weight:400;
     letter-spacing:-0.06em;
     line-height:0.88;
   }
   .sam-big .sam-unit{
-    font-size:clamp(42px,6vw,90px);
+    font-size:clamp(36px,5vw,72px);
     line-height:1;
     letter-spacing:-0.04em;
     margin-left:0.04em;
@@ -902,8 +908,8 @@
     color:var(--ink);
   }
   .sam-foot{
-    margin-top:clamp(32px,4vw,56px);
-    font-size:clamp(24px,2.6vw,38px);
+    margin-top:clamp(20px,2.5vw,36px);
+    font-size:clamp(20px,2vw,30px);
     letter-spacing:-0.03em;
     line-height:1.1;
   }
@@ -915,13 +921,13 @@
     line-height:0.9;
   }
   .sam-mid .sam-count{
-    font-size:clamp(56px,7.6vw,112px);
+    font-size:clamp(44px,6vw,86px);
     font-weight:400;
     letter-spacing:-0.05em;
     line-height:0.9;
   }
   .sam-mid .sam-unit{
-    font-size:clamp(24px,3vw,44px);
+    font-size:clamp(20px,2.4vw,36px);
     letter-spacing:-0.03em;
     line-height:1;
     margin-left:0.05em;
@@ -936,10 +942,10 @@
     line-height:1.45;
   }
   .sam-blurb{
-    margin:clamp(28px,3vw,44px) 0 0;
+    margin:clamp(20px,2.4vw,32px) 0 0;
     max-width:none;
     text-align:left;
-    font-size:clamp(14px,1.05vw,17px);
+    font-size:clamp(13px,0.95vw,15px);
     color:var(--ink);
     letter-spacing:-0.01em;
     line-height:1.45;
@@ -948,45 +954,16 @@
     text-overflow:ellipsis;
   }
   .sam-sources{
-    margin-top:clamp(14px,1.6vw,22px);
+    margin-top:clamp(10px,1.2vw,16px);
     display:flex; flex-direction:column; gap:4px;
-    font-size:clamp(11px,0.8vw,12px);
+    font-size:clamp(10px,0.75vw,11px);
     color:#6a6a6a;
     letter-spacing:-0.01em;
     line-height:1.5;
   }
 
   /* SAM reveal */
-  .sam-count,
-  .sam-unit,
-  .sam-eyebrow,
-  .sam-eyebrow-sub,
-  .sam-foot,
-  .sam-cap,
-  .sam-blurb,
-  .sam-sources{
-    opacity:0;
-    transform:translateY(14px);
-    transition:opacity .9s ease, transform .9s cubic-bezier(.22,.61,.36,1);
-  }
-  .sam-section.is-revealed .sam-eyebrow{ transition-delay:.05s; }
-  .sam-section.is-revealed .sam-eyebrow-sub{ transition-delay:.12s; }
-  .sam-section.is-revealed .sam-count{ transition-delay:.2s; }
-  .sam-section.is-revealed .sam-unit{ transition-delay:.25s; }
-  .sam-section.is-revealed .sam-foot{ transition-delay:.35s; }
-  .sam-section.is-revealed .sam-cap{ transition-delay:.4s; }
-  .sam-section.is-revealed .sam-blurb{ transition-delay:.5s; }
-  .sam-section.is-revealed .sam-sources{ transition-delay:.6s; }
-  .sam-section.is-revealed .sam-count,
-  .sam-section.is-revealed .sam-unit,
-  .sam-section.is-revealed .sam-eyebrow,
-  .sam-section.is-revealed .sam-eyebrow-sub,
-  .sam-section.is-revealed .sam-foot,
-  .sam-section.is-revealed .sam-cap,
-  .sam-section.is-revealed .sam-blurb,
-  .sam-section.is-revealed .sam-sources{
-    opacity:1; transform:translateY(0);
-  }
+  /* (handled by .market-panel.is-active opacity transition) */
 
   @media(max-width:880px){
     .sam-section{ padding-top:72px; padding-bottom:80px; }
@@ -998,6 +975,62 @@
     .sam-mid .sam-unit{ font-size:clamp(26px,7vw,42px); }
     .sam-foot{ font-size:clamp(22px,6.5vw,32px); margin-top:32px; }
     .sam-blurb{ font-size:clamp(14px,4vw,17px); white-space:normal; }
+  }
+
+  /* TAM → SAM → SOM scroll stack */
+  .market-stack{
+    position:relative;
+    height:300vh; /* 3 panels × 100vh of scroll */
+    border-top:1px solid var(--line);
+  }
+  .market-stage{
+    position:sticky; top:0;
+    height:100vh;
+    overflow:hidden;
+  }
+  .market-panel{
+    position:absolute; inset:0;
+    display:flex; align-items:center;
+    padding:0;
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .6s ease, transform .6s cubic-bezier(.22,.61,.36,1);
+    pointer-events:none;
+    border-top:0;
+  }
+  .market-panel.is-active{
+    opacity:1; transform:translateY(0);
+    pointer-events:auto;
+  }
+  .market-panel .wrap{ width:100%; }
+  .market-kicker{
+    display:none;
+  }
+  .market-sub{
+    margin-top:10px;
+    font-size:clamp(14px,1.1vw,18px);
+    color:var(--muted);
+    letter-spacing:-0.01em;
+    line-height:1.4;
+  }
+  .market-panel .ft-head{ margin-bottom:clamp(20px,2.4vw,36px); }
+
+  /* Step indicator */
+  .market-nav{
+    display:none;
+  }
+
+  @media(max-width:880px){
+    .market-stack{ height:auto; border-top:0; }
+    .market-stage{ position:relative; height:auto; overflow:visible; }
+    .market-panel{
+      position:relative; inset:auto;
+      opacity:1; transform:none;
+      pointer-events:auto;
+      border-top:1px solid var(--line);
+    }
+    .market-panel:first-of-type{ border-top:0; }
+    .market-nav{ display:none; }
   }
 
   .hyp-section{ padding-top:64px; padding-bottom:64px; border-top:1px solid var(--line); }
@@ -1441,81 +1474,234 @@
   </div>
 </section>
 
-<section class="sam-section wrap">
-  <div class="ft-head">
-    <div class="hyp-title">Serviceable Addressable Market</div>
-  </div>
+<section class="market-stack">
+  <div class="market-stage">
+    <nav class="market-nav" aria-label="Market scope">
+      <button class="market-nav-item is-active" data-step="0"><span class="market-nav-dot"></span><span class="market-nav-label">TAM</span></button>
+      <button class="market-nav-item" data-step="1"><span class="market-nav-dot"></span><span class="market-nav-label">SAM</span></button>
+      <button class="market-nav-item" data-step="2"><span class="market-nav-dot"></span><span class="market-nav-label">SOM</span></button>
+    </nav>
 
-  <div class="sam-grid">
-    <div class="sam-main">
-      <div class="sam-eyebrow">CAGR</div>
-      <div class="sam-eyebrow-sub">AR Glasses 2025 – 2030</div>
-      <div class="sam-big">
-        <span class="sam-count" data-count-to="59" data-count-suffix="">0</span><span class="sam-unit sam-unit-pct">%</span>
-      </div>
-      <div class="sam-foot">Growth</div>
+    <!-- TAM -->
+    <div class="market-panel sam-section is-active" data-step="0">
+      <div class="wrap">
+        <div class="ft-head">
+          <div class="hyp-title">Total Addressable Market</div>
+          <div class="market-sub">Where location meets intelligence</div>
+        </div>
 
-      <p class="sam-blurb">Led by Apple and Meta, the AR glasses market is maturing, while audio-based AR apps are still an emerging sector.</p>
+        <div class="sam-grid">
+          <div class="sam-main">
+            <div class="sam-eyebrow">CAGR</div>
+            <div class="sam-eyebrow-sub">Geospatial Analytics 2025 – 2030</div>
+            <div class="sam-big">
+              <span class="sam-count" data-count-to="11">0</span><span class="sam-unit sam-unit-pct">%</span>
+            </div>
+            <div class="sam-foot">Growth</div>
 
-      <div class="sam-sources">
-        <div>AR Glasses Market by 2030 · marketsandmarkets.com/Market-Reports/ar-glass-market-130690160.html</div>
-        <div>AR Glasses 2025→2030 · marketsandmarkets.com/Market-Reports/ar-glass-market-130690160.html</div>
-        <div>AR Hardware Users by 2030 · statista.com/outlook/amo/ar-vr/augmented-reality/worldwide</div>
+            <p class="sam-blurb">Location-based services are reshaping retail, logistics, and smart cities — the substrate for every location-aware AI experience.</p>
+
+            <div class="sam-sources">
+              <div>Geospatial Analytics Market Report · grandviewresearch.com/industry-analysis/geospatial-analytics-market</div>
+            </div>
+          </div>
+
+          <div class="sam-side">
+            <div class="sam-stat">
+              <div class="sam-eyebrow">Market 2030</div>
+              <div class="sam-mid">
+                <span class="sam-unit sam-unit-pre">$</span><span class="sam-count" data-count-to="227">0</span><span class="sam-unit">B</span>
+              </div>
+              <div class="sam-cap">Geospatial Analytics by 2030</div>
+            </div>
+            <div class="sam-stat">
+              <div class="sam-eyebrow">Market 2024</div>
+              <div class="sam-mid">
+                <span class="sam-unit sam-unit-pre">$</span><span class="sam-count" data-count-to="114">0</span><span class="sam-unit">B</span>
+              </div>
+              <div class="sam-cap">Baseline Market Size (2024)</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="sam-side">
-      <div class="sam-stat">
-        <div class="sam-eyebrow">AR Users</div>
-        <div class="sam-mid">
-          <span class="sam-count" data-count-to="160" data-count-suffix="">0</span><span class="sam-unit">M</span>
+    <!-- SAM -->
+    <div class="market-panel sam-section" data-step="1">
+      <div class="wrap">
+        <div class="ft-head">
+          <div class="hyp-title">Serviceable Addressable Market</div>
+          <div class="market-sub">AR glasses + audio AR</div>
         </div>
-        <div class="sam-cap">AR Hardware Users by 2030</div>
+
+        <div class="sam-grid">
+          <div class="sam-main">
+            <div class="sam-eyebrow">CAGR</div>
+            <div class="sam-eyebrow-sub">AR Glasses 2025 – 2030</div>
+            <div class="sam-big">
+              <span class="sam-count" data-count-to="59" data-count-suffix="">0</span><span class="sam-unit sam-unit-pct">%</span>
+            </div>
+            <div class="sam-foot">Growth</div>
+
+            <p class="sam-blurb">Led by Apple and Meta, the AR glasses market is maturing, while audio-based AR apps are still an emerging sector.</p>
+
+            <div class="sam-sources">
+              <div>AR Glasses Market by 2030 · marketsandmarkets.com/Market-Reports/ar-glass-market-130690160.html</div>
+              <div>AR Hardware Users by 2030 · statista.com/outlook/amo/ar-vr/augmented-reality/worldwide</div>
+            </div>
+          </div>
+
+          <div class="sam-side">
+            <div class="sam-stat">
+              <div class="sam-eyebrow">AR Users</div>
+              <div class="sam-mid">
+                <span class="sam-count" data-count-to="160" data-count-suffix="">0</span><span class="sam-unit">M</span>
+              </div>
+              <div class="sam-cap">AR Hardware Users by 2030</div>
+            </div>
+            <div class="sam-stat">
+              <div class="sam-eyebrow">AR Market</div>
+              <div class="sam-mid">
+                <span class="sam-unit sam-unit-pre">$</span><span class="sam-count" data-count-to="10" data-count-suffix="">0</span><span class="sam-unit">B</span>
+              </div>
+              <div class="sam-cap">AR Glasses Market by 2030</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="sam-stat">
-        <div class="sam-eyebrow">AR Market</div>
-        <div class="sam-mid">
-          <span class="sam-unit sam-unit-pre">$</span><span class="sam-count" data-count-to="10" data-count-suffix="">0</span><span class="sam-unit">B</span>
+    </div>
+
+    <!-- SOM -->
+    <div class="market-panel sam-section" data-step="2">
+      <div class="wrap">
+        <div class="ft-head">
+          <div class="hyp-title">Serviceable Obtainable Market</div>
+          <div class="market-sub">AI in social media</div>
         </div>
-        <div class="sam-cap">AR Glasses Market by 2030</div>
+
+        <div class="sam-grid">
+          <div class="sam-main">
+            <div class="sam-eyebrow">CAGR</div>
+            <div class="sam-eyebrow-sub">AI in Social Media 2025 – 2033</div>
+            <div class="sam-big">
+              <span class="sam-count" data-count-to="36">0</span><span class="sam-unit sam-unit-pct">%</span>
+            </div>
+            <div class="sam-foot">Growth</div>
+
+            <p class="sam-blurb">AI-driven content, targeting, and predictive analytics power the social and audio apps where OnGen Radio captures share — the closest, most addressable slice.</p>
+
+            <div class="sam-sources">
+              <div>AI in Social Media Market Report · grandviewresearch.com/industry-analysis/ai-social-media-market-report</div>
+            </div>
+          </div>
+
+          <div class="sam-side">
+            <div class="sam-stat">
+              <div class="sam-eyebrow">Market 2033</div>
+              <div class="sam-mid">
+                <span class="sam-unit sam-unit-pre">$</span><span class="sam-count" data-count-to="48">0</span><span class="sam-unit">B</span>
+              </div>
+              <div class="sam-cap">AI in Social Media by 2033</div>
+            </div>
+            <div class="sam-stat">
+              <div class="sam-eyebrow">Market 2024</div>
+              <div class="sam-mid">
+                <span class="sam-unit sam-unit-pre">$</span><span class="sam-count" data-count-to="3">0</span><span class="sam-unit">B</span>
+              </div>
+              <div class="sam-cap">Baseline Market Size (2024)</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-/* SAM: reveal on scroll + count-up numbers */
+/* TAM → SAM → SOM scroll-driven panel switcher with per-panel count-up */
 (function(){
-  var section = document.querySelector('.sam-section');
-  if(!section) return;
-  var counts = section.querySelectorAll('[data-count-to]');
+  var stack = document.querySelector('.market-stack');
+  if(!stack) return;
+  var panels = Array.prototype.slice.call(stack.querySelectorAll('.market-panel'));
+  var navItems = Array.prototype.slice.call(stack.querySelectorAll('.market-nav-item'));
+  if(!panels.length) return;
+
+  var fired = panels.map(function(){ return false; });
+  var current = -1;
 
   function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
 
-  function runCount(el){
-    var target = parseFloat(el.getAttribute('data-count-to')) || 0;
-    var suffix = el.getAttribute('data-count-suffix') || '';
-    var dur = 1600;
-    var start = performance.now() + 200; // small stagger after reveal
-    function frame(now){
-      var t = Math.max(0, Math.min(1, (now - start) / dur));
-      var v = Math.round(easeOut(t) * target);
-      el.textContent = v + suffix;
-      if(t < 1) requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
+  function runCount(panel){
+    var counts = panel.querySelectorAll('[data-count-to]');
+    counts.forEach(function(el){
+      var target = parseFloat(el.getAttribute('data-count-to')) || 0;
+      var decimals = parseInt(el.getAttribute('data-count-decimals') || '0', 10);
+      var suffix = el.getAttribute('data-count-suffix') || '';
+      var dur = 1500;
+      var start = performance.now();
+      function frame(now){
+        var t = Math.max(0, Math.min(1, (now - start) / dur));
+        var v = easeOut(t) * target;
+        el.textContent = (decimals > 0 ? v.toFixed(decimals) : Math.round(v)) + suffix;
+        if(t < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    });
   }
 
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        section.classList.add('is-revealed');
-        counts.forEach(runCount);
-        io.disconnect();
-      }
+  function setActive(idx){
+    if(idx === current) return;
+    current = idx;
+    panels.forEach(function(p, i){ p.classList.toggle('is-active', i === idx); });
+    navItems.forEach(function(n, i){ n.classList.toggle('is-active', i === idx); });
+    if(!fired[idx]){ fired[idx] = true; runCount(panels[idx]); }
+  }
+
+  function update(){
+    // Mobile bypass: all panels static
+    if(window.matchMedia('(max-width:880px)').matches){
+      panels.forEach(function(p, i){
+        var r = p.getBoundingClientRect();
+        if(!fired[i] && r.top < window.innerHeight * 0.8 && r.bottom > 0){
+          fired[i] = true; runCount(p);
+        }
+      });
+      return;
+    }
+
+    var rect = stack.getBoundingClientRect();
+    var stackH = stack.offsetHeight;
+    var vh = window.innerHeight;
+    // progress: 0 when sticky just engages, 1 when stack about to leave
+    var scrolled = -rect.top;
+    var total = stackH - vh;
+    var p = Math.max(0, Math.min(1, scrolled / total));
+    // Map to 3 segments: 0..1 → 0,1,2
+    var idx = p < 1/3 ? 0 : (p < 2/3 ? 1 : 2);
+    setActive(idx);
+  }
+
+  // Nav click → scroll to that step
+  navItems.forEach(function(n, i){
+    n.addEventListener('click', function(){
+      var stackTop = stack.getBoundingClientRect().top + window.scrollY;
+      var stackH = stack.offsetHeight;
+      var vh = window.innerHeight;
+      var total = stackH - vh;
+      var targetP = (i + 0.5) / 3; // center of segment
+      window.scrollTo({ top: stackTop + targetP * total, behavior: 'smooth' });
     });
-  },{ threshold:0.25 });
-  io.observe(section);
+  });
+
+  var ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ update(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', update);
+  update();
 })();
 </script>
 
