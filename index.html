@@ -572,7 +572,34 @@
     0%,100%{ transform:scale(1); }
     50%{ transform:scale(1.06); }
   }
-  .tt-svg-wrap{ display:none; }
+  .tt-svg-wrap{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+    pointer-events:none;
+  }
+  .tt-svg-wrap svg{
+    width:min(78%, 560px);
+    height:auto;
+    filter: drop-shadow(0 4px 24px rgba(0,0,0,0.45));
+  }
+  #tt-star{
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: tt-star-spin 9s linear infinite;
+    animation-play-state: paused;
+    will-change: transform;
+  }
+  @keyframes tt-star-spin{
+    from{ transform: rotate(0deg); }
+    to  { transform: rotate(360deg); }
+  }
+  @media(max-width:880px){
+    .tt-svg-wrap svg{ width:86%; }
+  }
 
   /* ONGEN RADIO */
   .ongen-work{ background:#000 !important; }
