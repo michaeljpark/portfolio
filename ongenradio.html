@@ -3493,7 +3493,548 @@ window.addEventListener('load', function(){
       width:4px; height:4px;
     }
   }
+
+  /* ============================================================
+     Journey Mapping — Traditional grid + Emotional arc per persona
+     ============================================================ */
+  .jm-section{
+    padding-top:clamp(72px,9vw,140px);
+    padding-bottom:clamp(72px,8vw,120px);
+    border-top:1px solid var(--line);
+    color:var(--ink);
+    background:var(--bg);
+  }
+  .jm-head{ margin-bottom:clamp(36px,4vw,64px); }
+  .jm-sub{
+    margin-top:14px;
+    max-width:780px;
+    color:var(--muted);
+    font-size:clamp(14px,1.05vw,17px);
+    line-height:1.55;
+    letter-spacing:-0.01em;
+  }
+  .jm-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    margin:clamp(28px,3vw,48px) 0 clamp(36px,4vw,56px);
+    border-top:1px solid rgba(255,255,255,.1);
+    border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .jm-tab{
+    flex:1 1 0;
+    min-width:0;
+    background:transparent;
+    border:0;
+    border-left:1px solid rgba(255,255,255,.1);
+    color:rgba(255,255,255,.4);
+    text-align:left;
+    padding:22px clamp(16px,1.8vw,32px);
+    font-family:inherit;
+    font-weight:400;
+    cursor:pointer;
+    letter-spacing:-0.02em;
+    position:relative;
+    transition:color .2s ease, background-color .2s ease;
+  }
+  .jm-tab::after{
+    content:'';
+    position:absolute;
+    bottom:0; left:0; right:0;
+    height:2px;
+    background:#fff;
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  .jm-tab:first-child{ border-left:0; }
+  .jm-tab:hover{ color:rgba(255,255,255,.75); }
+  .jm-tab.is-active{ color:#fff; }
+  .jm-tab.is-active::after{ opacity:1; }
+  .jm-tab-num{
+    display:block;
+    font-size:11px;
+    letter-spacing:.01em;
+    color:rgba(255,255,255,.3);
+    margin-bottom:8px;
+  }
+  .jm-tab.is-active .jm-tab-num{ color:rgba(255,255,255,.5); }
+  .jm-tab-name{
+    display:block;
+    font-size:clamp(15px,1.3vw,20px);
+    font-weight:400;
+    letter-spacing:-0.03em;
+  }
+  .jm-tab-role{
+    display:block;
+    margin-top:5px;
+    font-size:12px;
+    color:rgba(255,255,255,.35);
+    letter-spacing:.02em;
+  }
+  .jm-tab.is-active .jm-tab-role{ color:rgba(255,255,255,.5); }
+
+  .jm-panel{ display:none; }
+  .jm-panel.is-active{ display:block; }
+
+  /* Persona summary above grid */
+  .jm-persona-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:clamp(24px,2.4vw,36px);
+    flex-wrap:wrap;
+  }
+  .jm-persona-title{
+    font-size:clamp(20px,2.2vw,32px);
+    font-weight:400;
+    letter-spacing:-0.04em;
+    line-height:1.15;
+    max-width:680px;
+  }
+  .jm-persona-meta{
+    font-size:13px;
+    color:rgba(255,255,255,.35);
+    letter-spacing:-0.01em;
+    white-space:nowrap;
+  }
+  .jm-persona-desc{
+    color:rgba(255,255,255,.45);
+    font-size:clamp(13px,0.95vw,15px);
+    line-height:1.6;
+    max-width:720px;
+    margin-bottom:clamp(32px,3.5vw,52px);
+  }
+
+  /* Traditional grid */
+  .jm-grid{
+    display:grid;
+    grid-template-columns: 160px repeat(4, 1fr);
+    border-top:1px solid rgba(255,255,255,.1);
+  }
+  .jm-grid > *{
+    border-bottom:1px solid rgba(255,255,255,.07);
+    padding:16px clamp(14px,1.4vw,24px);
+    font-weight:400;
+  }
+  .jm-stage-h{
+    border-left:1px solid rgba(255,255,255,.07);
+    font-size:clamp(13px,1.1vw,17px);
+    font-weight:500;
+    color:#fff;
+    letter-spacing:-0.03em;
+    padding-top:20px;
+    padding-bottom:20px;
+    background:rgba(255,255,255,.025);
+  }
+  .jm-row-label{
+    font-size:12px;
+    color:rgba(255,255,255,.4);
+    letter-spacing:-0.01em;
+    padding-top:20px;
+    border-right:1px solid rgba(255,255,255,.07);
+  }
+  .jm-row-label.dim{ color:rgba(255,255,255,.22); }
+  .jm-cell{
+    border-left:1px solid rgba(255,255,255,.07);
+    font-size:clamp(12px,0.88vw,14px);
+    line-height:1.55;
+    color:rgba(255,255,255,.75);
+    letter-spacing:-0.01em;
+  }
+  .jm-cell.ctx{
+    color:rgba(255,255,255,.3);
+    font-size:12px;
+    letter-spacing:-0.01em;
+  }
+  .jm-cell.feat{
+    color:rgba(255,255,255,.95);
+    font-weight:400;
+  }
+  .jm-cell.react{
+    color:rgba(255,255,255,.6);
+    font-style:italic;
+  }
+  .jm-cell.phase{
+    color:rgba(255,255,255,.3);
+    font-size:12px;
+    letter-spacing:-0.01em;
+    padding-top:16px;
+    padding-bottom:16px;
+    background:rgba(255,255,255,.015);
+  }
+  .jm-stage-corner{ border-left:0; border-right:0; }
+
+  /* Emotional arc graph */
+  .jm-arc{
+    margin-top:clamp(40px,4vw,64px);
+    padding-top:clamp(24px,2.4vw,36px);
+    border-top:1px solid rgba(255,255,255,.1);
+  }
+  .jm-arc-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  }
+  .jm-arc-title{
+    font-size:13px;
+    letter-spacing:-0.02em;
+    color:rgba(255,255,255,.4);
+  }
+  .jm-arc-legend{
+    display:flex; gap:20px;
+    font-size:12px;
+    color:rgba(255,255,255,.35);
+    letter-spacing:-0.01em;
+  }
+  .jm-arc-legend i{ display:inline-block; width:24px; height:1px; vertical-align:middle; margin-right:7px; background:#fff; opacity:.6; }
+  .jm-arc-legend .proj i{ background:transparent; border-top:1px dashed rgba(255,255,255,.6); }
+  .jm-arc-svg{
+    width:100%;
+    height:auto;
+    display:block;
+    aspect-ratio: 1400 / 300;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:4px;
+  }
+
+  @media(max-width:880px){
+    .jm-section{ padding-top:64px; padding-bottom:72px; }
+    .jm-tabs{ flex-direction:column; }
+    .jm-tab{ border-left:0; border-top:1px solid rgba(255,255,255,.1); }
+    .jm-tab:first-child{ border-top:0; }
+    .jm-grid{
+      grid-template-columns: 1fr;
+      border-top:0;
+    }
+    .jm-grid > *{
+      border-left:0 !important;
+      padding:14px 0;
+    }
+    .jm-stage-corner{ display:none; }
+    .jm-stage-h{
+      padding-top:24px;
+      border-top:1px dashed rgba(255,255,255,.22);
+      font-size:18px;
+    }
+    .jm-row-label{
+      padding-top:14px;
+      padding-bottom:0;
+      border-bottom:0;
+    }
+    .jm-cell{ padding-top:6px; }
+    .jm-arc-svg{ aspect-ratio: 1400 / 500; }
+  }
 </style>
+
+<section class="project-section wrap" style="padding-top:clamp(48px,6vw,96px);padding-bottom:clamp(48px,6vw,96px);border-top:1px solid var(--line);">
+  <video
+    src="./ongenoverview.mp4"
+    autoplay loop muted playsinline webkit-playsinline preload="auto"
+    style="width:100%;display:block;border-radius:12px;"></video>
+</section>
+
+<!-- ============================================================
+     JOURNEY MAPPING — three personas, three trajectories
+     ============================================================ -->
+<section class="jm-section wrap" aria-label="Journey mapping">
+  <div class="jm-head">
+    <div class="hyp-title">Journey Mapping</div>
+    <p class="jm-sub">Three personas, three trajectories. Each map pairs the traditional journey grid with the actual emotional arc — projection versus what the research surfaced.</p>
+  </div>
+
+  <div class="jm-tabs" role="tablist">
+    <button class="jm-tab is-active" data-jm="01" role="tab" aria-selected="true">
+      <span class="jm-tab-num">Persona 01</span>
+      <span class="jm-tab-name">Maya Chen</span>
+      <span class="jm-tab-role">Urban Explorer</span>
+    </button>
+    <button class="jm-tab" data-jm="02" role="tab" aria-selected="false">
+      <span class="jm-tab-num">Persona 02</span>
+      <span class="jm-tab-name">Jordan Campbell</span>
+      <span class="jm-tab-role">Community Connector</span>
+    </button>
+    <button class="jm-tab" data-jm="03" role="tab" aria-selected="false">
+      <span class="jm-tab-num">Persona 03</span>
+      <span class="jm-tab-name">Alex Rivera</span>
+      <span class="jm-tab-role">AAR Pioneer</span>
+    </button>
+  </div>
+
+  <!-- ========== PERSONA 01 ========== -->
+  <div class="jm-panel is-active" data-jm-panel="01">
+    <div class="jm-persona-head">
+      <div class="jm-persona-title">From passive feed consumption to active participation.</div>
+      <div class="jm-persona-meta">Persona 01 · Urban Explorer</div>
+    </div>
+    <p class="jm-persona-desc">A linear narrative of how Maya moves through the OnGen ecosystem — from the first ambient encounter to leaving voice notes that loop back into her neighborhood's stream.</p>
+
+    <div class="jm-grid">
+      <div class="jm-row-label dim jm-stage-corner"></div>
+      <div class="jm-stage-h">Tune In</div>
+      <div class="jm-stage-h">Context Sync</div>
+      <div class="jm-stage-h">Ambient Flow</div>
+      <div class="jm-stage-h">Co-Broadcast</div>
+
+      <div class="jm-row-label">Pain Point</div>
+      <div class="jm-cell">Overwhelmed by apps, feeds, and notifications fighting for her attention during every walk.</div>
+      <div class="jm-cell">Unsure how much of her context, location, and preferences she should share with an AI system.</div>
+      <div class="jm-cell">Most recommendations feel generic; she keeps missing events that were actually close by and relevant.</div>
+      <div class="jm-cell">Rarely contributes to the platforms she uses — feels there's no audience that would actually care.</div>
+
+      <div class="jm-row-label dim">Context</div>
+      <div class="jm-cell ctx">Marketing · First Encounter</div>
+      <div class="jm-cell ctx">Onboarding · In-App Setup</div>
+      <div class="jm-cell ctx">Daily Use · Urban Context</div>
+      <div class="jm-cell ctx">Engagement · Network Loop</div>
+
+      <div class="jm-row-label">Feature</div>
+      <div class="jm-cell feat">A personal radio that already plays when she arrives — no queries, no scroll.</div>
+      <div class="jm-cell feat">Transparent consent layer: what data is used, where it's processed, how to revoke it.</div>
+      <div class="jm-cell feat">Context-aware AI curator translates time, place, and interest into a living audio stream.</div>
+      <div class="jm-cell feat">Voice reactions and short broadcasts loop back into the community stream in real time.</div>
+
+      <div class="jm-row-label">Reaction</div>
+      <div class="jm-cell react">"Is this a podcast? Why does it already know my block?"</div>
+      <div class="jm-cell react">"Okay — I actually understand what it's learning from me."</div>
+      <div class="jm-cell react">"I hear about things I'd never have searched for."</div>
+      <div class="jm-cell react">"I left a voice note and heard my neighbor answer."</div>
+
+      <div class="jm-row-label dim">Phase</div>
+      <div class="jm-cell phase">Discovery</div>
+      <div class="jm-cell phase">Engagement</div>
+      <div class="jm-cell phase">Empowerment</div>
+      <div class="jm-cell phase">Participation</div>
+    </div>
+
+    <div class="jm-arc">
+      <div class="jm-arc-head">
+        <div class="jm-arc-title">Emotional Arc · curiosity → trust → comfort → belonging</div>
+        <div class="jm-arc-legend">
+          <span class="proj"><i></i>Projection</span>
+          <span><i></i>Actual</span>
+        </div>
+      </div>
+      <svg class="jm-arc-svg" viewBox="0 0 1400 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="385" x2="1400" y2="385" stroke="#fff" stroke-opacity="0.08" stroke-width="1"/>
+        <line x1="350" y1="0" x2="350" y2="400" stroke="#fff" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="700" y1="0" x2="700" y2="400" stroke="#fff" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="1050" y1="0" x2="1050" y2="400" stroke="#fff" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4 4"/>
+
+        <rect x="0" y="270" width="350" height="115" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="10" y="286" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Latent Curiosity</text>
+
+        <rect x="350" y="140" width="350" height="130" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="360" y="156" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Learning Process</text>
+
+        <rect x="700" y="35" width="350" height="105" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="710" y="51" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Internalization</text>
+
+        <rect x="1050" y="45" width="350" height="105" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="1060" y="61" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Post-usage</text>
+
+        <path d="M 0,365 C 120,362 240,348 350,310 C 460,268 560,210 700,135 C 840,70 940,42 1050,35 C 1160,30 1280,42 1400,60" stroke="#fff" stroke-opacity="0.7" stroke-width="1.2" fill="none" stroke-dasharray="10 6"/>
+
+        <path class="jm-actual" d="M 0,380 C 80,378 160,375 240,372 C 300,368 340,360 380,340 C 420,310 460,260 520,180 C 560,120 600,70 660,42 C 720,18 780,12 840,25 C 900,40 960,55 1020,58 C 1080,62 1140,56 1200,68 C 1260,72 1320,76 1400,80" stroke="#fff" stroke-opacity="0.9" stroke-width="1.5" fill="none"/>
+
+        <circle cx="660" cy="42" r="4" fill="#fff" fill-opacity="0.7"/>
+        <circle cx="660" cy="42" r="8" fill="#fff" fill-opacity="0.08"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ========== PERSONA 02 ========== -->
+  <div class="jm-panel" data-jm-panel="02">
+    <div class="jm-persona-head">
+      <div class="jm-persona-title">From fragmented outreach to unified neighborhood broadcasting.</div>
+      <div class="jm-persona-meta">Persona 02 · Community Connector</div>
+    </div>
+    <p class="jm-persona-desc">A linear narrative of how Jordan consolidates Slack, IG, posters, and word-of-mouth into a single ambient broadcast layer for Kensington Market.</p>
+
+    <div class="jm-grid">
+      <div class="jm-row-label dim jm-stage-corner"></div>
+      <div class="jm-stage-h">Broadcast</div>
+      <div class="jm-stage-h">Community Sync</div>
+      <div class="jm-stage-h">Event Engine</div>
+      <div class="jm-stage-h">Culture Loop</div>
+
+      <div class="jm-row-label">Pain Point</div>
+      <div class="jm-cell">Flyers and posters get buried by city noise — his weekly events reach fewer people than his Slack has members.</div>
+      <div class="jm-cell">Managing Slack, IG, newsletters, and printed posters splits his outreach into five disconnected streams.</div>
+      <div class="jm-cell">Event turnout is unpredictable; members miss announcements posted in the wrong channel at the wrong time.</div>
+      <div class="jm-cell">No shared broadcast layer exists for the block — Kensington's identity gets diluted by platform algorithms.</div>
+
+      <div class="jm-row-label dim">Context</div>
+      <div class="jm-cell ctx">Marketing · Word of Mouth</div>
+      <div class="jm-cell ctx">Onboarding · Community Setup</div>
+      <div class="jm-cell ctx">Daily Use · Event Management</div>
+      <div class="jm-cell ctx">Engagement · Culture Network</div>
+
+      <div class="jm-row-label">Feature</div>
+      <div class="jm-cell feat">A neighbourhood audio channel that plays in local venues — his events reach ears without a single post.</div>
+      <div class="jm-cell feat">One-tap event push that syncs across ambient audio, notification, and in-venue broadcast simultaneously.</div>
+      <div class="jm-cell feat">Real-time turnout pulse shows who's nearby and engaged — data he used to guess from a headcount.</div>
+      <div class="jm-cell feat">Community voice stream where regulars leave audio notes — building a living archive of the block.</div>
+
+      <div class="jm-row-label">Reaction</div>
+      <div class="jm-cell react">"Wait — people at the coffee shop already know about Thursday's open mic?"</div>
+      <div class="jm-cell react">"I connected the space once. Now it just knows what we're hosting."</div>
+      <div class="jm-cell react">"Twenty people came because the broadcast hit them while they were walking past."</div>
+      <div class="jm-cell react">"Someone left a voice note thanking the block. We've never had that before."</div>
+
+      <div class="jm-row-label dim">Phase</div>
+      <div class="jm-cell phase">Awareness</div>
+      <div class="jm-cell phase">Adoption</div>
+      <div class="jm-cell phase">Orchestration</div>
+      <div class="jm-cell phase">Stewardship</div>
+    </div>
+
+    <div class="jm-arc">
+      <div class="jm-arc-head">
+        <div class="jm-arc-title">Emotional Arc · skepticism → efficiency → clarity → ownership</div>
+        <div class="jm-arc-legend">
+          <span class="proj"><i></i>Projection</span>
+          <span><i></i>Actual</span>
+        </div>
+      </div>
+      <svg class="jm-arc-svg" viewBox="0 0 1400 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="385" x2="1400" y2="385" stroke="#fff" stroke-opacity="0.08" stroke-width="1"/>
+        <line x1="350" y1="0" x2="350" y2="400" stroke="#fff" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="700" y1="0" x2="700" y2="400" stroke="#fff" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="1050" y1="0" x2="1050" y2="400" stroke="#fff" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4 4"/>
+
+        <rect x="0" y="260" width="350" height="125" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="10" y="276" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Latent Needs</text>
+
+        <rect x="350" y="110" width="350" height="150" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="360" y="126" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Learning Process</text>
+
+        <rect x="700" y="30" width="350" height="80" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="710" y="46" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Internalization</text>
+
+        <rect x="1050" y="30" width="350" height="80" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="1060" y="46" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Post-usage</text>
+
+        <path d="M 0,365 C 120,362 240,348 350,310 C 460,268 560,210 700,135 C 840,70 940,42 1050,35 C 1160,30 1280,42 1400,60" stroke="#fff" stroke-opacity="0.7" stroke-width="1.2" fill="none" stroke-dasharray="10 6"/>
+
+        <path class="jm-actual" d="M 0,370 C 50,362 100,345 170,310 C 240,270 300,200 360,140 C 420,85 480,50 540,30 C 600,15 660,12 720,28 C 780,45 820,65 860,50 C 900,32 950,18 1020,12 C 1090,8 1160,15 1230,22 C 1300,28 1360,34 1400,38" stroke="#fff" stroke-opacity="0.9" stroke-width="1.5" fill="none"/>
+
+        <circle cx="540" cy="30" r="4" fill="#fff" fill-opacity="0.7"/>
+        <circle cx="540" cy="30" r="8" fill="#fff" fill-opacity="0.08"/>
+        <circle cx="1020" cy="12" r="4" fill="#fff" fill-opacity="0.7"/>
+        <circle cx="1020" cy="12" r="8" fill="#fff" fill-opacity="0.08"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ========== PERSONA 03 ========== -->
+  <div class="jm-panel" data-jm-panel="03">
+    <div class="jm-persona-head">
+      <div class="jm-persona-title">From evaluating audio-AR devices to a persistent ambient intelligence layer.</div>
+      <div class="jm-persona-meta">Persona 03 · AAR Pioneer</div>
+    </div>
+    <p class="jm-persona-desc">A linear narrative of how Alex embeds OnGen as an ambient computing layer across glasses, phone, and watch — replacing visual AR overlays with a proactive audio interface.</p>
+
+    <div class="jm-grid">
+      <div class="jm-row-label dim jm-stage-corner"></div>
+      <div class="jm-stage-h">Device Pair</div>
+      <div class="jm-stage-h">Ambient Sync</div>
+      <div class="jm-stage-h">AI Layer</div>
+      <div class="jm-stage-h">Interface Fade</div>
+
+      <div class="jm-row-label">Pain Point</div>
+      <div class="jm-cell">Visual AR overlays demand constant eye attention — clunky, battery-draining, and focus-breaking by design.</div>
+      <div class="jm-cell">Every voice assistant she tests sits dormant until explicitly called — no proactive ambient intelligence layer.</div>
+      <div class="jm-cell">Context is always manually entered: location, schedule, preferences — nothing reads the environment on its own.</div>
+      <div class="jm-cell">No unified bridge connects her AR hardware to AI software — the experience always feels stitched together.</div>
+
+      <div class="jm-row-label dim">Context</div>
+      <div class="jm-cell ctx">Marketing · Device Discovery</div>
+      <div class="jm-cell ctx">Onboarding · Hardware Pairing</div>
+      <div class="jm-cell ctx">Daily Use · Ambient Computing</div>
+      <div class="jm-cell ctx">Engagement · Workflow Integration</div>
+
+      <div class="jm-row-label">Feature</div>
+      <div class="jm-cell feat">Instant smart-glasses pairing — OnGen detects her Meta Ray-Bans and begins ambient audio without a setup wizard.</div>
+      <div class="jm-cell feat">Zero-input context engine reads location, time, movement, and calendar to compose a relevant audio stream.</div>
+      <div class="jm-cell feat">Proactive AI curator surfaces information at the right moment — audio fades in without interrupting focus.</div>
+      <div class="jm-cell feat">Persistent ambient layer spans glasses, phone, and watch as one unified auditory interface.</div>
+
+      <div class="jm-row-label">Reaction</div>
+      <div class="jm-cell react">"It recognized my Ray-Bans in three seconds. No app, no wizard — just audio."</div>
+      <div class="jm-cell react">"I didn't configure anything and it already knows I'm heading to the Distillery."</div>
+      <div class="jm-cell react">"A gallery opening whispered into my walk. I would've scrolled past it on any screen."</div>
+      <div class="jm-cell react">"This is the ambient AI layer I've been prototyping in Figma. Someone built it."</div>
+
+      <div class="jm-row-label dim">Phase</div>
+      <div class="jm-cell phase">Evaluation</div>
+      <div class="jm-cell phase">Integration</div>
+      <div class="jm-cell phase">Immersion</div>
+      <div class="jm-cell phase">Advocacy</div>
+    </div>
+
+    <div class="jm-arc">
+      <div class="jm-arc-head">
+        <div class="jm-arc-title">Emotional Arc · intrigue → validation → immersion → conviction</div>
+        <div class="jm-arc-legend">
+          <span class="proj"><i></i>Projection</span>
+          <span><i></i>Actual</span>
+        </div>
+      </div>
+      <svg class="jm-arc-svg" viewBox="0 0 1400 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="385" x2="1400" y2="385" stroke="#fff" stroke-opacity="0.08" stroke-width="1"/>
+        <line x1="350" y1="0" x2="350" y2="400" stroke="#fff" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="700" y1="0" x2="700" y2="400" stroke="#fff" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4 4"/>
+        <line x1="1050" y1="0" x2="1050" y2="400" stroke="#fff" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="4 4"/>
+
+        <rect x="0" y="240" width="350" height="145" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="10" y="256" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Latent Needs</text>
+
+        <rect x="350" y="130" width="350" height="110" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="360" y="146" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Learning Process</text>
+
+        <rect x="700" y="30" width="350" height="100" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="710" y="46" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Internalization</text>
+
+        <rect x="1050" y="30" width="350" height="100" fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="0.7" stroke-dasharray="4 3"/>
+        <text x="1060" y="46" font-family="Helvetica Neue,Helvetica,Arial,sans-serif" font-size="13" fill="#fff" fill-opacity="0.35" letter-spacing="-0.02em">Post-usage</text>
+
+        <path d="M 0,365 C 120,362 240,348 350,310 C 460,268 560,210 700,135 C 840,70 940,42 1050,35 C 1160,30 1280,42 1400,60" stroke="#fff" stroke-opacity="0.7" stroke-width="1.2" fill="none" stroke-dasharray="10 6"/>
+
+        <path class="jm-actual" d="M 0,280 C 60,295 120,315 180,340 C 240,360 300,372 350,380 C 400,385 430,370 460,340 C 500,300 530,240 570,170 C 610,110 650,65 700,35 C 750,15 800,8 860,10 C 920,14 980,16 1050,15 C 1120,14 1200,18 1280,24 C 1340,28 1380,30 1400,32" stroke="#fff" stroke-opacity="0.9" stroke-width="1.5" fill="none"/>
+
+        <circle cx="350" cy="380" r="4" fill="#fff" fill-opacity="0.5"/>
+        <circle cx="350" cy="380" r="8" fill="#fff" fill-opacity="0.06"/>
+        <circle cx="800" cy="8" r="4" fill="#fff" fill-opacity="0.7"/>
+        <circle cx="800" cy="8" r="8" fill="#fff" fill-opacity="0.08"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<script>
+/* Journey Mapping tab switcher */
+(function(){
+  var tabs = document.querySelectorAll('.jm-tab');
+  var panels = document.querySelectorAll('[data-jm-panel]');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      var k = t.getAttribute('data-jm');
+      tabs.forEach(function(x){
+        var on = x === t;
+        x.classList.toggle('is-active', on);
+        x.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panels.forEach(function(p){
+        p.classList.toggle('is-active', p.getAttribute('data-jm-panel') === k);
+      });
+    });
+  });
+})();
+</script>
 
 <!-- ============================================================
      ENTITY DIAGRAM — data model for the OnGen Radio prototype
