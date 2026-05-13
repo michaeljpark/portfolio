@@ -845,6 +845,86 @@
     .vm-chart .vm-sector-line{ stroke-width:0.5; }
   }
 
+  /* Tier scrollytelling */
+  .tier-scroll{
+    position:relative;
+    width:100%;
+    background:var(--bg);
+    color:var(--ink);
+    /* 5 step panels + 1 exit panel × 100vh, so the sticky iframe remains
+       pinned the entire time tier 5's text is on screen. */
+    --tier-panels: 6;
+    height: calc(var(--tier-panels) * 100vh);
+  }
+  .tier-scroll-inner{ position:relative; height:100%; }
+  .tier-sticky{
+    position:sticky;
+    top:0;
+    height:100vh;
+    width:100%;
+    overflow:hidden;
+    z-index:1;
+  }
+  .tier-sticky iframe{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    border:0;
+    background:transparent;
+    display:block;
+    /* Iframe content shouldn't capture wheel/touch — parent scroll wins. */
+    pointer-events:none;
+  }
+  .tier-readout{ display:none; }
+  .tier-steps{
+    position:relative;
+    z-index:2;
+    pointer-events:none;
+    width:100%;
+    /* Pull steps up so step 1 overlaps the sticky iframe from the very top
+       of the section, instead of starting one viewport later. */
+    margin-top:-100vh;
+  }
+  .tier-step{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:flex-start;
+    padding:0 32px 64px;
+    box-sizing:border-box;
+    color:#fff;
+    max-width:520px;
+    pointer-events:none;
+  }
+  .tier-step-num{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:12px;
+    letter-spacing:0.14em;
+    opacity:0.45;
+    margin-bottom:10px;
+  }
+  .tier-step-title{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:28px;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    margin-bottom:10px;
+  }
+  .tier-step-body{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:14px;
+    line-height:1.55;
+    color:rgba(255,255,255,0.7);
+    max-width:420px;
+  }
+  @media(max-width:880px){
+    .tier-step{ padding:0 18px 36px; }
+    .tier-step-title{ font-size:22px; }
+    .tier-step-body{ font-size:13px; }
+  }
+
   /* Features section */
   .ft-section{
     padding-top:120px;
@@ -1534,6 +1614,45 @@
 
   <div class="vm-block">
     <div id="vmChart" class="vm-chart" aria-hidden="false"></div>
+  </div>
+</section>
+
+<section class="tier-scroll" aria-label="Stakeholder ecosystem by tier">
+  <div class="tier-scroll-inner">
+    <div class="tier-sticky">
+      <iframe id="tierMapFrame"
+              src="mapping.html"
+              title="Stakeholder ecosystem map"
+              loading="lazy"
+              referrerpolicy="no-referrer"></iframe>
+    </div>
+    <div class="tier-steps">
+      <div class="tier-step" data-tier="1" data-label="Technology &amp; Data">
+        <div class="tier-step-num">01</div>
+        <div class="tier-step-title">Technology &amp; Data</div>
+        <div class="tier-step-body">Enterprise data, cloud, and infrastructure providers that supply the substrate for any AI service running on top.</div>
+      </div>
+      <div class="tier-step" data-tier="2" data-label="AI Services">
+        <div class="tier-step-num">02</div>
+        <div class="tier-step-title">AI Services</div>
+        <div class="tier-step-body">Foundation-model providers and Toronto-anchored AI labs that supply intelligence, reasoning, and generation to the platform.</div>
+      </div>
+      <div class="tier-step" data-tier="3" data-label="Data Security">
+        <div class="tier-step-num">03</div>
+        <div class="tier-step-title">Data Security</div>
+        <div class="tier-step-body">Identity, endpoint, and network security vendors safeguarding personal data, broadcasts, and the autonomy stack.</div>
+      </div>
+      <div class="tier-step" data-tier="4" data-label="Physical Robotics">
+        <div class="tier-step-num">04</div>
+        <div class="tier-step-title">Physical Robotics</div>
+        <div class="tier-step-body">Humanoids, autonomous vehicles, drones, and warehouse robots — the embodied agents that consume the local radio signal.</div>
+      </div>
+      <div class="tier-step" data-tier="5" data-label="Legal &amp; Regulatory">
+        <div class="tier-step-num">05</div>
+        <div class="tier-step-title">Legal &amp; Regulatory</div>
+        <div class="tier-step-body">CRTC, privacy commissioners, transport, and cyber authorities — the institutional perimeter inside which the platform operates.</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2888,6 +3007,104 @@ window.addEventListener('load', function(){
     new ResizeObserver(layout).observe(container);
   }
   window.addEventListener('resize', layout);
+})();
+
+// ---------- Tier scrollytelling ----------
+(function(){
+  var section = document.querySelector('.tier-scroll');
+  if (!section) return;
+  var iframe  = document.getElementById('tierMapFrame');
+  var steps   = Array.prototype.slice.call(section.querySelectorAll('.tier-step'));
+  if (!iframe || !steps.length) return;
+
+  var iframeReady = false;
+  var pendingTier = null;
+  var currentTier = null;
+  var dispatchedTier = null;        // last tier actually posted to iframe
+  var renderInFlight = false;       // iframe currently animating
+  var dispatchTimer = null;
+  var DISPATCH_DELAY = 220;         // ms — scroll settle before posting to iframe
+
+  // Iframe signals when its transition has fully settled.
+  window.addEventListener('message', function(e){
+    var d = e.data || {};
+    if (d && d.type === 'tierDone'){
+      renderInFlight = false;
+      // If user scrolled to a new tier while iframe was busy, flush it now.
+      if (currentTier !== dispatchedTier){
+        scheduleDispatch(0);
+      }
+    }
+  });
+
+  iframe.addEventListener('load', function(){
+    iframeReady = true;
+    if (pendingTier !== null){
+      postTier(pendingTier);
+      pendingTier = null;
+    } else {
+      compute();
+    }
+  });
+
+  function postTier(t){
+    dispatchedTier = t;
+    renderInFlight = true;
+    try {
+      iframe.contentWindow.postMessage({ type:'setTier', tier: t }, '*');
+    } catch (e){ renderInFlight = false; }
+  }
+
+  function scheduleDispatch(delay){
+    if (dispatchTimer) clearTimeout(dispatchTimer);
+    dispatchTimer = setTimeout(function(){
+      dispatchTimer = null;
+      if (currentTier === dispatchedTier) return;
+      if (!iframeReady){ pendingTier = currentTier; return; }
+      if (renderInFlight) return; // wait for tierDone
+      postTier(currentTier);
+    }, delay);
+  }
+
+  function setTier(t){
+    if (t === currentTier) return;
+    currentTier = t;
+    scheduleDispatch(DISPATCH_DELAY);
+  }
+
+  function compute(){
+    var rect = section.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var total = section.offsetHeight - vh;
+    if (total <= 0) return;
+    var p = -rect.top / total;
+    if (p < 0) p = 0;
+    if (p > 1) p = 1;
+    // Section is (steps.length + 1) panels tall. The first steps.length
+    // panels each host one step. Map scroll progress to step index by
+    // floor(p * steps.length), clamped — so each step "owns" exactly its
+    // own viewport slice.
+    var idx = Math.floor(p * steps.length);
+    if (idx < 0) idx = 0;
+    if (idx > steps.length - 1) idx = steps.length - 1;
+    var tier = parseInt(steps[idx].getAttribute('data-tier'), 10);
+    if (!tier) tier = 1;
+    setTier(tier);
+  }
+
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      compute();
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', onScroll);
+  // initial
+  compute();
 })();
 </script>
 
