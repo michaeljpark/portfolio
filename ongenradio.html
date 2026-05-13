@@ -892,10 +892,10 @@
     flex-direction:column;
     justify-content:flex-end;
     align-items:flex-start;
-    padding:0 32px 64px;
+    padding:0 32px 64px clamp(40px, 8vw, 140px);
     box-sizing:border-box;
     color:#fff;
-    max-width:520px;
+    max-width:620px;
     pointer-events:none;
   }
   .tier-step-num{
@@ -1120,7 +1120,17 @@
   .market-stack{
     position:relative;
     height:300vh; /* 3 panels × 100vh of scroll */
-    border-top:1px solid var(--line);
+  }
+  .market-stack::before{
+    content:"";
+    position:absolute;
+    top:0; left:0; right:0;
+    height:1px;
+    max-width:var(--max);
+    margin:0 auto;
+    background:var(--line);
+    z-index:1;
+    pointer-events:none;
   }
   .market-stage{
     position:sticky; top:0;
@@ -1160,7 +1170,8 @@
   }
 
   @media(max-width:880px){
-    .market-stack{ height:auto; border-top:0; }
+    .market-stack{ height:auto; }
+    .market-stack::before{ display:none; }
     .market-stage{ position:relative; height:auto; overflow:visible; }
     .market-panel{
       position:relative; inset:auto;
@@ -1203,6 +1214,346 @@
     .hyp-head{ margin-bottom:32px; }
     .hyp-list li{ gap:20px; padding:20px 0; }
     .hyp-num{ min-width:28px; }
+  }
+
+  /* ============================================================
+     Entity Diagram (after Stakeholder mapping)
+     Two layouts: desktop SVG (1664×723) & mobile vertical list.
+     ============================================================ */
+  .entity-section{
+    padding:120px 0 100px;
+    background:var(--bg); color:var(--ink);
+    position:relative;
+  }
+  .entity-section::before{
+    content:"";
+    display:block;
+    position:absolute;
+    top:0; left:0; right:0;
+    height:1px;
+    max-width:var(--max);
+    margin:0 auto;
+    background:var(--line);
+  }
+  .entity-head{
+    max-width:var(--max);
+    margin:0 auto 56px;
+    padding-left:var(--pad); padding-right:var(--pad);
+    display:grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "title meta"
+      "sub   meta";
+    column-gap:48px;
+    row-gap:16px;
+    align-items:end;
+  }
+  .entity-eyebrow{
+    font-size:clamp(11px,0.85vw,13px);
+    color:var(--muted);
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    margin:0;
+  }
+  .entity-footnote{
+    max-width:var(--max);
+    margin:48px auto 0;
+    padding-left:var(--pad); padding-right:var(--pad);
+    color:var(--muted);
+    font-size:clamp(11px,0.85vw,13px);
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+  }
+  .entity-title{
+    grid-area:title;
+    font-size:clamp(32px,4vw,56px);
+    font-weight:400;
+    letter-spacing:-0.05em;
+    line-height:1;
+    color:var(--ink);
+    margin:0;
+  }
+  .entity-sub{
+    grid-area:sub;
+    margin:0;
+    font-size:clamp(14px,1.1vw,18px);
+    color:var(--muted);
+    letter-spacing:-0.01em;
+    line-height:1.45;
+    max-width:640px;
+  }
+  .entity-meta{
+    grid-area:meta;
+    display:flex; gap:10px; flex-wrap:wrap;
+    justify-content:flex-end;
+    margin:0;
+  }
+  .entity-meta .em-stat{
+    display:inline-flex; align-items:baseline; gap:8px;
+    padding:10px 14px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    font-size:11px;
+    color:var(--muted);
+    letter-spacing:-0.01em;
+    white-space:nowrap;
+  }
+  .entity-meta .em-stat b{
+    color:var(--ink); font-weight:500;
+    font-size:13px; letter-spacing:-0.02em;
+  }
+
+  /* Desktop SVG canvas */
+  .entity-canvas-wrap{
+    max-width:var(--max); margin:0 auto;
+    padding-left:var(--pad); padding-right:var(--pad);
+    display:flex; justify-content:center;
+  }
+  .entity-canvas{
+    width:100%;
+    aspect-ratio:1664 / 723;
+    position:relative;
+    background:transparent;
+    margin:0 auto;
+  }
+  .entity-canvas svg{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    display:block;
+  }
+
+  /* Relationship paths — quiet, static structural lines */
+  .er-rel{
+    fill:none; stroke:#ffffff; stroke-width:0.6;
+    opacity:0.18;
+  }
+  .er-rel.is-dashed{ stroke-dasharray:3 5; opacity:0.12; }
+  .er-rel-label{
+    fill:#ffffff; opacity:0.32; font-size:8px;
+    letter-spacing:-0.02em;
+  }
+
+  /* Box-sequence pulse — each entity fades in to white, holds briefly,
+     then fades out. Registered custom properties make color/number
+     transitions actually interpolate (otherwise they snap). */
+  @property --erc { syntax:'<color>'; inherits:true; initial-value:#1a1a1a; }
+  @property --ert { syntax:'<color>'; inherits:true; initial-value:#ffffff; }
+  @property --ers { syntax:'<color>'; inherits:true; initial-value:#ffffff; }
+  @property --erso { syntax:'<number>'; inherits:true; initial-value:0; }
+  @property --erg { syntax:'<number>'; inherits:true; initial-value:0; }
+
+  .er-entity{
+    --erc:#1a1a1a;
+    --ert:#ffffff;
+    --ers:#ffffff;
+    --erso:0;
+    --erg:0;
+    animation:erBoxPulse 12s ease-in-out infinite;
+    animation-delay:var(--d, 0s);
+    filter:drop-shadow(0 0 calc(var(--erg) * 14px) rgba(255,255,255,calc(var(--erg) * 0.55)));
+  }
+  .er-entity rect{
+    fill:var(--erc); stroke:var(--ers); stroke-width:0;
+    stroke-opacity:var(--erso);
+  }
+  .er-entity text{ fill:var(--ert); }
+  .er-entity-title{ font-size:11px; letter-spacing:-0.03em; }
+  .er-entity-tag{ font-size:8px; opacity:0.45; }
+  .er-entity-rule{ stroke:var(--ert); stroke-width:0.4; opacity:0.22; }
+  .er-attr{ font-size:9px; letter-spacing:-0.02em; opacity:0.85; }
+  .er-attr.is-key{ opacity:1; }
+  .er-dim{ opacity:0.55; }
+
+  @keyframes erBoxPulse{
+    /* dim rest — dark gray box, no border */
+    0%, 94%, 100% {
+      --erc:#1a1a1a; --ert:#ffffff; --erso:0; --erg:0;
+    }
+    /* warm-up */
+    3% {
+      --erc:#2a2a2a; --ert:#ffffff; --erso:0; --erg:0.35;
+    }
+    /* rising */
+    6% {
+      --erc:#5a5a5a; --ert:#ffffff; --erso:0; --erg:0.7;
+    }
+    /* peak — full white */
+    9%, 15% {
+      --erc:#ffffff; --ert:#000000; --erso:0; --erg:1;
+    }
+    /* easing down */
+    18% {
+      --erc:#5a5a5a; --ert:#ffffff; --erso:0; --erg:0.7;
+    }
+    22% {
+      --erc:#2a2a2a; --ert:#ffffff; --erso:0; --erg:0.3;
+    }
+    /* settled */
+    28% {
+      --erc:#1a1a1a; --ert:#ffffff; --erso:0; --erg:0;
+    }
+  }
+
+  /* Hide the old line-pulse overlay layer (we keep the markup harmless) */
+  .er-flow{ display:none; }
+
+  /* Zone separators & labels — pure structural cues */
+  .er-band-line{ stroke:#ffffff; stroke-width:0.4; opacity:0.12; stroke-dasharray:3 5; }
+  .er-band-label{
+    fill:#ffffff; opacity:0.45; font-size:10px;
+    letter-spacing:0.14em; text-transform:uppercase;
+  }
+  .er-zone-glow{ display:none; }
+
+  /* Legend — restyled to portfolio typography */
+  .entity-legend{
+    max-width:var(--max); margin:40px auto 0;
+    padding-left:var(--pad); padding-right:var(--pad);
+    display:flex; flex-wrap:wrap; gap:14px 28px;
+    font-size:11px; color:var(--muted);
+    letter-spacing:-0.02em;
+  }
+  .entity-legend .lg-key{ display:inline-flex; align-items:center; gap:8px; }
+  .entity-legend .lg-mark{
+    display:inline-block; width:18px; height:1px; background:var(--ink); opacity:0.6;
+  }
+  .entity-legend .lg-mark.dashed{ background:transparent; border-top:1px dashed var(--ink); opacity:0.5; }
+  .entity-legend .lg-mark.box{
+    width:14px; height:10px; background:transparent;
+    border:1px solid var(--ink); border-radius:2px; opacity:0.7;
+    animation:erLegendBox 3.6s ease-in-out infinite;
+    box-shadow:0 0 0 rgba(255,255,255,0);
+  }
+  @keyframes erLegendBox{
+    0%, 100% { background:transparent; box-shadow:0 0 0 rgba(255,255,255,0); }
+    30%, 60% { background:var(--ink); box-shadow:0 0 8px rgba(255,255,255,0.45); }
+  }
+  .entity-legend .lg-glyph{ color:var(--ink); font-weight:500; }
+
+  /* ============================================================
+     Mobile vertical view (replaces SVG canvas on narrow screens).
+     ============================================================ */
+  @property --emc { syntax:'<color>'; inherits:true; initial-value:#0a0a0a; }
+  @property --emt { syntax:'<color>'; inherits:true; initial-value:#ffffff; }
+  @property --emb { syntax:'<color>'; inherits:true; initial-value:rgba(255,255,255,0.18); }
+  @property --emg { syntax:'<number>'; inherits:true; initial-value:0; }
+
+  .entity-mobile{ display:none; }
+  @media (max-width:768px){
+    .entity-section{ padding:80px 0 64px; }
+    .entity-head{
+      grid-template-columns:1fr;
+      grid-template-areas:
+        "title"
+        "sub"
+        "meta";
+      row-gap:14px;
+      margin-bottom:36px;
+    }
+    .entity-title{ font-size:clamp(28px,8vw,40px); }
+    .entity-sub{ font-size:14px; line-height:1.55; }
+    .entity-meta{ justify-content:flex-start; gap:8px; margin-top:6px; }
+    .entity-meta .em-stat{ padding:8px 12px; font-size:10.5px; }
+    .entity-meta .em-stat b{ font-size:12px; }
+    .entity-canvas-wrap{ display:none; }
+    .entity-legend{ gap:8px 16px; font-size:10px; margin-top:22px;
+      max-width:var(--max); padding-left:var(--pad); padding-right:var(--pad);
+    }
+    .entity-legend .lg-mark{ width:14px; }
+
+    .entity-mobile{
+      display:block;
+      max-width:var(--max); margin:0 auto;
+      padding-left:var(--pad); padding-right:var(--pad);
+    }
+    .em-zone{
+      position:relative;
+      border-radius:14px;
+      padding:14px 14px 12px;
+      margin-bottom:10px;
+      background:#111111;
+    }
+    .em-zone-label{
+      font-size:9.5px; color:var(--muted);
+      letter-spacing:0.18em; text-transform:uppercase;
+      margin-bottom:12px;
+      padding-bottom:10px;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+    }
+    .em-entities{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:6px;
+    }
+    .em-entity{
+      --emc:#1a1a1a;
+      --emt:#ffffff;
+      --emg:0;
+      border:0;
+      border-radius:8px;
+      padding:9px 11px;
+      font-size:11px;
+      letter-spacing:-0.02em;
+      background:var(--emc);
+      color:var(--emt);
+      display:flex; flex-direction:column; gap:3px;
+      min-height:44px;
+      animation:emBoxPulse 12s ease-in-out infinite;
+      animation-delay:var(--d, 0s);
+      will-change:background, color, box-shadow;
+      box-shadow:0 0 calc(var(--emg) * 18px) rgba(255,255,255,calc(var(--emg) * 0.45));
+    }
+    .em-entity .em-name{
+      font-weight:500; color:inherit;
+      font-size:11.5px; letter-spacing:-0.025em;
+    }
+    .em-entity .em-tag{
+      font-size:9px; opacity:0.6; color:inherit;
+      letter-spacing:0; line-height:1.3;
+    }
+    @keyframes emBoxPulse{
+      0%, 94%, 100% {
+        --emc:#1a1a1a; --emt:#ffffff; --emg:0;
+      }
+      3% {
+        --emc:#2a2a2a; --emt:#ffffff; --emg:0.35;
+      }
+      6% {
+        --emc:#5a5a5a; --emt:#ffffff; --emg:0.7;
+      }
+      9%, 15% {
+        --emc:#ffffff; --emt:#000000; --emg:1;
+      }
+      18% {
+        --emc:#5a5a5a; --emt:#ffffff; --emg:0.7;
+      }
+      22% {
+        --emc:#2a2a2a; --emt:#ffffff; --emg:0.3;
+      }
+      28% {
+        --emc:#1a1a1a; --emt:#ffffff; --emg:0;
+      }
+    }
+
+    /* Loop indicator note between zones (no traveling dot — boxes carry the pulse) */
+    .em-flow{ display:none; }
+    .em-loop-note{
+      text-align:center;
+      font-size:9.5px; color:var(--muted);
+      letter-spacing:0.16em; text-transform:uppercase;
+      margin-top:14px;
+      padding-top:14px;
+      border-top:1px dashed var(--line);
+    }
+  }
+
+  /* Very narrow phones: single column, smaller padding */
+  @media (max-width:420px){
+    .em-zone{ padding:12px 12px 10px; border-radius:12px; }
+    .em-entities{ grid-template-columns:1fr; gap:5px; }
+    .em-entity{ padding:8px 10px; min-height:0; flex-direction:row; align-items:baseline; gap:8px; }
+    .em-entity .em-name{ font-size:11.5px; }
+    .em-entity .em-tag{ font-size:9px; opacity:0.55; margin-left:auto; text-align:right; }
   }
 </style>
 </head>
@@ -3143,6 +3494,438 @@ window.addEventListener('load', function(){
     }
   }
 </style>
+
+<!-- ============================================================
+     ENTITY DIAGRAM — data model for the OnGen Radio prototype
+     ============================================================ -->
+<section class="entity-section" aria-label="Entity diagram">
+  <div class="entity-head">
+    <h2 class="entity-title">Entity Diagram</h2>
+    <p class="entity-sub">
+      Fourteen entities across three service components — Regional Intelligence Hub,
+      Community Radio, and Personal AAR. Pulses trace the live data flow:
+      signal capture → AI synthesis → broadcast → listening → behavioural feedback,
+      closing the loop back into the model.
+    </p>
+    <div class="entity-meta">
+      <span class="em-stat"><b>14</b> entities</span>
+      <span class="em-stat"><b>17</b> relations</span>
+      <span class="em-stat">stack <b>Firebase · Gemini · ElevenLabs</b></span>
+    </div>
+  </div>
+
+  <div class="entity-canvas-wrap">
+    <div class="entity-canvas" aria-hidden="true">
+      <svg viewBox="0 0 1664 723" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Crow's-foot markers -->
+          <marker id="m-many-mand-end" viewBox="0 0 16 16" refX="16" refY="8" markerWidth="14" markerHeight="14" orient="auto">
+            <path d="M 6 3 L 16 8 L 6 13" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.8"/>
+            <line x1="6" y1="3" x2="6" y2="13" stroke="#fff" stroke-width="0.8" opacity="0.8"/>
+          </marker>
+          <marker id="m-many-opt-end" viewBox="0 0 20 16" refX="20" refY="8" markerWidth="16" markerHeight="14" orient="auto">
+            <path d="M 10 3 L 20 8 L 10 13" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.8"/>
+            <circle cx="7" cy="8" r="2.5" stroke="#fff" stroke-width="0.8" fill="#0a0a0a" opacity="0.8"/>
+          </marker>
+          <marker id="m-many-opt-start" viewBox="0 0 20 16" refX="0" refY="8" markerWidth="16" markerHeight="14" orient="auto">
+            <path d="M 10 3 L 0 8 L 10 13" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.8"/>
+            <circle cx="13" cy="8" r="2.5" stroke="#fff" stroke-width="0.8" fill="#0a0a0a" opacity="0.8"/>
+          </marker>
+          <marker id="m-one-mand-start" viewBox="0 0 16 16" refX="0" refY="8" markerWidth="14" markerHeight="14" orient="auto">
+            <line x1="2" y1="3" x2="2" y2="13" stroke="#fff" stroke-width="0.8" opacity="0.8"/>
+            <line x1="7" y1="3" x2="7" y2="13" stroke="#fff" stroke-width="0.8" opacity="0.8"/>
+          </marker>
+          <marker id="m-one-mand-end" viewBox="0 0 16 16" refX="16" refY="8" markerWidth="14" markerHeight="14" orient="auto">
+            <line x1="9" y1="3" x2="9" y2="13" stroke="#fff" stroke-width="0.8" opacity="0.8"/>
+            <line x1="14" y1="3" x2="14" y2="13" stroke="#fff" stroke-width="0.8" opacity="0.8"/>
+          </marker>
+          <marker id="m-one-opt-end" viewBox="0 0 20 16" refX="20" refY="8" markerWidth="16" markerHeight="14" orient="auto">
+            <line x1="15" y1="3" x2="15" y2="13" stroke="#fff" stroke-width="0.8" opacity="0.8"/>
+            <circle cx="9" cy="8" r="2.5" stroke="#fff" stroke-width="0.8" fill="#0a0a0a" opacity="0.8"/>
+          </marker>
+          <marker id="m-arrow-dim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#fff" opacity="0.55"/>
+          </marker>
+        </defs>
+
+        <!-- Zone wash highlights (sequential) -->
+        <rect class="er-zone-glow zone-rih"  x="40"   y="170" width="520" height="490"/>
+        <rect class="er-zone-glow zone-comm" x="560"  y="170" width="544" height="490"/>
+        <rect class="er-zone-glow zone-aar"  x="1104" y="170" width="528" height="490"/>
+
+        <!-- Zone dividers + labels -->
+        <line class="er-band-line" x1="560"  y1="140" x2="560"  y2="660"/>
+        <line class="er-band-line" x1="1104" y1="140" x2="1104" y2="660"/>
+        <text class="er-band-label" x="300"  y="158" text-anchor="middle">Regional Intelligence Hub · B2R</text>
+        <text class="er-band-label" x="832"  y="158" text-anchor="middle">Community Radio · B2B</text>
+        <text class="er-band-label" x="1368" y="158" text-anchor="middle">Personal Radio · AAR · B2C</text>
+
+        <!-- ============ ENTITIES ============ -->
+
+        <!-- LocationSignal -->
+        <g class="er-entity" style="--d:0s">
+          <rect x="60" y="190" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="72" y="205">LocationSignal</text>
+          <text class="er-entity-tag" x="228" y="205" text-anchor="end">entity</text>
+          <line class="er-entity-rule" x1="60" y1="212" x2="240" y2="212"/>
+          <text class="er-attr is-key" x="72" y="228">◆ signal_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="72" y="244">• coordinates <tspan class="er-dim">geo</tspan></text>
+          <text class="er-attr" x="72" y="260">• timestamp <tspan class="er-dim">ts</tspan></text>
+          <text class="er-attr" x="72" y="276">• source_type <tspan class="er-dim">enum</tspan></text>
+          <text class="er-attr" x="72" y="292">• weather / POI</text>
+        </g>
+
+        <!-- ContextSnapshot -->
+        <g class="er-entity" style="--d:0.3s">
+          <rect x="60" y="340" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="72" y="355">ContextSnapshot</text>
+          <text class="er-entity-tag" x="228" y="355" text-anchor="end">entity</text>
+          <line class="er-entity-rule" x1="60" y1="362" x2="240" y2="362"/>
+          <text class="er-attr is-key" x="72" y="378">◆ snapshot_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="72" y="394">◇ signal_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="72" y="410">• summary <tspan class="er-dim">text</tspan></text>
+          <text class="er-attr" x="72" y="426">• tags <tspan class="er-dim">string[]</tspan></text>
+          <text class="er-attr" x="72" y="442">• generated_at <tspan class="er-dim">ts</tspan></text>
+        </g>
+
+        <!-- RegionalHub -->
+        <g class="er-entity" style="--d:0.5s">
+          <rect x="60" y="490" width="180" height="110" rx="8"/>
+          <text class="er-entity-title" x="72" y="505">RegionalHub</text>
+          <text class="er-entity-tag" x="228" y="505" text-anchor="end">entity</text>
+          <line class="er-entity-rule" x1="60" y1="512" x2="240" y2="512"/>
+          <text class="er-attr is-key" x="72" y="528">◆ hub_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="72" y="544">• region_name</text>
+          <text class="er-attr" x="72" y="560">• boundary <tspan class="er-dim">geojson</tspan></text>
+          <text class="er-attr" x="72" y="576">• operator <tspan class="er-dim">string</tspan></text>
+        </g>
+
+        <!-- AIProcessor -->
+        <g class="er-entity" style="--d:0.8s">
+          <rect x="300" y="260" width="200" height="140" rx="8"/>
+          <text class="er-entity-title" x="312" y="275">AIProcessor</text>
+          <text class="er-entity-tag" x="488" y="275" text-anchor="end">service</text>
+          <line class="er-entity-rule" x1="300" y1="282" x2="500" y2="282"/>
+          <text class="er-attr is-key" x="312" y="298">◆ processor_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="312" y="314">• model <tspan class="er-dim">Gemini 3.1</tspan></text>
+          <text class="er-attr" x="312" y="330">• prompt_template</text>
+          <text class="er-attr" x="312" y="346">• context_window</text>
+          <text class="er-attr" x="312" y="362">• fallback_policy</text>
+          <text class="er-attr" x="312" y="378">• version <tspan class="er-dim">string</tspan></text>
+        </g>
+
+        <!-- User -->
+        <g class="er-entity" style="--d:1.2s">
+          <rect x="600" y="190" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="612" y="205">User</text>
+          <text class="er-entity-tag" x="768" y="205" text-anchor="end">root</text>
+          <line class="er-entity-rule" x1="600" y1="212" x2="780" y2="212"/>
+          <text class="er-attr is-key" x="612" y="228">◆ user_id <tspan class="er-dim">PK · auth</tspan></text>
+          <text class="er-attr" x="612" y="244">• display_name</text>
+          <text class="er-attr" x="612" y="260">• photo_url</text>
+          <text class="er-attr" x="612" y="276">• created_at <tspan class="er-dim">ts</tspan></text>
+          <text class="er-attr" x="612" y="292">• role <tspan class="er-dim">listener|host</tspan></text>
+        </g>
+
+        <!-- Channel -->
+        <g class="er-entity" style="--d:2.0s">
+          <rect x="830" y="190" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="842" y="205">Channel</text>
+          <text class="er-entity-tag" x="998" y="205" text-anchor="end">entity</text>
+          <line class="er-entity-rule" x1="830" y1="212" x2="1010" y2="212"/>
+          <text class="er-attr is-key" x="842" y="228">◆ channel_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="842" y="244">◇ host_id <tspan class="er-dim">FK → User</tspan></text>
+          <text class="er-attr" x="842" y="260">• name / freq</text>
+          <text class="er-attr" x="842" y="276">• visibility</text>
+          <text class="er-attr" x="842" y="292">• created_at <tspan class="er-dim">ts</tspan></text>
+        </g>
+
+        <!-- Preferences -->
+        <g class="er-entity" style="--d:1.5s">
+          <rect x="600" y="350" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="612" y="365">Preferences</text>
+          <text class="er-entity-tag" x="768" y="365" text-anchor="end">entity</text>
+          <line class="er-entity-rule" x1="600" y1="372" x2="780" y2="372"/>
+          <text class="er-attr is-key" x="612" y="388">◆ pref_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="612" y="404">◇ user_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="612" y="420">• interests <tspan class="er-dim">string[]</tspan></text>
+          <text class="er-attr" x="612" y="436">• content_length <tspan class="er-dim">enum</tspan></text>
+          <text class="er-attr" x="612" y="452">• intensity <tspan class="er-dim">enum</tspan></text>
+        </g>
+
+        <!-- Schedule -->
+        <g class="er-entity" style="--d:1.7s">
+          <rect x="830" y="350" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="842" y="365">Schedule</text>
+          <text class="er-entity-tag" x="998" y="365" text-anchor="end">entity</text>
+          <line class="er-entity-rule" x1="830" y1="372" x2="1010" y2="372"/>
+          <text class="er-attr is-key" x="842" y="388">◆ schedule_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="842" y="404">◇ user_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="842" y="420">• time_slot</text>
+          <text class="er-attr" x="842" y="436">• all_day <tspan class="er-dim">bool</tspan></text>
+          <text class="er-attr" x="842" y="452">• autopost <tspan class="er-dim">bool</tspan></text>
+        </g>
+
+        <!-- Post -->
+        <g class="er-entity" style="--d:2.3s">
+          <rect x="600" y="510" width="180" height="130" rx="8"/>
+          <text class="er-entity-title" x="612" y="525">Post</text>
+          <text class="er-entity-tag" x="768" y="525" text-anchor="end">core</text>
+          <line class="er-entity-rule" x1="600" y1="532" x2="780" y2="532"/>
+          <text class="er-attr is-key" x="612" y="548">◆ post_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="612" y="564">◇ author_id <tspan class="er-dim">FK → User</tspan></text>
+          <text class="er-attr" x="612" y="580">◇ channel_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="612" y="596">• content <tspan class="er-dim">text</tspan></text>
+          <text class="er-attr" x="612" y="612">• created_at</text>
+          <text class="er-attr" x="612" y="628">• reactions_count</text>
+        </g>
+
+        <!-- AudioBroadcast -->
+        <g class="er-entity" style="--d:2.8s">
+          <rect x="830" y="510" width="180" height="130" rx="8"/>
+          <text class="er-entity-title" x="842" y="525">AudioBroadcast</text>
+          <text class="er-entity-tag" x="998" y="525" text-anchor="end">core</text>
+          <line class="er-entity-rule" x1="830" y1="532" x2="1010" y2="532"/>
+          <text class="er-attr is-key" x="842" y="548">◆ broadcast_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="842" y="564">◇ post_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="842" y="580">◇ channel_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="842" y="596">• audio_url <tspan class="er-dim">ElevenLabs</tspan></text>
+          <text class="er-attr" x="842" y="612">• duration_sec</text>
+          <text class="er-attr" x="842" y="628">• status <tspan class="er-dim">enum</tspan></text>
+        </g>
+
+        <!-- Reaction -->
+        <g class="er-entity" style="--d:2.5s">
+          <rect x="400" y="540" width="155" height="90" rx="8"/>
+          <text class="er-entity-title" x="412" y="555">Reaction</text>
+          <text class="er-entity-tag" x="543" y="555" text-anchor="end">entity</text>
+          <line class="er-entity-rule" x1="400" y1="562" x2="555" y2="562"/>
+          <text class="er-attr is-key" x="412" y="578">◆ reaction_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="412" y="594">◇ post_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="412" y="610">◇ user_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="412" y="626">• type <tspan class="er-dim">enum</tspan></text>
+        </g>
+
+        <!-- ListeningSession -->
+        <g class="er-entity" style="--d:3.2s">
+          <rect x="1124" y="190" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="1136" y="205">ListeningSession</text>
+          <text class="er-entity-tag" x="1292" y="205" text-anchor="end">entity</text>
+          <line class="er-entity-rule" x1="1124" y1="212" x2="1304" y2="212"/>
+          <text class="er-attr is-key" x="1136" y="228">◆ session_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="1136" y="244">◇ user_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="1136" y="260">• started_at / ended_at</text>
+          <text class="er-attr" x="1136" y="276">• mode <tspan class="er-dim">personal|community</tspan></text>
+          <text class="er-attr" x="1136" y="292">• device <tspan class="er-dim">web|glasses</tspan></text>
+        </g>
+
+        <!-- ARLayer -->
+        <g class="er-entity" style="--d:3.5s">
+          <rect x="1354" y="190" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="1366" y="205">ARLayer</text>
+          <text class="er-entity-tag" x="1522" y="205" text-anchor="end">spatial</text>
+          <line class="er-entity-rule" x1="1354" y1="212" x2="1534" y2="212"/>
+          <text class="er-attr is-key" x="1366" y="228">◆ layer_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="1366" y="244">◇ session_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="1366" y="260">• anchor_geo <tspan class="er-dim">lat/lng</tspan></text>
+          <text class="er-attr" x="1366" y="276">• spatial_audio <tspan class="er-dim">360°</tspan></text>
+          <text class="er-attr" x="1366" y="292">• live_toggle <tspan class="er-dim">bool</tspan></text>
+        </g>
+
+        <!-- Playlist -->
+        <g class="er-entity" style="--d:3.7s">
+          <rect x="1240" y="350" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="1252" y="365">Playlist</text>
+          <text class="er-entity-tag" x="1408" y="365" text-anchor="end">derived</text>
+          <line class="er-entity-rule" x1="1240" y1="372" x2="1420" y2="372"/>
+          <text class="er-attr is-key" x="1252" y="388">◆ playlist_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="1252" y="404">◇ session_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="1252" y="420">• items <tspan class="er-dim">broadcast[]</tspan></text>
+          <text class="er-attr" x="1252" y="436">• curated_by <tspan class="er-dim">AI|user</tspan></text>
+          <text class="er-attr" x="1252" y="452">• generated_at</text>
+        </g>
+
+        <!-- BehaviouralLog -->
+        <g class="er-entity" style="--d:4.0s">
+          <rect x="1124" y="510" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="1136" y="525">BehaviouralLog</text>
+          <text class="er-entity-tag" x="1292" y="525" text-anchor="end">telemetry</text>
+          <line class="er-entity-rule" x1="1124" y1="532" x2="1304" y2="532"/>
+          <text class="er-attr is-key" x="1136" y="548">◆ log_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="1136" y="564">◇ user_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="1136" y="580">• event <tspan class="er-dim">skip|replay|save</tspan></text>
+          <text class="er-attr" x="1136" y="596">• timestamp</text>
+          <text class="er-attr" x="1136" y="612">• dwell_sec</text>
+        </g>
+
+        <!-- ConsentScope -->
+        <g class="er-entity" style="--d:4.3s">
+          <rect x="1354" y="510" width="180" height="120" rx="8"/>
+          <text class="er-entity-title" x="1366" y="525">ConsentScope</text>
+          <text class="er-entity-tag" x="1522" y="525" text-anchor="end">governance</text>
+          <line class="er-entity-rule" x1="1354" y1="532" x2="1534" y2="532"/>
+          <text class="er-attr is-key" x="1366" y="548">◆ scope_id <tspan class="er-dim">PK</tspan></text>
+          <text class="er-attr" x="1366" y="564">◇ user_id <tspan class="er-dim">FK</tspan></text>
+          <text class="er-attr" x="1366" y="580">• location_share <tspan class="er-dim">bool</tspan></text>
+          <text class="er-attr" x="1366" y="596">• voice_capture <tspan class="er-dim">bool</tspan></text>
+          <text class="er-attr" x="1366" y="612">• revoked_at <tspan class="er-dim">ts|null</tspan></text>
+        </g>
+
+        <!-- ============ RELATIONSHIPS (base lines) ============ -->
+        <g>
+          <!-- RIH internal -->
+          <path id="r-sig-ctx" class="er-rel" d="M 150 310 L 150 340" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="158" y="328">generates</text>
+
+          <path id="r-ctx-ai" class="er-rel" d="M 240 400 L 270 400 L 270 330 L 300 330" marker-end="url(#m-one-mand-end)"/>
+          <text class="er-rel-label" x="262" y="368">feeds</text>
+
+          <path id="r-hub-sig" class="er-rel is-dashed" d="M 150 490 L 150 475 L 30 475 L 30 250 L 60 250" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="38" y="400" style="opacity:0.4">owns scope</text>
+
+          <!-- Cross-zone: AI → AudioBroadcast -->
+          <path id="r-ai-audio" class="er-rel" d="M 500 345 L 550 345 L 550 560 L 600 560" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="540" y="412">synthesizes</text>
+
+          <!-- Cross-zone: AI → Playlist (dashed, curates) -->
+          <path id="r-ai-playlist" class="er-rel is-dashed" d="M 500 310 L 1200 310 L 1200 400 L 1240 400" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="870" y="305" style="opacity:0.4">curates</text>
+
+          <!-- Community Radio internal -->
+          <path id="r-user-pref" class="er-rel" d="M 690 310 L 690 350" marker-end="url(#m-one-mand-end)"/>
+          <text class="er-rel-label" x="700" y="336">configures</text>
+
+          <path id="r-user-sched" class="er-rel" d="M 780 260 L 805 260 L 805 350 L 830 350" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="792" y="305">schedules</text>
+
+          <path id="r-user-channel" class="er-rel" d="M 780 232 L 830 232" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="790" y="226">hosts</text>
+
+          <path id="r-user-post" class="er-rel" d="M 600 250 L 570 250 L 570 575 L 600 575" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="544" y="420">authors</text>
+
+          <path id="r-channel-post" class="er-rel" d="M 870 310 L 870 510 L 780 510" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="832" y="410">contains</text>
+
+          <path id="r-post-audio" class="er-rel" d="M 780 575 L 830 575" marker-end="url(#m-one-opt-end)"/>
+          <text class="er-rel-label" x="790" y="570">rendered as</text>
+
+          <path id="r-post-react" class="er-rel" d="M 600 585 L 555 585" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="554" y="578" text-anchor="end">receives</text>
+
+          <path id="r-user-react" class="er-rel is-dashed" d="M 477 540 L 477 300 L 600 300" marker-end="url(#m-one-mand-end)"/>
+          <text class="er-rel-label" x="440" y="450" style="opacity:0.4" text-anchor="end">reacts</text>
+
+          <!-- AAR -->
+          <path id="r-user-session" class="er-rel" d="M 780 290 L 1060 290 L 1060 250 L 1124 250" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="950" y="244">listens in</text>
+
+          <path id="r-session-ar" class="er-rel" d="M 1304 232 L 1354 232" marker-end="url(#m-one-opt-end)"/>
+          <text class="er-rel-label" x="1315" y="226">projects</text>
+
+          <path id="r-session-playlist" class="er-rel" d="M 1260 310 L 1260 350 L 1240 350" marker-end="url(#m-one-opt-end)"/>
+          <text class="er-rel-label" x="1268" y="335">renders</text>
+
+          <path id="r-audio-playlist" class="er-rel" d="M 1010 575 L 1100 575 L 1100 410 L 1240 410" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="1100" y="478">composed of</text>
+
+          <path id="r-session-log" class="er-rel" d="M 1214 310 L 1214 510" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="1222" y="418">logs</text>
+
+          <path id="r-user-consent" class="er-rel is-dashed" d="M 780 295 L 1444 295 L 1444 510" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="1300" y="428" style="opacity:0.4">grants</text>
+
+          <path id="r-consent-loc" class="er-rel is-dashed" d="M 1354 580 L 1330 580 L 1330 670 L 150 670 L 150 620" marker-end="url(#m-many-opt-end)"/>
+          <text class="er-rel-label" x="800" y="660" text-anchor="middle" style="opacity:0.35">governs · location data scoped by consent</text>
+
+          <!-- Feedback loop: BehaviouralLog → AIProcessor (closes the cycle) -->
+          <path id="r-log-ai" class="er-rel is-dashed" d="M 1124 590 C 900 690 500 690 400 400" marker-end="url(#m-arrow-dim)"/>
+          <text class="er-rel-label" x="760" y="700" text-anchor="middle" style="opacity:0.45">feedback · behavioural signal retrains context window</text>
+        </g>
+
+        <!-- ============ FLOW PULSES (animated, cycle through phases) ============
+             Each pulse re-uses the same path geometry as a base relation,
+             but is rendered on top with a moving dash. Stagger delays so the
+             whole loop reads as: capture → synthesize → broadcast → listen
+             → log → back to AI. -->
+        <g>
+          <!-- Phase 1 · capture (0.0s) -->
+          <use href="#r-sig-ctx"    class="er-flow" style="animation-delay:0s"/>
+          <use href="#r-ctx-ai"     class="er-flow" style="animation-delay:0.5s"/>
+
+          <!-- Phase 2 · synthesize (1.2s) -->
+          <use href="#r-ai-audio"   class="er-flow" style="animation-delay:1.2s"/>
+          <use href="#r-ai-playlist" class="er-flow" style="animation-delay:1.4s"/>
+
+          <!-- Phase 3 · community broadcast (2.0s) -->
+          <use href="#r-channel-post" class="er-flow" style="animation-delay:2.0s"/>
+          <use href="#r-post-audio"   class="er-flow" style="animation-delay:2.3s"/>
+
+          <!-- Phase 4 · listen (2.8s) -->
+          <use href="#r-user-session"     class="er-flow" style="animation-delay:2.8s"/>
+          <use href="#r-session-playlist" class="er-flow" style="animation-delay:3.1s"/>
+          <use href="#r-audio-playlist"   class="er-flow" style="animation-delay:3.0s"/>
+          <use href="#r-session-ar"       class="er-flow" style="animation-delay:3.3s"/>
+
+          <!-- Phase 5 · log + feedback loop (3.6s) closes back to AI -->
+          <use href="#r-session-log" class="er-flow" style="animation-delay:3.6s"/>
+          <use href="#r-log-ai"      class="er-flow" style="animation-delay:4.0s"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Mobile vertical view -->
+  <div class="entity-mobile">
+    <div class="em-zone">
+      <div class="em-zone-label">Regional Intelligence Hub · B2R</div>
+      <div class="em-entities">
+        <div class="em-entity" style="--d:0s"><span class="em-name">LocationSignal</span><span class="em-tag">entity · geo + ts</span></div>
+        <div class="em-entity" style="--d:0.3s"><span class="em-name">ContextSnapshot</span><span class="em-tag">entity · summary</span></div>
+        <div class="em-entity" style="--d:0.5s"><span class="em-name">RegionalHub</span><span class="em-tag">entity · scope</span></div>
+        <div class="em-entity" style="--d:0.8s"><span class="em-name">AIProcessor</span><span class="em-tag">service · Gemini 3.1</span></div>
+      </div>
+    </div>
+
+    <div class="em-zone">
+      <div class="em-zone-label">Community Radio · B2B</div>
+      <div class="em-entities">
+        <div class="em-entity" style="--d:1.2s"><span class="em-name">User</span><span class="em-tag">root · auth</span></div>
+        <div class="em-entity" style="--d:1.5s"><span class="em-name">Preferences</span><span class="em-tag">entity · interests</span></div>
+        <div class="em-entity" style="--d:1.7s"><span class="em-name">Schedule</span><span class="em-tag">entity · time_slot</span></div>
+        <div class="em-entity" style="--d:2.0s"><span class="em-name">Channel</span><span class="em-tag">entity · freq</span></div>
+        <div class="em-entity" style="--d:2.3s"><span class="em-name">Post</span><span class="em-tag">core · text</span></div>
+        <div class="em-entity" style="--d:2.5s"><span class="em-name">Reaction</span><span class="em-tag">entity · type</span></div>
+        <div class="em-entity" style="--d:2.8s"><span class="em-name">AudioBroadcast</span><span class="em-tag">core · ElevenLabs</span></div>
+      </div>
+    </div>
+
+    <div class="em-zone">
+      <div class="em-zone-label">Personal Radio · AAR · B2C</div>
+      <div class="em-entities">
+        <div class="em-entity" style="--d:3.2s"><span class="em-name">ListeningSession</span><span class="em-tag">entity · mode</span></div>
+        <div class="em-entity" style="--d:3.5s"><span class="em-name">ARLayer</span><span class="em-tag">spatial · 360°</span></div>
+        <div class="em-entity" style="--d:3.7s"><span class="em-name">Playlist</span><span class="em-tag">derived · AI</span></div>
+        <div class="em-entity" style="--d:4.0s"><span class="em-name">BehaviouralLog</span><span class="em-tag">telemetry</span></div>
+        <div class="em-entity" style="--d:4.3s"><span class="em-name">ConsentScope</span><span class="em-tag">governance</span></div>
+      </div>
+    </div>
+
+    <div class="em-loop-note">feedback · behavioural signal retrains AI</div>
+  </div>
+
+  <!-- Legend (restyled to portfolio typography) -->
+  <div class="entity-legend">
+    <span class="lg-key"><span class="lg-glyph">◆</span>primary key</span>
+    <span class="lg-key"><span class="lg-glyph">◇</span>foreign key</span>
+    <span class="lg-key"><span class="lg-glyph">•</span>attribute</span>
+    <span class="lg-key"><span class="lg-mark"></span>one · many</span>
+    <span class="lg-key"><span class="lg-mark dashed"></span>governance / feedback</span>
+    <span class="lg-key"><span class="lg-mark box"></span>active in sequence</span>
+  </div>
+
+  <div class="entity-footnote">Data Model · Prototype</div>
+</section>
 
 </body>
 </html>
