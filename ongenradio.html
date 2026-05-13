@@ -786,6 +786,73 @@
     .vs-stage-small .vs-text{ font-size:clamp(13px,3.2vw,18px); line-height:1.5; }
   }
 
+  /* Value Mapping (under Value Shift) — stadium pill */
+  .vm-block{
+    margin-top:clamp(48px, 6vw, 96px);
+    width:100%;
+    display:flex;
+    justify-content:center;
+  }
+  .vm-chart{
+    width:100%;
+    aspect-ratio: 16 / 10;
+    position:relative;
+  }
+  .vm-chart svg{ width:100%; height:100%; display:block; overflow:visible; }
+  .vm-chart .vm-ring{ fill:none; stroke:rgba(255,255,255,0.16); stroke-width:0.8; stroke-dasharray:2 3; }
+  .vm-chart .vm-ring-outer{ stroke:rgba(255,255,255,0.28); stroke-dasharray:none; stroke-width:1; }
+  .vm-chart .vm-pulse-inward{
+    fill:none;
+    stroke:#fff;
+    stroke-width:1.2;
+    opacity:0;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: vmPulseInward 4.8s cubic-bezier(.22,.61,.36,1) infinite;
+    pointer-events:none;
+  }
+  @keyframes vmPulseInward {
+    0%   { transform:scale(1);    opacity:0;    stroke-width:1.2; }
+    8%   { opacity:0.32; }
+    100% { transform:scale(0.55); opacity:0;    stroke-width:0.3; }
+  }
+  .vm-chart .vm-sector-line{ stroke:rgba(255,255,255,0.10); stroke-width:0.6; stroke-dasharray:2 3; }
+  .vm-chart .vm-stakeholder-label{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight:400;
+    fill:#fff;
+    letter-spacing:0;
+  }
+  .vm-chart .vm-item-text{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight:400;
+    fill:rgba(255,255,255,0.65);
+    letter-spacing:0;
+  }
+  .vm-chart .vm-ring-label{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight:400;
+    fill:#fff;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    paint-order:stroke;
+    stroke:#0a0a0a;
+    stroke-width:4px;
+    stroke-linejoin:round;
+  }
+  .vm-chart .vm-center-text{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight:400;
+    fill:#fff;
+    letter-spacing:0;
+  }
+  @media(max-width:880px){
+    .vm-chart{ aspect-ratio: 7 / 16; }
+    .vm-chart .vm-ring{ stroke-width:0.7; }
+    .vm-chart .vm-ring-outer{ stroke-width:0.9; }
+    .vm-chart .vm-sector-line{ stroke-width:0.5; }
+  }
+
   /* Features section */
   .ft-section{
     padding-top:120px;
@@ -1472,6 +1539,10 @@
          data-vs-a="Slow&#10;Confined&#10;Outdated Media"
          data-vs-b="Alternative Channel&#10;Regional&#10;Stable"></div>
   </div>
+
+  <div class="vm-block">
+    <div id="vmChart" class="vm-chart" aria-hidden="false"></div>
+  </div>
 </section>
 
 <section class="market-stack">
@@ -1902,6 +1973,410 @@
 })();
 </script>
 
+<script>
+/* Value Mapping — stadium (pill) orbit, mirrors RACI layout */
+(function(){
+  var host = document.getElementById('vmChart');
+  if(!host) return;
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+
+  var stakeholders = [
+    "Community","Environment","Government","External Agencies",
+    "Media","Academia","Customers","Investors","Employees","Partners"
+  ];
+  var rings = [
+    { name:"Value Captured" },
+    { name:"Value Destroyed" },
+    { name:"Value Missed" },
+    { name:"Value Opportunities" }
+  ];
+  var dataPoints = [
+    // Community
+    { text:"Hyperlocal Identity Revival",      stakeholder:"Community",   ring:"Value Captured" },
+    { text:"Member-Run Story Curation",        stakeholder:"Community",   ring:"Value Captured" },
+    { text:"Reduced Global Universality",      stakeholder:"Community",   ring:"Value Destroyed" },
+    { text:"Cultural Fragmentation Risk",      stakeholder:"Community",   ring:"Value Destroyed" },
+    { text:"Missed Diaspora Networks",         stakeholder:"Community",   ring:"Value Missed" },
+    { text:"Untapped Civic Voice",             stakeholder:"Community",   ring:"Value Missed" },
+    { text:"Living Broadcast Nodes",           stakeholder:"Community",   ring:"Value Opportunities" },
+    { text:"Peer-to-Peer Storytelling Web",    stakeholder:"Community",   ring:"Value Opportunities" },
+
+    // Environment
+    { text:"Reduced Local Crowding",           stakeholder:"Environment", ring:"Value Captured" },
+    { text:"Lower Travel Emissions",           stakeholder:"Environment", ring:"Value Captured" },
+    { text:"Increased Compute Footprint",      stakeholder:"Environment", ring:"Value Destroyed" },
+    { text:"Eroded Distributed Resilience",    stakeholder:"Environment", ring:"Value Destroyed" },
+    { text:"Underutilized Sensor Streams",     stakeholder:"Environment", ring:"Value Missed" },
+    { text:"Wasted Ambient Signal Data",       stakeholder:"Environment", ring:"Value Missed" },
+    { text:"Edge Compute on Local Nodes",      stakeholder:"Environment", ring:"Value Opportunities" },
+    { text:"Sensor-Fused Ambient Broadcast",   stakeholder:"Environment", ring:"Value Opportunities" },
+
+    // Government
+    { text:"Automated Urban Coordination",     stakeholder:"Government",  ring:"Value Captured" },
+    { text:"Emergency Broadcast Routing",      stakeholder:"Government",  ring:"Value Captured" },
+    { text:"Centralized Data Vulnerability",   stakeholder:"Government",  ring:"Value Destroyed" },
+    { text:"Surveillance Optics Risk",         stakeholder:"Government",  ring:"Value Destroyed" },
+    { text:"Lack of Redundant Channels",       stakeholder:"Government",  ring:"Value Missed" },
+    { text:"Idle Civic Communication Layer",   stakeholder:"Government",  ring:"Value Missed" },
+    { text:"Infrastructure Nervous System",    stakeholder:"Government",  ring:"Value Opportunities" },
+    { text:"Unified Urban Intelligence",       stakeholder:"Government",  ring:"Value Opportunities" },
+
+    // Media
+    { text:"Real-Time On-Location Reporting",  stakeholder:"Media",       ring:"Value Captured" },
+    { text:"Long-Tail Content Niches",         stakeholder:"Media",       ring:"Value Captured" },
+    { text:"High Entity Exposure",             stakeholder:"Media",       ring:"Value Destroyed" },
+    { text:"Algorithmic Homogenization",       stakeholder:"Media",       ring:"Value Destroyed" },
+    { text:"Lost Civic Radio Tradition",       stakeholder:"Media",       ring:"Value Missed" },
+    { text:"Untapped Place-Based Narratives",  stakeholder:"Media",       ring:"Value Missed" },
+    { text:"Accumulating Cultural Record",     stakeholder:"Media",       ring:"Value Opportunities" },
+    { text:"Ambient Documentary Archive",      stakeholder:"Media",       ring:"Value Opportunities" },
+
+    // Customers
+    { text:"Shared Schedule Automation",       stakeholder:"Customers",   ring:"Value Captured" },
+    { text:"Personalized Place-Aware Feed",    stakeholder:"Customers",   ring:"Value Captured" },
+    { text:"Limited Regional Access",          stakeholder:"Customers",   ring:"Value Destroyed" },
+    { text:"Notification Fatigue Risk",        stakeholder:"Customers",   ring:"Value Destroyed" },
+    { text:"Squandered Universality",          stakeholder:"Customers",   ring:"Value Missed" },
+    { text:"Lost Serendipity Discovery",       stakeholder:"Customers",   ring:"Value Missed" },
+    { text:"Companion AI Curator",             stakeholder:"Customers",   ring:"Value Opportunities" },
+    { text:"Cross-City Subscription Mesh",     stakeholder:"Customers",   ring:"Value Opportunities" },
+
+    // Employees
+    { text:"Collaborative Agent Networks",     stakeholder:"Employees",   ring:"Value Captured" },
+    { text:"Lower Coordination Overhead",      stakeholder:"Employees",   ring:"Value Captured" },
+    { text:"Skill Displacement Risk",          stakeholder:"Employees",   ring:"Value Destroyed" },
+    { text:"Always-On Agent Fatigue",          stakeholder:"Employees",   ring:"Value Destroyed" },
+    { text:"Underused Creator Economy",        stakeholder:"Employees",   ring:"Value Missed" },
+    { text:"Lost Mentorship Loops",            stakeholder:"Employees",   ring:"Value Missed" },
+    { text:"New Coordination Models",          stakeholder:"Employees",   ring:"Value Opportunities" },
+    { text:"Agent-Augmented Production",       stakeholder:"Employees",   ring:"Value Opportunities" },
+
+    // Partners (Meta / AR ecosystem)
+    { text:"Niantic Lightship VPS",            stakeholder:"Partners",    ring:"Value Captured" },
+    { text:"AR Cloud Persistence Sync",        stakeholder:"Partners",    ring:"Value Captured" },
+    { text:"Walled AR Ecosystem Lock-In",      stakeholder:"Partners",    ring:"Value Destroyed" },
+    { text:"Vendor SDK Fragmentation",         stakeholder:"Partners",    ring:"Value Destroyed" },
+    { text:"Open AR Interop Standards",        stakeholder:"Partners",    ring:"Value Missed" },
+    { text:"Cross-Platform Asset Pipeline",    stakeholder:"Partners",    ring:"Value Missed" },
+    { text:"Meta Spatial Anchors",             stakeholder:"Partners",    ring:"Value Opportunities" },
+    { text:"Apple Vision Pro Streams",         stakeholder:"Partners",    ring:"Value Opportunities" },
+    { text:"Snap AR Lens Integration",         stakeholder:"Partners",    ring:"Value Opportunities" }
+  ];
+
+  function stadiumPath(x,y,w,h){
+    var horiz = w >= h;
+    var r = (horiz ? h : w) / 2;
+    if (horiz){
+      return 'M '+(x+r)+' '+y
+        +' L '+(x+w-r)+' '+y
+        +' A '+r+' '+r+' 0 0 1 '+(x+w-r)+' '+(y+h)
+        +' L '+(x+r)+' '+(y+h)
+        +' A '+r+' '+r+' 0 0 1 '+(x+r)+' '+y+' Z';
+    }
+    return 'M '+x+' '+(y+r)
+      +' L '+x+' '+(y+h-r)
+      +' A '+r+' '+r+' 0 0 0 '+(x+w)+' '+(y+h-r)
+      +' L '+(x+w)+' '+(y+r)
+      +' A '+r+' '+r+' 0 0 0 '+x+' '+(y+r)+' Z';
+  }
+  function pointOnStadium(t,x0,y0,w,h){
+    t = ((t % 1) + 1) % 1;
+    var horiz = w >= h;
+    if (horiz){
+      var r = h/2, S = w-h, P = 2*S + Math.PI*h;
+      var d = t*P;
+      if (d < S) return { x:(x0+w-r)-d, y:y0, nx:0, ny:-1 };
+      d -= S;
+      if (d < Math.PI*r){
+        var phi = -Math.PI/2 - (d/r);
+        return { x:x0+r+r*Math.cos(phi), y:y0+r+r*Math.sin(phi), nx:Math.cos(phi), ny:Math.sin(phi) };
+      }
+      d -= Math.PI*r;
+      if (d < S) return { x:(x0+r)+d, y:y0+h, nx:0, ny:1 };
+      d -= S;
+      var phi2 = Math.PI/2 - (d/r);
+      return { x:x0+w-r+r*Math.cos(phi2), y:y0+r+r*Math.sin(phi2), nx:Math.cos(phi2), ny:Math.sin(phi2) };
+    } else {
+      var rV = w/2, SV = h-w, PV = 2*SV + Math.PI*w;
+      var dv = t*PV;
+      if (dv < SV) return { x:x0+w, y:y0+rV+dv, nx:1, ny:0 };
+      dv -= SV;
+      if (dv < Math.PI*rV){
+        var phib = (dv/rV);
+        return { x:x0+rV+rV*Math.cos(phib), y:y0+h-rV+rV*Math.sin(phib), nx:Math.cos(phib), ny:Math.sin(phib) };
+      }
+      dv -= Math.PI*rV;
+      if (dv < SV) return { x:x0, y:(y0+h-rV)-dv, nx:-1, ny:0 };
+      dv -= SV;
+      var phit = Math.PI + (dv/rV);
+      return { x:x0+rV+rV*Math.cos(phit), y:y0+rV+rV*Math.sin(phit), nx:Math.cos(phit), ny:Math.sin(phit) };
+    }
+  }
+  function numTangent(t,x,y,w,h){
+    var e = 0.0005;
+    var a = pointOnStadium(t-e,x,y,w,h);
+    var b = pointOnStadium(t+e,x,y,w,h);
+    return { x:b.x-a.x, y:b.y-a.y };
+  }
+  function perimeter(w,h){
+    var horiz = w >= h;
+    if (horiz) return 2*(w-h) + Math.PI*h;
+    return 2*(h-w) + Math.PI*w;
+  }
+
+  // Render a text string char-by-char along the stadium orbit (rx,ry,rw,rh)
+  // centered at tCenter, with given char font-size and class.
+  // If the entire char run stays on a straight segment, use a single shared rotation
+  // (prevents micro-jitter from per-char tangent rounding).
+  function placeCharsOnOrbit(svg, str, tCenter, rx, ry, rw, rh, fontSize, charSpacingMult, cls){
+    var P = perimeter(rw, rh);
+    var tg = numTangent(tCenter, rx, ry, rw, rh);
+    var flip = (tg.x < 0);
+    var spacing = fontSize * charSpacingMult;
+    var totalLen = str.length * spacing;
+
+    // Detect straight-segment runs (tangent identical at both ends) to share rotation
+    var horiz = rw >= rh;
+    var minor = horiz ? rh : rw;
+    var rCap = minor / 2;
+    var S = horiz ? (rw - rh) : (rh - rw); // straight side length
+    var tStraight = S / P; // fraction of perimeter per straight side
+    var halfLenT = (totalLen / 2) / P;
+    // Stadium straight segments centered at t = 0.25 (bottom for horiz / right for vert side1)
+    //   horiz: top straight roughly t in [0, tStraight] starting at top-right going leftward
+    //   simpler: just check tangent at start and end and compare
+    var ptStart = pointOnStadium(tCenter - halfLenT, rx, ry, rw, rh);
+    var ptEnd   = pointOnStadium(tCenter + halfLenT, rx, ry, rw, rh);
+    var sharedRot = null;
+    if (Math.abs(ptStart.nx - ptEnd.nx) < 0.01 && Math.abs(ptStart.ny - ptEnd.ny) < 0.01){
+      // Same normal at both ends => straight segment, share rotation
+      var tgC = numTangent(tCenter, rx, ry, rw, rh);
+      sharedRot = Math.atan2(tgC.y, tgC.x) * 180/Math.PI;
+      if (flip) sharedRot += 180;
+    }
+
+    for (var i = 0; i < str.length; i++){
+      var idxInLabel = flip ? (str.length - 1 - i) : i;
+      var ch = str.charAt(idxInLabel);
+      var offsetFromCenter = (i + 0.5 - str.length / 2) * spacing;
+      var t = tCenter + offsetFromCenter / P;
+      var p = pointOnStadium(t, rx, ry, rw, rh);
+      var rot;
+      if (sharedRot !== null){
+        rot = sharedRot;
+      } else {
+        var tgi = numTangent(t, rx, ry, rw, rh);
+        rot = Math.atan2(tgi.y, tgi.x) * 180/Math.PI;
+        if (flip) rot += 180;
+      }
+      var el = document.createElementNS(SVG_NS,'text');
+      el.setAttribute('x', p.x);
+      el.setAttribute('y', p.y);
+      el.setAttribute('text-anchor','middle');
+      el.setAttribute('dominant-baseline','middle');
+      el.setAttribute('font-size', fontSize);
+      el.setAttribute('transform','rotate('+rot+' '+p.x+' '+p.y+')');
+      el.setAttribute('class', cls);
+      el.textContent = ch === ' ' ? '\u00A0' : ch;
+      svg.appendChild(el);
+    }
+  }
+
+  function build(){
+    var W = host.clientWidth;
+    var H = host.clientHeight;
+    if (!W || !H) return;
+    host.innerHTML = '';
+
+    var svg = document.createElementNS(SVG_NS,'svg');
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    svg.setAttribute('width','100%');
+    svg.setAttribute('height','100%');
+    svg.style.overflow = 'visible';
+    host.appendChild(svg);
+
+    var isMobile = window.matchMedia('(max-width:880px)').matches;
+    var padX = isMobile ? Math.max(28, W*0.07) : Math.max(110, W*0.10);
+    var padY = isMobile ? Math.max(90, H*0.07) : Math.max(70, H*0.11);
+    var oX = padX, oY = padY;
+    var oW = W - padX*2, oH = H - padY*2;
+    var minorAxis = Math.min(oW, oH);
+    var centerSize = minorAxis * (isMobile ? 0.20 : 0.18);
+    var totalInset = (minorAxis - centerSize) / 2;
+    var step = totalInset / rings.length; // 4 rings
+
+    // Font sizes (pixels, since viewBox == container pixels)
+    var stkSize  = isMobile ? 10 : Math.max(13, Math.min(18, minorAxis * 0.030));
+    var itemSize = isMobile ? 6.5 : Math.max(9, Math.min(13, minorAxis * 0.020));
+    var centerSize_px = isMobile ? 12 : 16;
+
+    // Concentric stadium rings (5 boundaries: outer..center)
+    for (var i = 0; i <= rings.length; i++){
+      var inset = i*step;
+      var p = document.createElementNS(SVG_NS,'path');
+      p.setAttribute('d', stadiumPath(oX+inset, oY+inset, oW-inset*2, oH-inset*2));
+      p.setAttribute('class', 'vm-ring' + (i===0 ? ' vm-ring-outer' : ''));
+      svg.appendChild(p);
+    }
+
+    // Inward-pulsing waves: 3 staggered copies of the outer pill,
+    // animated to contract toward the center via CSS keyframes.
+    for (var w = 0; w < 3; w++){
+      var wp = document.createElementNS(SVG_NS,'path');
+      wp.setAttribute('d', stadiumPath(oX, oY, oW, oH));
+      wp.setAttribute('class', 'vm-pulse-inward');
+      wp.style.transformOrigin = (oX+oW/2)+'px '+(oY+oH/2)+'px';
+      wp.style.animationDelay = (w * 1.6) + 's';
+      svg.appendChild(wp);
+    }
+
+    // Only render stakeholders that actually have data points (preserve canonical order)
+    var activeStakeholders = stakeholders.filter(function(s){
+      return dataPoints.some(function(p){ return p.stakeholder === s; });
+    });
+    var Nstk = activeStakeholders.length;
+    var insetCenter = rings.length * step;
+
+    // Sector divider lines (outer → center) at each stakeholder boundary
+    for (var k = 0; k < Nstk; k++){
+      var tk = k / Nstk;
+      var pOut = pointOnStadium(tk, oX, oY, oW, oH);
+      var pIn  = pointOnStadium(tk, oX+insetCenter, oY+insetCenter, oW-insetCenter*2, oH-insetCenter*2);
+      var L = document.createElementNS(SVG_NS,'line');
+      L.setAttribute('x1', pOut.x); L.setAttribute('y1', pOut.y);
+      L.setAttribute('x2', pIn.x);  L.setAttribute('y2', pIn.y);
+      L.setAttribute('class','vm-sector-line');
+      svg.appendChild(L);
+    }
+
+    // Stakeholder labels — char-by-char on an orbit just outside the outer ring
+    var stkOffset = isMobile ? Math.max(18, H*0.022) : Math.max(28, H*0.035);
+    var sX = oX - stkOffset, sY = oY - stkOffset;
+    var sW = oW + 2*stkOffset, sH = oH + 2*stkOffset;
+    var stkP = perimeter(sW, sH);
+    var stkSlot = (stkP / Nstk) * 0.92;
+    for (var k = 0; k < Nstk; k++){
+      var tc = (k + 0.5) / Nstk;
+      var lbl = activeStakeholders[k];
+      var need = lbl.length * stkSize * 0.62;
+      var fitS = Math.min(1, stkSlot / need);
+      placeCharsOnOrbit(svg, lbl, tc, sX, sY, sW, sH,
+        stkSize * fitS, 0.62, 'vm-stakeholder-label');
+    }
+
+    // Group data points by (stakeholder, ring) cell, then char-render along orbit midline
+    var cellMap = {};
+    dataPoints.forEach(function(point){
+      var shIdx = activeStakeholders.indexOf(point.stakeholder);
+      if (shIdx < 0) shIdx = 0;
+      var ringIdx = 0;
+      for (var r = 0; r < rings.length; r++){ if (rings[r].name === point.ring){ ringIdx = r; break; } }
+      var key = shIdx + '|' + ringIdx;
+      (cellMap[key] = cellMap[key] || []).push(point);
+    });
+
+    // Staircase tier offsets within each ring band (3 tiers: inner / mid / outer).
+    // Distribute items across tiers so each tier-slot owns the FULL sector arc
+    // (prevents horizontal crowding), and auto-shrink any item whose text would
+    // overflow its available arc.
+    var tierFractions = [0.22, 0.5, 0.78];
+    var charSpacingMult = 0.6;
+    Object.keys(cellMap).forEach(function(key){
+      var parts = key.split('|');
+      var shIdx = +parts[0], ringIdx = +parts[1];
+      var items = cellMap[key];
+
+      var tStart = shIdx / Nstk;
+      var tEnd = (shIdx + 1) / Nstk;
+      var gap = 0.006;
+      var span = (tEnd - tStart) - gap*2;
+
+      // Group items by tier (round-robin) so consecutive items are radially staggered
+      var tiers = [[],[],[]];
+      items.forEach(function(p, idx){ tiers[idx % 3].push(p); });
+
+      tiers.forEach(function(tierItems, tierIdx){
+        if (!tierItems.length) return;
+        var tier = tierFractions[tierIdx];
+        var inset = (ringIdx + tier) * step;
+        var rx = oX + inset, ry = oY + inset, rw = oW - inset*2, rh = oH - inset*2;
+        var P = perimeter(rw, rh);
+        var slotArc = (span / tierItems.length) * P;
+
+        tierItems.forEach(function(point, j){
+          var tCenter = tStart + gap + (j + 0.5) * (span / tierItems.length);
+          // Auto-shrink if text width exceeds slot arc
+          var needed = point.text.length * itemSize * charSpacingMult;
+          var fit = Math.min(1, (slotArc * 0.92) / needed);
+          var fSize = itemSize * fit;
+          placeCharsOnOrbit(svg, point.text, tCenter, rx, ry, rw, rh,
+            fSize, charSpacingMult, 'vm-item-text');
+        });
+      });
+    });
+
+    // Ring (category) legend — char-by-char ON each ring's stadium orbit,
+    // placed near the 4 corners. Corner→t mapping depends on orientation.
+    var ringLabelSize = isMobile ? 10 : Math.max(11, Math.min(14, minorAxis * 0.022));
+    function cornerT(ringIdx, corner){
+      var inset = ringIdx * step;
+      var w = oW - inset*2, h = oH - inset*2;
+      var horiz = w >= h;
+      var minor = horiz ? h : w;
+      var S = horiz ? (w - h) : (h - w);
+      var P = 2*S + Math.PI*minor;
+      var tStraight = S / P;
+      var tCap = (Math.PI * (minor/2)) / P;
+      if (horiz){
+        // Top edge: t in [0, tStraight), goes right→left
+        // Bottom edge: t in [tStraight+tCap, 2tStraight+tCap), goes left→right
+        if (corner === 'TR') return tStraight * 0.18;
+        if (corner === 'TL') return tStraight * 0.82;
+        if (corner === 'BL') return (tStraight + tCap) + tStraight * 0.18;
+        if (corner === 'BR') return (tStraight + tCap) + tStraight * 0.82;
+      } else {
+        // Right edge: t in [0, tStraight), goes top→bottom
+        // Left edge: t in [tStraight+tCap, 2tStraight+tCap), goes bottom→top
+        if (corner === 'TR') return tStraight * 0.18;
+        if (corner === 'BR') return tStraight * 0.82;
+        if (corner === 'BL') return (tStraight + tCap) + tStraight * 0.18;
+        if (corner === 'TL') return (tStraight + tCap) + tStraight * 0.82;
+      }
+      return 0;
+    }
+    var labelPlan = [
+      { ringIdx:0, corner:'TL' }, // 01 Captured     — top-left
+      { ringIdx:1, corner:'TR' }, // 02 Destroyed    — top-right
+      { ringIdx:2, corner:'BL' }, // 03 Missed       — bottom-left
+      { ringIdx:3, corner:'BR' }  // 04 Opportunities— bottom-right
+    ];
+    labelPlan.forEach(function(info, idx){
+      var inset = info.ringIdx * step;
+      var rx = oX + inset, ry = oY + inset, rw = oW - inset*2, rh = oH - inset*2;
+      var t = cornerT(info.ringIdx, info.corner);
+      var label = (idx+1).toString().padStart(2,'0') + '  ' + rings[info.ringIdx].name;
+      placeCharsOnOrbit(svg, label, t, rx, ry, rw, rh,
+        ringLabelSize, 0.78, 'vm-ring-label');
+    });
+
+    // Center label
+    var cx = oX + oW/2, cy = oY + oH/2;
+    var ct = document.createElementNS(SVG_NS,'text');
+    ct.setAttribute('x', cx); ct.setAttribute('y', cy);
+    ct.setAttribute('text-anchor','middle');
+    ct.setAttribute('dominant-baseline','middle');
+    ct.setAttribute('font-size', centerSize_px);
+    ct.setAttribute('class','vm-center-text');
+    ct.textContent = 'Purpose';
+    svg.appendChild(ct);
+  }
+
+  build();
+  if (window.ResizeObserver) new ResizeObserver(build).observe(host);
+  window.addEventListener('resize', build);
+})();
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
 (function(){
@@ -2084,6 +2559,11 @@ window.addEventListener('load', function(){
         <path class="raci-pill-wave"></path>
         <path class="raci-pill-wave"></path>
       </g>
+      <g class="raci-pill-pulse-outer">
+        <path class="raci-pill-wave-outer"></path>
+        <path class="raci-pill-wave-outer"></path>
+        <path class="raci-pill-wave-outer"></path>
+      </g>
       <g class="raci-hit"></g>
     </svg>
     <div class="raci-inner-labels"></div>
@@ -2241,6 +2721,13 @@ window.addEventListener('load', function(){
     var pillD = stadiumPath(iX, iY, iW, iH);
     for (var pi = 0; pi < pillWaves.length; pi++){
       pillWaves[pi].setAttribute('d', pillD);
+    }
+
+    // Outer ring pulse — based on outer shape, scales slightly outward
+    var pillWavesOuter = svg.querySelectorAll('.raci-pill-wave-outer');
+    var pillDOuter = stadiumPath(oX, oY, oW, oH);
+    for (var po = 0; po < pillWavesOuter.length; po++){
+      pillWavesOuter[po].setAttribute('d', pillDOuter);
     }
 
     dividersG.innerHTML = '';
@@ -2491,6 +2978,26 @@ window.addEventListener('load', function(){
     0%   { transform:scale(1);   opacity:0;   stroke-width:1.4; }
     8%   { opacity:0.45; }
     100% { transform:scale(1.6); opacity:0;   stroke-width:0.3; }
+  }
+
+  /* Outer ring pulse — expands outward */
+  .raci-pill-wave-outer{
+    fill:none;
+    stroke:#fff;
+    stroke-width:1.4;
+    opacity:0;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    transform: scale(1);
+    animation: raciPillPulseOuter 4.8s cubic-bezier(.22,.61,.36,1) infinite;
+  }
+  .raci-pill-wave-outer:nth-child(2){ animation-delay:1.6s; }
+  .raci-pill-wave-outer:nth-child(3){ animation-delay:3.2s; }
+
+  @keyframes raciPillPulseOuter{
+    0%   { transform:scale(1);    opacity:0;   stroke-width:1.4; }
+    8%   { opacity:0.35; }
+    100% { transform:scale(1.45); opacity:0;   stroke-width:0.3; }
   }
 
   /* RACI filter: dim non-active, highlight active group */
