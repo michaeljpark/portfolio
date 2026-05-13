@@ -33,6 +33,7 @@
         .svg-container {
             width: 100%;
             height: 100%;
+            transition: opacity 0.12s ease;
         }
 
         svg {
@@ -1021,7 +1022,7 @@
             // ============================================================
             // STEP 4: Auto-zoom
             // ============================================================
-            const ZOOM_DURATION = 500;
+            const ZOOM_DURATION = 280;
             const ZOOM_EASE = d3.easeCubicInOut;
             // Mark SVG as zooming so CSS can disable text hit-testing /
             // shaping and the browser can composite faster.
@@ -1344,24 +1345,29 @@
         // Sends back { type:'tierDone', tier } when the zoom transition settles.
         let _renderInFlight = false;
         let _queuedTier = null;
+        const _svgContainer = document.querySelector('.svg-container');
         function _runRender(){
             _renderInFlight = true;
-            // Defer the (expensive) DOM rebuild to the next frame so the
-            // browser can finish the current paint/scroll work first.
+            // Fade out to hide DOM rebuild flash
+            if (_svgContainer) _svgContainer.style.opacity = '0';
+            // Two rAFs: first lets the fade paint, second does the rebuild
             requestAnimationFrame(function(){
-                renderGraph();
-                // The d3 zoom transition above; signal slightly after.
-                setTimeout(function(){
-                    _renderInFlight = false;
-                    try { parent.postMessage({ type:'tierDone', tier: currentTier }, '*'); } catch(e){}
-                    if (_queuedTier !== null){
-                        var next = _queuedTier; _queuedTier = null;
-                        if (next !== currentTier){
-                            currentTier = next;
-                            _runRender();
+                requestAnimationFrame(function(){
+                    renderGraph();
+                    // Fade back in immediately after rebuild
+                    if (_svgContainer) _svgContainer.style.opacity = '1';
+                    setTimeout(function(){
+                        _renderInFlight = false;
+                        try { parent.postMessage({ type:'tierDone', tier: currentTier }, '*'); } catch(e){}
+                        if (_queuedTier !== null){
+                            var next = _queuedTier; _queuedTier = null;
+                            if (next !== currentTier){
+                                currentTier = next;
+                                _runRender();
+                            }
                         }
-                    }
-                }, 540);
+                    }, 360);
+                });
             });
         }
         window.addEventListener('message', (e) => {

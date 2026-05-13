@@ -3244,7 +3244,7 @@ window.addEventListener('load', function(){
   var dispatchedTier = null;        // last tier actually posted to iframe
   var renderInFlight = false;       // iframe currently animating
   var dispatchTimer = null;
-  var DISPATCH_DELAY = 40;          // ms — minimal scroll settle before posting
+  var DISPATCH_DELAY = 160;         // ms — wait for scroll to settle before posting
 
   // Iframe signals when its transition has fully settled.
   window.addEventListener('message', function(e){
@@ -3282,7 +3282,11 @@ window.addEventListener('load', function(){
       dispatchTimer = null;
       if (currentTier === dispatchedTier) return;
       if (!iframeReady){ pendingTier = currentTier; return; }
-      if (renderInFlight) return; // wait for tierDone
+      if (renderInFlight){
+        // Don't drop — re-schedule so tierDone re-triggers
+        scheduleDispatch(60);
+        return;
+      }
       postTier(currentTier);
     }, delay);
   }
@@ -3573,8 +3577,8 @@ window.addEventListener('load', function(){
   }
   .jm-tab.is-active .jm-tab-role{ color:rgba(255,255,255,.5); }
 
-  .jm-panel{ display:none; }
-  .jm-panel.is-active{ display:block; }
+  .jm-panel{ display:none; opacity:0; transition:opacity .25s ease; }
+  .jm-panel.is-active{ display:block; opacity:1; }
 
   /* Persona summary above grid */
   .jm-persona-head{
@@ -4016,21 +4020,52 @@ window.addEventListener('load', function(){
 </section>
 
 <script>
-/* Journey Mapping tab switcher */
+/* Journey Mapping tab switcher — cross-fade between personas */
 (function(){
-  var tabs = document.querySelectorAll('.jm-tab');
+  var tabs   = document.querySelectorAll('.jm-tab');
   var panels = document.querySelectorAll('[data-jm-panel]');
+  var busy   = false;
+
   tabs.forEach(function(t){
     t.addEventListener('click', function(){
-      var k = t.getAttribute('data-jm');
+      if(busy) return;
+      var k    = t.getAttribute('data-jm');
+      var curr = document.querySelector('.jm-panel.is-active');
+      var next = document.querySelector('[data-jm-panel="'+k+'"]');
+      if(!next || next === curr) return;
+
+      busy = true;
+
+      /* update tab state immediately */
       tabs.forEach(function(x){
         var on = x === t;
         x.classList.toggle('is-active', on);
         x.setAttribute('aria-selected', on ? 'true' : 'false');
       });
-      panels.forEach(function(p){
-        p.classList.toggle('is-active', p.getAttribute('data-jm-panel') === k);
-      });
+
+      /* fade out current */
+      if(curr){
+        curr.style.opacity = '0';
+        setTimeout(function(){
+          curr.classList.remove('is-active');
+          curr.style.display = 'none';
+          curr.style.opacity = '';
+
+          /* show next at opacity 0, then fade in */
+          next.style.display = 'block';
+          next.style.opacity = '0';
+          requestAnimationFrame(function(){
+            requestAnimationFrame(function(){
+              next.classList.add('is-active');
+              next.style.opacity = '';
+              setTimeout(function(){ busy = false; }, 260);
+            });
+          });
+        }, 240);
+      } else {
+        next.classList.add('is-active');
+        busy = false;
+      }
     });
   });
 })();
