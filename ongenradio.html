@@ -1348,10 +1348,11 @@
     --ers:#ffffff;
     --erso:0;
     --erg:0;
-    animation:erBoxPulse 12s ease-in-out infinite;
-    animation-delay:var(--d, 0s);
     filter:drop-shadow(0 0 calc(var(--erg) * 14px) rgba(255,255,255,calc(var(--erg) * 0.55)));
+    transition: --erc .35s ease, --ert .35s ease, --erg .35s ease;
+    cursor:default;
   }
+  .er-entity.is-lit{ --erc:#ffffff; --ert:#000000; --erg:1; }
   .er-entity rect{
     fill:var(--erc); stroke:var(--ers); stroke-width:0;
     stroke-opacity:var(--erso);
@@ -1498,11 +1499,10 @@
       color:var(--emt);
       display:flex; flex-direction:column; gap:3px;
       min-height:44px;
-      animation:emBoxPulse 12s ease-in-out infinite;
-      animation-delay:var(--d, 0s);
-      will-change:background, color, box-shadow;
       box-shadow:0 0 calc(var(--emg) * 18px) rgba(255,255,255,calc(var(--emg) * 0.45));
+      transition: --emc .35s ease, --emt .35s ease, --emg .35s ease;
     }
+    .em-entity.is-lit{ --emc:#ffffff; --emt:#000000; --emg:1; }
     .em-entity .em-name{
       font-weight:500; color:inherit;
       font-size:11.5px; letter-spacing:-0.025em;
@@ -4501,5 +4501,25 @@ window.addEventListener('load', function(){
   </div>
 </section>
 
+<script>
+/* ER Diagram — hover (desktop) & scroll-centre sweep (mobile) */
+(function(){
+  /* Desktop: mouseenter/leave on SVG entity groups */
+  document.querySelectorAll('.er-entity').forEach(function(el){
+    el.addEventListener('mouseenter', function(){ el.classList.add('is-lit'); });
+    el.addEventListener('mouseleave', function(){ el.classList.remove('is-lit'); });
+  });
+
+  /* Mobile: IntersectionObserver — glow when card sweeps through viewport centre */
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        e.target.classList.toggle('is-lit', e.isIntersecting);
+      });
+    }, { rootMargin:'-38% 0px -38% 0px', threshold:0 });
+    document.querySelectorAll('.em-entity').forEach(function(el){ obs.observe(el); });
+  }
+})();
+</script>
 </body>
 </html>
