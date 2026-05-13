@@ -1278,23 +1278,9 @@
 
 <section class="project-section wrap" style="padding-top:16px; padding-bottom:0;">
   <div class="project-stage" id="stage">
-    <img src="./tower.png" alt="" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:80%;width:auto;object-fit:contain;z-index:1;pointer-events:none;" />
-    <div class="stage-caption">in the age of Augmented Reality</div>
-    <svg id="glasses-svg" viewBox="0 0 1362 429" overflow="visible"
-      xmlns="http://www.w3.org/2000/svg"
-      style="position:absolute;width:95%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;opacity:0.35;display:none;">
-      <defs>
-        <linearGradient id="gl" gradientUnits="userSpaceOnUse" x1="200" y1="0" x2="600" y2="429">
-          <stop offset="0%"   stop-color="#b8d4f4" stop-opacity="0.07"/>
-          <stop offset="100%" stop-color="#000818" stop-opacity="0.11"/>
-        </linearGradient>
-      </defs>
-      <path d="M432.841 397.117C383.418 429.895 118.853 452.038 64.3575 387.827C-18.6532 290.018 -24.2061 43.6331 64.3552 18.8705C137.176 -1.49087 441.334 -20.312 535.63 47.347C608.104 99.3489 517.067 341.259 432.841 397.117Z"
-        fill="url(#gl)" stroke="none"/>
-      <path d="M929.159 397.117C978.582 429.895 1243.15 452.038 1297.64 387.827C1380.65 290.018 1386.21 43.6331 1297.64 18.8705C1224.82 -1.49087 920.666 -20.312 826.37 47.347C753.896 99.3489 844.933 341.259 929.159 397.117Z"
-        fill="url(#gl)" stroke="none"/>
-      <image href="./glasses.png" x="-204.38" y="-56" width="1770.76" height="541" style="display:none"/>
-    </svg>
+    <video src="./radioanime.mp4"
+      autoplay muted loop playsinline preload="auto"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;"></video>
   </div>
 </section>
 
@@ -2521,123 +2507,7 @@
 })();
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script>
-(function(){
-  var stage=document.getElementById('stage');
-  var tc=document.createElement('canvas');
-  var ctx=tc.getContext('2d');
 
-  var renderer=new THREE.WebGLRenderer({antialias:true,alpha:false});
-  renderer.setClearColor(0xffffff);
-  var gl=renderer.domElement;
-  gl.style.cssText='position:absolute;inset:0;width:100%;height:100%;z-index:0;';
-  stage.prepend(gl);
-
-  var scene=new THREE.Scene();
-  var cam=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
-  var tex=new THREE.CanvasTexture(tc);
-  tex.minFilter=tex.magFilter=THREE.LinearFilter;
-
-  var mat=new THREE.ShaderMaterial({
-    uniforms:{uTex:{value:tex}},
-    vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}',
-    fragmentShader:[
-      'precision mediump float;',
-      'uniform sampler2D uTex;',
-      'varying vec2 vUv;',
-      'const vec2 LC=vec2(.214,.500),RC=vec2(.786,.500),LR=vec2(.232,.260);',
-      'const float RS=1.10;',
-      'vec4 glass(vec2 u,vec2 c){',
-      '  vec2 d=(u-c)/LR;float t=dot(d,d);',
-      '  if(t>=1.)return texture2D(uTex,u);',
-      // pow(1-t, 1.5): more mid-range distortion than (1-t)^2
-      '  float f=pow(max(0.,1.-t),1.5)*RS;',
-      '  vec2 off=(u-c)*f;',
-      // dispersion ramps 4% → 15% toward edge — visible RGB fringing
-      '  float disp=.040+t*.110;',
-      '  float r=texture2D(uTex,u-off*(1.+disp)).r;',
-      '  float g=texture2D(uTex,u-off).g;',
-      '  float b=texture2D(uTex,u-off*(1.-disp)).b;',
-      // ghost: dim secondary image opposite direction (thick-glass internal reflection)
-      '  vec2 goff=off*.20;',
-      '  r=r*.92+texture2D(uTex,u+goff*(1.+disp)).r*.08;',
-      '  g=g*.92+texture2D(uTex,u+goff).g*.08;',
-      '  b=b*.92+texture2D(uTex,u+goff*(1.-disp)).b*.08;',
-      '  return vec4(clamp(vec3(r,g,b),0.,1.),1.);',
-      '}',
-      'void main(){',
-      '  vec2 dL=(vUv-LC)/LR,dR=(vUv-RC)/LR;',
-      '  if(dot(dL,dL)<1.)gl_FragColor=glass(vUv,LC);',
-      '  else if(dot(dR,dR)<1.)gl_FragColor=glass(vUv,RC);',
-      '  else gl_FragColor=texture2D(uTex,vUv);',
-      '}'
-    ].join('\n')
-  });
-  scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),mat));
-
-  var W=1,H=1;
-  function resize(){
-    var r=stage.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
-    W=Math.round(r.width*dpr);H=Math.round(r.height*dpr);
-    tc.width=W;tc.height=H;
-    renderer.setSize(r.width,r.height);
-    renderer.setPixelRatio(dpr);
-  }
-  new ResizeObserver(resize).observe(stage);
-  resize();
-
-  var CHARS='Radio'.split('');
-  function frame(t){
-    ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
-
-    // Concentric pulse waves expanding from center — distorted by lens shader
-    var cx=W*.5, cy=H*.5;
-    var rExit=Math.hypot(W*.5,H*.5); // distance to corner = off-screen
-    var rMax=rExit*1.05;
-    var period=4.0, count=3;
-    for(var i=0;i<count;i++){
-      var p=((t/period)+i/count)%1;
-      var r=p*rMax;
-      if(r>=rExit) continue; // gone off-screen, skip drawing
-      var fadeIn=Math.min(1,p/0.12);
-      var fadeOut=Math.pow(1-p,2.2);
-      var a=0.5*fadeIn*fadeOut;
-      if(a<=0.004) continue;
-      ctx.strokeStyle='rgba(10,10,10,'+a.toFixed(3)+')';
-      ctx.lineWidth=Math.max(1.2, H*.009*(1-p*0.6));
-      ctx.beginPath();
-      ctx.arc(cx,cy,r,0,Math.PI*2);
-      ctx.stroke();
-    }
-
-    ctx.fillStyle='#0a0a0a';
-    var fs=H*.84,ls=-0.05*fs;
-    var chars=CHARS.map(function(ch,i){
-      var wt=Math.round(100+800*(Math.sin(t*0.8+i*1.0)*0.5+0.5));
-      ctx.font=wt+' '+fs+'px Inter,sans-serif';
-      return{ch:ch,wt:wt,w:ctx.measureText(ch).width};
-    });
-    var tw=chars.reduce(function(s,c,i){return s+c.w+(i<chars.length-1?ls:0);},0);
-    var x=(W-tw)/2,y=H*.5+fs*.35;
-    chars.forEach(function(c,i){
-      ctx.font=c.wt+' '+fs+'px Inter,sans-serif';
-      ctx.fillText(c.ch,x,y);
-      x+=c.w+(i<chars.length-1?ls:0);
-    });
-    tex.needsUpdate=true;
-    renderer.render(scene,cam);
-  }
-
-  var t0=null;
-  function loop(ts){
-    if(!t0)t0=ts;
-    frame((ts-t0)/1e3);
-    requestAnimationFrame(loop);
-  }
-  document.fonts.ready.then(function(){ requestAnimationFrame(loop); });
-})();
-</script>
 <script>
 (function(){
   var frame = document.querySelector('.app-embed-frame');
