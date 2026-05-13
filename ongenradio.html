@@ -806,15 +806,7 @@
     stroke:#fff;
     stroke-width:1.2;
     opacity:0;
-    transform-box: fill-box;
-    transform-origin: 50% 50%;
-    animation: vmPulseInward 4.8s cubic-bezier(.22,.61,.36,1) infinite;
     pointer-events:none;
-  }
-  @keyframes vmPulseInward {
-    0%   { transform:scale(1);    opacity:0;    stroke-width:1.2; }
-    8%   { opacity:0.32; }
-    100% { transform:scale(0.55); opacity:0;    stroke-width:0.3; }
   }
   .vm-chart .vm-sector-line{ stroke:rgba(255,255,255,0.10); stroke-width:0.6; stroke-dasharray:2 3; }
   .vm-chart .vm-stakeholder-label{
@@ -2219,16 +2211,49 @@
       svg.appendChild(p);
     }
 
-    // Inward-pulsing waves: 3 staggered copies of the outer pill,
-    // animated to contract toward the center via CSS keyframes.
+    // Inward-pulsing waves: 3 staggered copies that morph their stadium path
+    // from the outer pill inward to the center — so the shape becomes
+    // progressively more square (matching inner ring proportions) as it shrinks.
+    var pulsePaths = [];
     for (var w = 0; w < 3; w++){
       var wp = document.createElementNS(SVG_NS,'path');
       wp.setAttribute('d', stadiumPath(oX, oY, oW, oH));
       wp.setAttribute('class', 'vm-pulse-inward');
-      wp.style.transformOrigin = (oX+oW/2)+'px '+(oY+oH/2)+'px';
-      wp.style.animationDelay = (w * 1.6) + 's';
       svg.appendChild(wp);
+      pulsePaths.push(wp);
     }
+    // Drive morph via rAF. Each wave: phase 0..1 over 4.8s, staggered by 1/3.
+    var pulseDuration = 4800;
+    var pulseStart = performance.now();
+    var maxInset = rings.length * step; // shrink to center boundary
+    function pulseTick(now){
+      if (!host.isConnected) return;
+      var elapsed = now - pulseStart;
+      pulsePaths.forEach(function(el, i){
+        var phase = ((elapsed / pulseDuration) + i / pulsePaths.length) % 1;
+        // ease-out cubic: fast start, slow end
+        var k = 1 - Math.pow(1 - phase, 3);
+        var inset = k * maxInset;
+        var nw = oW - inset*2;
+        var nh = oH - inset*2;
+        if (nw <= 2 || nh <= 2){
+          el.setAttribute('d', '');
+          el.style.opacity = 0;
+          return;
+        }
+        el.setAttribute('d', stadiumPath(oX+inset, oY+inset, nw, nh));
+        // opacity: fade-in then fade-out
+        var op;
+        if (phase < 0.08) op = (phase / 0.08) * 0.35;
+        else op = 0.35 * (1 - (phase - 0.08) / 0.92);
+        el.style.opacity = op;
+        // stroke fades thin as it shrinks
+        el.setAttribute('stroke-width', (1.2 * (1 - phase*0.75)).toFixed(2));
+      });
+      host._vmPulseRaf = requestAnimationFrame(pulseTick);
+    }
+    if (host._vmPulseRaf) cancelAnimationFrame(host._vmPulseRaf);
+    host._vmPulseRaf = requestAnimationFrame(pulseTick);
 
     // Only render stakeholders that actually have data points (preserve canonical order)
     var activeStakeholders = stakeholders.filter(function(s){
