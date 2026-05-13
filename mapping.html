@@ -1021,7 +1021,7 @@
             // ============================================================
             // STEP 4: Auto-zoom
             // ============================================================
-            const ZOOM_DURATION = 1100;
+            const ZOOM_DURATION = 500;
             const ZOOM_EASE = d3.easeCubicInOut;
             // Mark SVG as zooming so CSS can disable text hit-testing /
             // shaping and the browser can composite faster.
@@ -1350,7 +1350,7 @@
             // browser can finish the current paint/scroll work first.
             requestAnimationFrame(function(){
                 renderGraph();
-                // The d3 zoom transition is 1100ms; signal slightly after.
+                // The d3 zoom transition above; signal slightly after.
                 setTimeout(function(){
                     _renderInFlight = false;
                     try { parent.postMessage({ type:'tierDone', tier: currentTier }, '*'); } catch(e){}
@@ -1361,7 +1361,7 @@
                             _runRender();
                         }
                     }
-                }, 1180);
+                }, 540);
             });
         }
         window.addEventListener('message', (e) => {

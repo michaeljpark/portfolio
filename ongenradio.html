@@ -2893,7 +2893,7 @@ window.addEventListener('load', function(){
   var dispatchedTier = null;        // last tier actually posted to iframe
   var renderInFlight = false;       // iframe currently animating
   var dispatchTimer = null;
-  var DISPATCH_DELAY = 220;         // ms — scroll settle before posting to iframe
+  var DISPATCH_DELAY = 40;          // ms — minimal scroll settle before posting
 
   // Iframe signals when its transition has fully settled.
   window.addEventListener('message', function(e){
