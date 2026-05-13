@@ -38,6 +38,24 @@
         svg {
             width: 100%;
             height: 100%;
+            /* Cheaper rendering hints for animated zoom */
+            shape-rendering: optimizeSpeed;
+            text-rendering: optimizeSpeed;
+            /* Promote the SVG to its own compositor layer */
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        svg > g {
+            will-change: transform;
+        }
+        /* While the zoom transition runs, suppress hit testing and heavy text
+           shaping. The class is toggled by JS. */
+        svg.is-zooming text {
+            pointer-events: none;
+            text-rendering: optimizeSpeed;
+        }
+        svg.is-zooming {
+            pointer-events: none;
         }
     </style>
 </head>
@@ -1005,12 +1023,23 @@
             // ============================================================
             const ZOOM_DURATION = 1100;
             const ZOOM_EASE = d3.easeCubicInOut;
+            // Mark SVG as zooming so CSS can disable text hit-testing /
+            // shaping and the browser can composite faster.
+            svg.classed('is-zooming', true);
+            function runZoom(t){
+                return svg.transition()
+                   .duration(ZOOM_DURATION)
+                   .ease(ZOOM_EASE)
+                   .call(zoom.transform, t)
+                   .on('end.zoomflag interrupt.zoomflag', function(){
+                       svg.classed('is-zooming', false);
+                   });
+            }
             if (verticalMode || allSubsMode) {
-                svg.transition().duration(ZOOM_DURATION).ease(ZOOM_EASE).call(zoom.transform, d3.zoomIdentity);
+                runZoom(d3.zoomIdentity);
             } else if (currentCrossTier) {
                 const [tierA, tierB] = currentCrossTier.split('-').map(Number);
                 const rB = tierSubRadius[tierB] || tierRadius[tierB] || (100 * tierB);
-                // Tighter zoom: use smaller divisor for closer view
                 const divisor = tierB <= 2 ? 2.3 : (tierB <= 3 ? 2.35 : (tierB <= 4 ? 2.3 : 2.35));
                 const scale = Math.min(width / (rB * divisor), height / (rB * divisor));
                 const finalScale = Math.min(scale, 2.2);
@@ -1018,22 +1047,19 @@
                     .translate(width / 2, height / 2)
                     .scale(finalScale)
                     .translate(-width / 2, -height / 2);
-                svg.transition().duration(ZOOM_DURATION).ease(ZOOM_EASE).call(zoom.transform, transform);
+                runZoom(transform);
             } else if (currentTier !== 'all' && currentTier !== 0) {
                 const r = tierSubRadius[currentTier] || tierRadius[currentTier] || (100 * currentTier);
-                // Tighter zoom per tier
                 const divisor = currentTier <= 2 ? 2.3 : (currentTier <= 3 ? 2.3 : (currentTier <= 4 ? 2.25 : 2.25));
                 const scale = Math.min(width / (r * divisor), height / (r * divisor));
                 const finalScale = Math.min(scale, 2.2);
-                
                 const transform = d3.zoomIdentity
                     .translate(width / 2, height / 2)
                     .scale(finalScale)
                     .translate(-width / 2, -height / 2);
-                    
-                svg.transition().duration(ZOOM_DURATION).ease(ZOOM_EASE).call(zoom.transform, transform);
+                runZoom(transform);
             } else {
-                svg.transition().duration(ZOOM_DURATION).ease(ZOOM_EASE).call(zoom.transform, d3.zoomIdentity);
+                runZoom(d3.zoomIdentity);
             }
 
             // ============================================================
@@ -1320,19 +1346,23 @@
         let _queuedTier = null;
         function _runRender(){
             _renderInFlight = true;
-            renderGraph();
-            // Notify parent slightly after the d3 transition completes (~1100ms).
-            setTimeout(function(){
-                _renderInFlight = false;
-                try { parent.postMessage({ type:'tierDone', tier: currentTier }, '*'); } catch(e){}
-                if (_queuedTier !== null){
-                    var next = _queuedTier; _queuedTier = null;
-                    if (next !== currentTier){
-                        currentTier = next;
-                        _runRender();
+            // Defer the (expensive) DOM rebuild to the next frame so the
+            // browser can finish the current paint/scroll work first.
+            requestAnimationFrame(function(){
+                renderGraph();
+                // The d3 zoom transition is 1100ms; signal slightly after.
+                setTimeout(function(){
+                    _renderInFlight = false;
+                    try { parent.postMessage({ type:'tierDone', tier: currentTier }, '*'); } catch(e){}
+                    if (_queuedTier !== null){
+                        var next = _queuedTier; _queuedTier = null;
+                        if (next !== currentTier){
+                            currentTier = next;
+                            _runRender();
+                        }
                     }
-                }
-            }, 1180);
+                }, 1180);
+            });
         }
         window.addEventListener('message', (e) => {
             var d = e.data || {};
