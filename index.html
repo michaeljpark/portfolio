@@ -558,15 +558,12 @@
     position:absolute; inset:0;
     background-size:cover;
     background-position:center;
-    transition:opacity 1.2s ease;
+    opacity:1;
   }
   .tt-face video{
     width:100%; height:100%;
     object-fit:cover; display:block;
   }
-  .tt-face-back{ opacity:0; }
-  .tt-swapped .tt-face-front{ opacity:0; }
-  .tt-swapped .tt-face-back{ opacity:1; }
   @keyframes tt-breath{
     0%,100%{ transform:scale(1); }
     50%{ transform:scale(1.06); }
