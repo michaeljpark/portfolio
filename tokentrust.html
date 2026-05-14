@@ -7,12 +7,12 @@
 <link rel="icon" type="image/svg+xml" href="./mkpkgrey.svg" />
 <style>
   :root{
-    --bg:#ffffff; --ink:#0a0a0a; --muted:#8a8a8a; --line:#e6e6e6;
+    --bg:#f0f0f0; --ink:#0a0a0a; --muted:#666666; --line:#d8d8d8;
     --max:1320px; --pad:clamp(20px,4vw,56px);
     --font:"Helvetica Neue",Helvetica,Arial,sans-serif;
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html,body{ background:var(--bg); color:var(--ink); }
+  html,body{ background:var(--bg); color:var(--ink); scroll-behavior:smooth; }
   body{
     font-family:var(--font); font-size:14px; line-height:1.5; font-weight:400;
     letter-spacing:-0.05em; -webkit-font-smoothing:antialiased;
@@ -23,6 +23,7 @@
   ::selection{ background:var(--ink); color:var(--bg); }
   .wrap{ max-width:var(--max); margin:0 auto; padding-left:var(--pad); padding-right:var(--pad); }
 
+  /* NAV */
   nav.top{
     position:sticky; top:0; z-index:50;
     background:color-mix(in srgb, var(--bg) 88%, transparent);
@@ -37,62 +38,227 @@
   .nav-links a{ color:var(--muted); transition:color .2s; }
   .nav-links a:hover{ color:var(--ink); }
 
-  header.hero{
-    padding:64px var(--pad) 64px;
-    border-bottom:1px solid var(--line);
-  }
-  .hero-back{ font-size:13px; color:var(--muted); margin-bottom:32px; }
+  /* HERO */
+  header.hero{ padding:64px var(--pad) 64px; border-bottom:1px solid var(--line); }
+  .hero-back{ font-size:13px; color:var(--muted); margin-bottom:32px; display:flex; align-items:center; justify-content:space-between; }
   .hero-back a:hover{ color:var(--ink); }
+  .tagline-row{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:32px; }
+  .tagline-row > p{ margin:0; }
+  .hero-team-inline{ font-size:10px; line-height:1.4; display:flex; align-items:baseline; gap:10px; flex-wrap:nowrap; min-width:0; }
+  .hero-team-inline > dt{ color:var(--muted); flex-shrink:0; }
+  .hero-team-inline .hero-team-list{ display:flex; flex-direction:row; flex-wrap:nowrap; gap:12px; }
+  .hero-team-inline .hero-team-member{ display:flex; gap:4px; flex-wrap:nowrap; white-space:nowrap; }
+  .hero-team-role{ opacity:0.5; }
+  @media(max-width:640px){ .hero-team-inline{ display:none !important; } }
   .hero-greeting{ font-size:17px; color:var(--muted); margin-bottom:6px; }
-  .hero-name{
-    font-weight:500; font-size:clamp(28px,4.5vw,64px);
-    line-height:1.05; letter-spacing:-0.05em;
-  }
+  .hero-name{ font-weight:500; font-size:clamp(28px,4.5vw,64px); line-height:1.05; letter-spacing:-0.05em; }
   .hero-tagline{ font-size:16px; color:var(--muted); margin-top:14px; line-height:1.5; }
   .hero-row{ margin-top:36px; padding-top:24px; border-top:1px solid var(--line); }
-  .hero-side{
-    display:flex; flex-direction:row; justify-content:space-between;
-    flex-wrap:wrap; font-size:13px; gap:16px;
-  }
+  .hero-side{ display:flex; flex-direction:row; justify-content:space-between; flex-wrap:wrap; font-size:13px; gap:16px; }
   .hero-side .pair{ display:flex; flex-direction:column; gap:2px; }
   .hero-side dt{ color:var(--muted); }
-  .view-link{ border-bottom:1px solid var(--ink); transition:opacity .2s; }
-  .view-link:hover{ opacity:0.6; }
   .status-live{ display:inline-flex; align-items:center; gap:7px; }
   .status-dot{ width:7px; height:7px; border-radius:50%; background:#22c55e; flex-shrink:0; }
-  .hero-team{ margin-top:24px; padding-top:24px; border-top:1px solid var(--line); font-size:13px; }
-  .hero-team > dt{ color:var(--muted); margin-bottom:8px; }
-  .hero-team-list{ display:flex; flex-direction:column; gap:4px; }
-  .hero-team-member{ display:flex; gap:12px; }
-  .hero-team-role{ color:var(--muted); }
 
+  /* PROJECT STAGE */
   .project-section{ padding-top:48px; padding-bottom:48px; }
-  .project-stage{
-    width:100%; aspect-ratio:16/9;
-    background:#f4f4f4; border-radius:20px; overflow:hidden;
-  }
+  .project-stage{ width:100%; aspect-ratio:16/9; background:#e0e0e0; border-radius:20px; overflow:hidden; }
+  .project-stage video,
+  .project-stage img{ width:100%; height:100%; object-fit:cover; display:block; }
 
+  /* EMBED */
+  .tt-embed-wrap{ position:relative; width:100%; border-radius:12px; overflow:hidden; background:#e8e8e8; aspect-ratio:4/3; margin:clamp(40px,5vw,72px) 0; }
+  .tt-embed-wrap iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  @media(max-width:768px){ .tt-embed-wrap{ aspect-ratio:3/4; } }
+
+  /* KPI */
   .kpi-section{ padding-bottom:64px; }
-  .kpi-row{
-    display:grid; grid-template-columns:1fr 1fr 1fr;
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    padding:32px 0;
-  }
+  .kpi-row{ display:grid; grid-template-columns:1fr 1fr 1fr; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:32px 0; }
   .kpi{ display:flex; flex-direction:column; gap:6px; padding:0 40px; }
   .kpi:first-child{ padding-left:0; }
   .kpi:last-child{ padding-right:0; }
   .kpi + .kpi{ border-left:1px solid var(--line); }
-  .kpi-num{
-    font-size:clamp(28px,3.5vw,48px); font-weight:500;
-    letter-spacing:-0.05em; line-height:1;
-  }
+  .kpi-num{ font-size:clamp(28px,3.5vw,48px); font-weight:500; letter-spacing:-0.05em; line-height:1; }
   .kpi-label{ font-size:13px; color:var(--muted); }
+
+  /* SECTION COMMON */
+  .tt-section{ padding-top:clamp(72px,9vw,140px); padding-bottom:clamp(72px,9vw,140px); border-top:1px solid var(--line); }
+  .section-label{ font-size:12px; color:var(--muted); margin-bottom:10px; letter-spacing:0.02em; }
+  .section-title{ font-size:clamp(28px,3.5vw,52px); font-weight:500; letter-spacing:-0.05em; line-height:1.05; margin-bottom:clamp(14px,1.5vw,22px); }
+  .section-sub{ font-size:clamp(14px,1vw,16px); color:var(--muted); line-height:1.6; letter-spacing:-0.02em; max-width:680px; }
+  .section-head{ margin-bottom:clamp(40px,5vw,80px); }
+
+  /* INTRO — 3 questions */
+  .intro-questions{ display:flex; flex-direction:column; }
+  .intro-q{ padding:clamp(28px,3vw,48px) 0; border-top:1px solid var(--line); display:grid; grid-template-columns:120px 1fr; gap:40px; align-items:start; }
+  .intro-q:last-child{ border-bottom:1px solid var(--line); }
+  .intro-q-num{ font-size:11px; color:var(--muted); padding-top:5px; letter-spacing:0.02em; }
+  .intro-q-text{ font-size:clamp(18px,2vw,28px); font-weight:400; line-height:1.3; letter-spacing:-0.04em; }
+  .intro-q-body{ font-size:14px; color:var(--muted); line-height:1.6; margin-top:12px; letter-spacing:-0.02em; }
+  @media(max-width:640px){ .intro-q{ grid-template-columns:1fr; gap:10px; } }
+
+  /* BACKGROUND — GDPR */
+  .gdpr-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:clamp(40px,5vw,80px); background:var(--line); }
+  .gdpr-pillar{ padding:clamp(24px,3vw,40px); background:var(--bg); display:flex; flex-direction:column; gap:14px; }
+  .gdpr-pillar-title{ font-size:clamp(18px,2vw,26px); font-weight:500; letter-spacing:-0.04em; }
+  .gdpr-pillar-body{ font-size:13px; color:var(--muted); line-height:1.6; letter-spacing:-0.02em; }
+  .gdpr-quote{ font-size:12px; color:var(--muted); line-height:1.5; border-left:2px solid var(--line); padding-left:12px; letter-spacing:-0.01em; }
+  @media(max-width:768px){ .gdpr-grid{ grid-template-columns:1fr; } }
+
+  /* TREND */
+  .trend-stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(24px,3vw,48px); margin-top:clamp(40px,5vw,80px); }
+  .trend-stat{ display:flex; flex-direction:column; gap:10px; }
+  .trend-num{ font-size:clamp(48px,7vw,96px); font-weight:500; letter-spacing:-0.05em; line-height:1; }
+  .trend-desc{ font-size:14px; color:var(--muted); line-height:1.55; letter-spacing:-0.02em; }
+  .trend-source{ font-size:11px; color:var(--line); margin-top:4px; letter-spacing:-0.01em; color:var(--muted); opacity:0.5; }
+  @media(max-width:768px){ .trend-stats{ grid-template-columns:1fr 1fr; gap:24px; } }
+  @media(max-width:480px){ .trend-stats{ grid-template-columns:1fr; } }
+
+  /* SIGNALS */
+  .signals-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+  .signal{ padding:clamp(24px,3vw,40px); background:var(--bg); display:flex; flex-direction:column; gap:14px; }
+  .signal-tag{ font-size:11px; color:var(--muted); letter-spacing:0.02em; display:inline-flex; align-items:center; gap:8px; }
+  .signal-strength{ display:inline-block; padding:2px 8px; border-radius:100px; font-size:10px; letter-spacing:0.02em; font-weight:500; }
+  .signal-strength.strong{ background:var(--ink); color:var(--bg); }
+  .signal-strength.weak{ background:var(--line); color:var(--muted); }
+  .signal-title{ font-size:clamp(15px,1.4vw,20px); font-weight:500; letter-spacing:-0.04em; line-height:1.2; }
+  .signal-body{ font-size:13px; color:var(--muted); line-height:1.6; letter-spacing:-0.02em; }
+  @media(max-width:640px){ .signals-grid{ grid-template-columns:1fr; } }
+
+  /* OPPORTUNITY */
+  .hmw-block{ margin-top:clamp(40px,5vw,80px); padding:clamp(32px,4vw,64px); background:var(--ink); color:#ffffff; border-radius:16px; }
+  .hmw-label{ font-size:11px; color:rgba(255,255,255,.4); letter-spacing:0.06em; margin-bottom:16px; }
+  .hmw-text{ font-size:clamp(20px,2.5vw,36px); font-weight:400; letter-spacing:-0.04em; line-height:1.3; }
+  .opp-dims{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:clamp(24px,3vw,40px); border-top:1px solid rgba(255,255,255,.12); padding-top:clamp(24px,3vw,40px); }
+  .opp-dim{ padding:0 24px; }
+  .opp-dim:first-child{ padding-left:0; }
+  .opp-dim:last-child{ padding-right:0; }
+  .opp-dim + .opp-dim{ border-left:1px solid rgba(255,255,255,.12); }
+  .opp-dim-title{ font-size:13px; font-weight:500; color:rgba(255,255,255,.9); margin-bottom:8px; }
+  .opp-dim-body{ font-size:12px; color:rgba(255,255,255,.45); line-height:1.6; letter-spacing:-0.01em; }
+  @media(max-width:640px){
+    .opp-dims{ grid-template-columns:1fr; }
+    .opp-dim{ padding:0; }
+    .opp-dim + .opp-dim{ border-left:0; border-top:1px solid rgba(255,255,255,.12); padding-top:16px; margin-top:16px; }
+  }
+
+  /* VALUE SHIFT */
+  .shift-block{ margin-top:clamp(40px,5vw,80px); }
+  .shift-label{ font-size:12px; font-weight:500; color:var(--muted); margin-bottom:16px; letter-spacing:0.02em; }
+  .shift-table{ width:100%; border-collapse:collapse; margin-bottom:clamp(32px,4vw,64px); }
+  .shift-table th{ text-align:left; font-size:11px; font-weight:500; color:var(--muted); letter-spacing:0.04em; padding:0 0 12px 0; border-bottom:1px solid var(--line); }
+  .shift-table th:not(:first-child){ padding-left:24px; }
+  .shift-table td{ font-size:clamp(13px,1vw,15px); padding:14px 0; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.4; letter-spacing:-0.02em; }
+  .shift-table td:not(:first-child){ padding-left:24px; }
+  .shift-table td:nth-child(2){ color:var(--muted); }
+  .shift-table tr:last-child td{ border-bottom:0; }
+  .shift-note{ font-size:13px; color:var(--muted); line-height:1.6; letter-spacing:-0.02em; border-top:1px solid var(--line); padding-top:20px; }
+  @media(max-width:640px){
+    .shift-table th:nth-child(3),
+    .shift-table td:nth-child(3){ display:none; }
+  }
+
+  /* PARTNERSHIPS */
+  .partners-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+  .partner-group{ padding:clamp(24px,3vw,40px); background:var(--bg); display:flex; flex-direction:column; gap:0; }
+  .partner-group-label{ font-size:11px; color:var(--muted); letter-spacing:0.04em; margin-bottom:20px; }
+  .partner-item{ margin-bottom:14px; }
+  .partner-name{ font-size:clamp(14px,1.2vw,17px); font-weight:500; letter-spacing:-0.03em; }
+  .partner-role{ font-size:12px; color:var(--muted); letter-spacing:-0.01em; margin-top:2px; }
+  .partner-desc{ font-size:12px; color:var(--muted); line-height:1.6; margin-top:auto; padding-top:20px; letter-spacing:-0.02em; border-top:1px solid var(--line); }
+  @media(max-width:768px){ .partners-grid{ grid-template-columns:1fr; } }
+
+  /* SERVICE COMPONENTS */
+  .service-components{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+  .svc-comp{ padding:clamp(28px,3.5vw,48px); background:var(--bg); display:flex; flex-direction:column; }
+  .svc-comp-tag{ font-size:10px; letter-spacing:0.06em; color:var(--muted); margin-bottom:16px; }
+  .svc-comp-name{ font-size:clamp(22px,2.2vw,34px); font-weight:500; letter-spacing:-0.05em; line-height:1; margin-bottom:6px; }
+  .svc-comp-tagline{ font-size:13px; color:var(--muted); letter-spacing:-0.02em; margin-bottom:28px; padding-bottom:28px; border-bottom:1px solid var(--line); }
+  .svc-comp-metrics{ display:flex; flex-direction:column; gap:0; }
+  .svc-metric{ padding:14px 0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:48px 1fr; gap:12px; align-items:start; }
+  .svc-metric:last-child{ border-bottom:0; }
+  .svc-metric-num{ font-size:11px; color:var(--muted); padding-top:2px; letter-spacing:0.02em; }
+  .svc-metric-title{ font-size:13px; font-weight:500; letter-spacing:-0.03em; }
+  .svc-metric-desc{ font-size:12px; color:var(--muted); line-height:1.5; margin-top:3px; letter-spacing:-0.01em; }
+  @media(max-width:880px){ .service-components{ grid-template-columns:1fr; } }
+
+  /* ECOSYSTEM */
+  .ecosystem-flow{ margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .eco-row{ display:grid; grid-template-columns:1fr 2fr 1fr; }
+  .eco-row + .eco-row{ border-top:1px solid var(--line); }
+  .eco-cell{ padding:clamp(20px,2.5vw,36px); display:flex; flex-direction:column; justify-content:center; gap:6px; }
+  .eco-cell + .eco-cell{ border-left:1px solid var(--line); }
+  .eco-cell-title{ font-size:clamp(13px,1.1vw,16px); font-weight:500; letter-spacing:-0.03em; }
+  .eco-cell-body{ font-size:12px; color:var(--muted); line-height:1.5; letter-spacing:-0.02em; }
+  .eco-center{ background:var(--ink); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; text-align:center; padding:clamp(24px,3vw,40px); }
+  .eco-center-name{ font-size:clamp(16px,1.5vw,22px); font-weight:500; letter-spacing:-0.04em; }
+  .eco-center-subs{ display:flex; flex-wrap:wrap; justify-content:center; gap:6px; margin-top:4px; }
+  .eco-center-sub{ font-size:10px; color:rgba(255,255,255,.45); letter-spacing:0.02em; background:rgba(255,255,255,.08); padding:3px 8px; border-radius:100px; }
+  .eco-row-2col{ grid-template-columns:1fr 2fr; }
+  @media(max-width:640px){
+    .eco-row{ grid-template-columns:1fr; }
+    .eco-row-2col{ grid-template-columns:1fr; }
+    .eco-cell + .eco-cell{ border-left:0; border-top:1px solid var(--line); }
+  }
+
+  /* MARKET MATRICES */
+  .market-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+  .market-cell{ padding:clamp(24px,3vw,40px); background:var(--bg); }
+  .market-tam{ font-size:11px; color:var(--muted); letter-spacing:0.02em; margin-bottom:14px; }
+  .market-tam span{ font-size:clamp(26px,3vw,42px); font-weight:500; letter-spacing:-0.05em; color:var(--ink); display:block; margin-top:4px; line-height:1; }
+  .market-name{ font-size:clamp(14px,1.3vw,18px); font-weight:500; letter-spacing:-0.04em; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--line); }
+  .market-rows{ display:flex; flex-direction:column; gap:0; }
+  .market-row{ padding:12px 0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:80px 1fr; gap:12px; }
+  .market-row:last-child{ border-bottom:0; }
+  .market-row-key{ font-size:11px; color:var(--muted); letter-spacing:0.02em; padding-top:2px; }
+  .market-row-val{ font-size:12px; color:var(--muted); line-height:1.5; letter-spacing:-0.02em; }
+  @media(max-width:640px){ .market-grid{ grid-template-columns:1fr; } }
+
+  /* ROADMAP */
+  .roadmap-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+  .horizon{ padding:clamp(24px,3vw,40px); background:var(--bg); display:flex; flex-direction:column; gap:0; }
+  .horizon:last-child{ background:var(--ink); color:#fff; }
+  .horizon-tag{ font-size:10px; letter-spacing:0.06em; color:var(--muted); margin-bottom:12px; }
+  .horizon:last-child .horizon-tag{ color:rgba(255,255,255,.4); }
+  .horizon-title{ font-size:clamp(15px,1.3vw,20px); font-weight:500; letter-spacing:-0.03em; margin-bottom:6px; }
+  .horizon-range{ font-size:12px; color:var(--muted); letter-spacing:-0.01em; margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid var(--line); }
+  .horizon:last-child .horizon-range{ color:rgba(255,255,255,.4); border-bottom-color:rgba(255,255,255,.12); }
+  .horizon-items{ display:flex; flex-direction:column; gap:10px; }
+  .horizon-item{ font-size:12px; color:var(--muted); line-height:1.5; letter-spacing:-0.02em; padding-left:14px; position:relative; }
+  .horizon-item::before{ content:'—'; position:absolute; left:0; color:var(--line); font-size:10px; top:3px; }
+  .horizon:last-child .horizon-item{ color:rgba(255,255,255,.55); }
+  .horizon:last-child .horizon-item::before{ color:rgba(255,255,255,.2); }
+  @media(max-width:768px){
+    .roadmap-grid{ grid-template-columns:1fr; }
+  }
+
+  /* CONCLUSION */
+  .conclusion-block{ margin-top:clamp(40px,5vw,80px); padding:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:16px; }
+  .conclusion-quote{ font-size:clamp(20px,2.5vw,36px); font-weight:400; letter-spacing:-0.04em; line-height:1.35; max-width:900px; }
+  .conclusion-attr{ margin-top:24px; font-size:13px; color:var(--muted); letter-spacing:-0.02em; }
+
+  /* PART NAV LINK */
+  .pt-nav-link{ display:inline-flex; align-items:center; gap:8px; font-size:13px; letter-spacing:-0.02em; color:var(--ink); border-bottom:1px solid currentColor; padding-bottom:2px; transition:opacity .2s; }
+  .pt-nav-link:hover{ opacity:.45; }
+
+  /* VIDEO */
+  video{ -webkit-appearance:none; appearance:none; }
+  video::-webkit-media-controls,
+  video::-webkit-media-controls-enclosure,
+  video::-webkit-media-controls-panel,
+  video::-webkit-media-controls-overlay-play-button,
+  video::-webkit-media-controls-play-button,
+  video::-webkit-media-controls-start-playback-button{ display:none !important; opacity:0 !important; }
 
   @media(max-width:880px){
     .hero-name{ font-size:clamp(24px,7vw,48px); }
     .kpi-row{ padding:24px 0; }
     .kpi{ padding:0 20px; }
+  }
+  @media(max-width:640px){
+    .kpi-row{ grid-template-columns:1fr; padding:0; }
+    .kpi{ padding:20px 0; }
+    .kpi + .kpi{ border-left:none; border-top:1px solid var(--line); }
   }
 </style>
 </head>
@@ -110,49 +276,1365 @@
   </div>
 </nav>
 
-<header class="hero wrap">
-  <div class="hero-back"><a href="./index.html">← Back to Work</a></div>
-  <div class="hero-greeting">Service Design</div>
+<header class="hero wrap" id="pt1">
+  <div class="hero-back">
+    <a href="./index.html">← Back to Work</a>
+    <a href="#pt2" class="pt-nav-link">View Part II ↓</a>
+  </div>
+  <div class="hero-greeting">Service Design · Strategic Research</div>
   <h1 class="hero-name">Token Trust</h1>
-  <p class="hero-tagline">Service Design, Strategic Research</p>
+  <div class="tagline-row">
+    <p class="hero-tagline">An ethical AI data governance platform converting user-contributed data into measurable, compensable value.</p>
+    <dl class="hero-team-inline">
+      <dt>Team</dt>
+      <div class="hero-team-list">
+        <div class="hero-team-member"><span>Michael Joongmin Park</span><span class="hero-team-role">&nbsp;Team Lead</span></div>
+        <div class="hero-team-member"><span>Jaehong Hwang</span><span class="hero-team-role">&nbsp;Research</span></div>
+        <div class="hero-team-member"><span>Elsie Jang</span><span class="hero-team-role">&nbsp;Research</span></div>
+      </div>
+    </dl>
+  </div>
   <div class="hero-row">
     <dl class="hero-side">
       <div class="pair"><dt>Year</dt><dd>2026 / Mar</dd></div>
       <div class="pair"><dt>Type</dt><dd>Service Design, Strategic Research</dd></div>
       <div class="pair"><dt>Duration</dt><dd>6 Weeks</dd></div>
-      <div class="pair"><dt>Status</dt><dd class="status-live"><span class="status-dot"></span>Online · Published via GitHub</dd></div>
-    </dl>
-    <dl class="hero-team">
-      <dt>Team</dt>
-      <div class="hero-team-list">
-        <div class="hero-team-member"><span>Michael Joongmin Park</span><span class="hero-team-role">Team Lead, Data Analyst</span></div>
-        <div class="hero-team-member"><span>Jaehong Hwang</span><span class="hero-team-role">Research</span></div>
-        <div class="hero-team-member"><span>Elsie Jang</span><span class="hero-team-role">Research</span></div>
-      </div>
+      <div class="pair"><dt>Status</dt><dd class="status-live"><span class="status-dot"></span>Online · Published via GitHub<br><a href="https://michaeljpark.github.io/tokentrust/" target="_blank" rel="noopener" style="font-size:11px;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:1px;letter-spacing:-0.01em;">michaeljpark.github.io/tokentrust ↗</a></dd></div>
     </dl>
   </div>
 </header>
 
 <section class="project-section wrap">
-  <div class="project-stage"></div>
+  <div class="project-stage">
+    <video src="./Tokentrust%20Part1.mp4" autoplay loop muted playsinline webkit-playsinline preload="auto"
+      style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+  </div>
 </section>
 
 <section class="kpi-section wrap">
   <div class="kpi-row">
     <div class="kpi">
-      <div class="kpi-num">—</div>
-      <div class="kpi-label">—</div>
+      <div class="kpi-num">84%</div>
+      <div class="kpi-label">of business leaders say data sovereignty regulations grew more important in 2026</div>
     </div>
     <div class="kpi">
-      <div class="kpi-num">—</div>
-      <div class="kpi-label">—</div>
+      <div class="kpi-num">75%</div>
+      <div class="kpi-label">of consumers won't purchase from organizations they don't trust with their data</div>
     </div>
     <div class="kpi">
-      <div class="kpi-num">—</div>
-      <div class="kpi-label">—</div>
+      <div class="kpi-num">$30B+</div>
+      <div class="kpi-label">Total addressable AI token market in 2026</div>
     </div>
   </div>
 </section>
+
+<section class="wrap">
+  <div class="tt-embed-wrap">
+    <iframe
+      src="https://michaeljpark.github.io/tokentrust/"
+      loading="lazy"
+      title="TokenTrust Live"></iframe>
+  </div>
+</section>
+
+<!-- ===== 01 INTRODUCTION ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">01 — Introduction & Background</div>
+    <h2 class="section-title">Data invisibility and<br>the birth of TokenTrust</h2>
+    <p class="section-sub">We use AI every day without a second thought. But three structural questions remain unanswered — and TokenTrust is built to answer them.</p>
+  </div>
+  <div class="intro-questions">
+    <div class="intro-q">
+      <div class="intro-q-num">Question I</div>
+      <div>
+        <div class="intro-q-text">Where does the data we provide to AI actually go?</div>
+        <p class="intro-q-body">"We use AI every day without a second thought. But we have no visibility into how AI enterprises handle our data, or whose hands it ends up in."</p>
+      </div>
+    </div>
+    <div class="intro-q">
+      <div class="intro-q-num">Question II</div>
+      <div>
+        <div class="intro-q-text">How is the data we provide being processed?</div>
+        <p class="intro-q-body">"Is our data being processed? Stored? Or fed into the next AI model? We simply do not know. Just like the black box of AI thinking, what happens to our data remains invisible to us."</p>
+      </div>
+    </div>
+    <div class="intro-q">
+      <div class="intro-q-num">Question III</div>
+      <div>
+        <div class="intro-q-text">Are AI companies properly rewarding us for the value of our data?</div>
+        <p class="intro-q-body">"AI enterprises walk away with our intellectual property and the value of our data. And still, we are the ones writing the check. Where exactly did our data rights go?"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 02 BACKGROUND — GDPR ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">02 — Regulatory Foundation</div>
+    <h2 class="section-title">Built on GDPR's<br>three pillars</h2>
+    <p class="section-sub">GDPR requires companies to obtain user consent and ensure transparency when collecting and using personal data. TokenTrust operationalizes its three core principles into a governance framework.</p>
+  </div>
+  <div class="gdpr-grid">
+    <div class="gdpr-pillar">
+      <div class="gdpr-pillar-title">Privacy</div>
+      <p class="gdpr-pillar-body">Protects personal data and ensures secure handling across the entire data lifecycle — from collection to deletion.</p>
+      <p class="gdpr-quote">"Data protection should be integrated into technology design from the beginning." — GDPR, Art. 25 &amp; Recital 78</p>
+    </div>
+    <div class="gdpr-pillar">
+      <div class="gdpr-pillar-title">Consent</div>
+      <p class="gdpr-pillar-body">Requires clear user permission before data collection and use, with the right to withdraw at any time without consequence.</p>
+      <p class="gdpr-quote">"The data subject shall have the right to withdraw his or her consent at any time." — GDPR, Art. 7</p>
+    </div>
+    <div class="gdpr-pillar">
+      <div class="gdpr-pillar-title">Control</div>
+      <p class="gdpr-pillar-body">Gives users the right to access, modify, and delete their data — placing the individual at the center of data governance.</p>
+      <p class="gdpr-quote">"Controller means the natural or legal person which determines the purposes and means of the processing of personal data." — GDPR, Art. 4(7)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 03 MARKET TREND ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">03 — Market Trend</div>
+    <h2 class="section-title">Data sovereignty is<br>no longer optional</h2>
+    <p class="section-sub">The Global Sovereign Cloud Market was valued at $129 billion in 2025 and is projected to reach $572.3 billion by 2032 — growing at 24% CAGR, driven by mounting regulatory pressure and eroding user trust.</p>
+  </div>
+  <div class="trend-stats">
+    <div class="trend-stat">
+      <div class="trend-num">84%</div>
+      <p class="trend-desc">of business leaders say data sovereignty and repatriation regulations have grown more important over the past year.</p>
+      <p class="trend-source">Kyndryl via PR Newswire, March 2026</p>
+    </div>
+    <div class="trend-stat">
+      <div class="trend-num">75%</div>
+      <p class="trend-desc">of consumers say they won't purchase from an organization they don't trust with their data.</p>
+      <p class="trend-source">Cisco 2024 Consumer Privacy Survey</p>
+    </div>
+    <div class="trend-stat">
+      <div class="trend-num">24%</div>
+      <p class="trend-desc">CAGR — Global Sovereign Cloud Market growing from $129B in 2025 to $572.3B by 2032.</p>
+      <p class="trend-source">MarkNtel Advisors via PR Newswire, March 2026</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 04 SIGNALS ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">04 — Crisis &amp; Opportunity</div>
+    <h2 class="section-title">The AI data shift:<br>Four signals</h2>
+    <p class="section-sub">Model collapse, rising litigation, regulatory pressure, and the emergence of token economies mark a structural turning point in how AI enterprises source and compensate for data.</p>
+  </div>
+  <div class="signals-grid">
+    <div class="signal">
+      <div class="signal-tag">Signal I &nbsp;<span class="signal-strength strong">Strong</span></div>
+      <div class="signal-title">AI-generated Noise &amp; Model Collapse</div>
+      <p class="signal-body">As AI-generated content saturates the information environment, firms face growing risks from degraded high-value data. Trustworthy AI requires trustworthy data — stronger standards for accuracy, relevance, and reliability in training datasets have become essential.</p>
+    </div>
+    <div class="signal">
+      <div class="signal-tag">Signal II &nbsp;<span class="signal-strength strong">Strong</span></div>
+      <div class="signal-title">Surge in AI Copyright Lawsuits</div>
+      <p class="signal-body">Misuse enables manipulation and harmful automated exploitation. Harm extends beyond individual users to organizations and society. Generative AI can produce false or misleading information at scale — threatening the reliability of AI outputs across the ecosystem.</p>
+    </div>
+    <div class="signal">
+      <div class="signal-tag">Signal III &nbsp;<span class="signal-strength weak">Weak</span></div>
+      <div class="signal-title">Regulatory Pressure for Data Compensation</div>
+      <p class="signal-body">Reward can function as an institutional tool improving accountability, data quality, and user consent. Rather than simply blocking information, it defines the conditions under which data can be shared, valued, and governed responsibly.</p>
+    </div>
+    <div class="signal">
+      <div class="signal-tag">Signal IV &nbsp;<span class="signal-strength weak">Weak</span></div>
+      <div class="signal-title">Interplatform AI Token Economy</div>
+      <p class="signal-body">What if AI tokens became a tradeable currency? An integrated AI token infrastructure that consolidates fragmented platform ecosystems into a single tradeable network — supported by regulatory governance and built for seamless end-user accessibility.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 05 OPPORTUNITY ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">05 — Opportunity</div>
+    <h2 class="section-title">AI Token as<br>an economic model</h2>
+    <p class="section-sub">At present, most AI enterprises treat tokens as internal measures of usage. Users have limited awareness of how their data translates into economic worth — and little autonomy over how that value is distributed.</p>
+  </div>
+  <div class="hmw-block">
+    <div class="hmw-label">HOW MIGHT WE</div>
+    <div class="hmw-text">How might we create a unified AI token ecosystem that incentivizes both platforms and users to participate across boundaries?</div>
+    <div class="opp-dims">
+      <div class="opp-dim">
+        <div class="opp-dim-title">Reward</div>
+        <p class="opp-dim-body">AI token rewards — as consent-based incentives for data contribution — transform data into a transactional asset circulating within a self-sustaining loop, enabling systematic audit and traceability throughout.</p>
+      </div>
+      <div class="opp-dim">
+        <div class="opp-dim-title">AI Token</div>
+        <p class="opp-dim-body">The AI token moves beyond its role as a unit of computing into a receipt-generating exchangeable asset — functioning as a currency tied to quantifiable indicators for data exchange.</p>
+      </div>
+      <div class="opp-dim">
+        <div class="opp-dim-title">Interplatform</div>
+        <p class="opp-dim-body">Consolidating siloed AI token units across platforms into a unified framework enables demand-driven pricing, greater service utility for users, and automation across a broader range of services.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 06 VALUE SHIFT ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">06 — Strategic Value</div>
+    <h2 class="section-title">Value shift across<br>the ecosystem</h2>
+    <p class="section-sub">The primary barrier to data compensation has not been technical, but definitional. Without a consistent framework for measuring data value, fair exchange has been structurally impossible. DQI establishes that measurement layer — effectively serving as the exchange rate system of the data economy.</p>
+  </div>
+  <div class="shift-block">
+    <div class="shift-label">USER PERSPECTIVE</div>
+    <table class="shift-table">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>As-Is</th>
+          <th>To-Be</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Visibility</td>
+          <td>No visibility into how data is used</td>
+          <td>Visible, actionable data ownership</td>
+        </tr>
+        <tr>
+          <td>Compensation</td>
+          <td>Data extracted with zero compensation</td>
+          <td>AI token rewards based on DQI</td>
+        </tr>
+        <tr>
+          <td>Agency</td>
+          <td>Vague anxiety and uncertainty</td>
+          <td>Direct control over data sharing scope</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="shift-label">AI ENTERPRISE PERSPECTIVE</div>
+    <table class="shift-table">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>As-Is</th>
+          <th>To-Be</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Risk</td>
+          <td>Unauthorized collection → litigation &amp; regulatory risk</td>
+          <td>Consent-based collection → liability protection</td>
+        </tr>
+        <tr>
+          <td>Data Quality</td>
+          <td>Inconsistent data quality</td>
+          <td>High-quality data selection powered by DQI</td>
+        </tr>
+        <tr>
+          <td>Reach</td>
+          <td>Limited scope of data collection</td>
+          <td>Expanded reach through trusted framework</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="shift-note">When data is contributed willingly, liability converts to protection, quality becomes a selectable standard powered by DQI, and collection expands on the basis of trust rather than resistance.</p>
+  </div>
+</section>
+
+<!-- ===== 07 PARTNERSHIPS ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">07 — Value Propositions</div>
+    <h2 class="section-title">Strategic partnerships<br>across three layers</h2>
+    <p class="section-sub">For commercialization at scale, the strategic foundation spans infrastructure partners, government bodies, and regulated AI enterprises — each playing a distinct role in the governance ecosystem.</p>
+  </div>
+  <div class="partners-grid">
+    <div class="partner-group">
+      <div class="partner-group-label">INFRASTRUCTURE PARTNERSHIP</div>
+      <div class="partner-item">
+        <div class="partner-name">Safe Superintelligence Inc.</div>
+        <div class="partner-role">Technical Advisor</div>
+      </div>
+      <div class="partner-item">
+        <div class="partner-name">Okta</div>
+        <div class="partner-role">AI Identity and Access Management</div>
+      </div>
+      <div class="partner-item">
+        <div class="partner-name">GPAI</div>
+        <div class="partner-role">Global Partnership on Artificial Intelligence</div>
+      </div>
+      <p class="partner-desc">SSI as technical advisor, Okta as authentication and identity management infrastructure, and GPAI to support global market entry.</p>
+    </div>
+    <div class="partner-group">
+      <div class="partner-group-label">B2G — GOVERNMENT PARTNERSHIP</div>
+      <div class="partner-item">
+        <div class="partner-name">Government of Canada</div>
+        <div class="partner-role">Primary Regulatory Body</div>
+      </div>
+      <div class="partner-item">
+        <div class="partner-name">Office of the Privacy Commissioner</div>
+        <div class="partner-role">Compliance &amp; Oversight (OPC)</div>
+      </div>
+      <p class="partner-desc">Government bodies are informed of program outcomes and consulted for input, retaining authority to exert regulatory influence over compliance boundaries, information exchange, and AI token transactions.</p>
+    </div>
+    <div class="partner-group">
+      <div class="partner-group-label">B2B — REGULATED AI ENTERPRISES</div>
+      <div class="partner-item">
+        <div class="partner-name">Gemini · Claude · ChatGPT</div>
+        <div class="partner-role">Subjects of Regulation</div>
+      </div>
+      <p class="partner-desc">AI enterprises gain the ability to convert and manage tokens across multiple streams within a unified platform, while unlocking structured information exchange and access to high-quality, consent-sourced data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 08 STAKEHOLDER MAPPING ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">08 — Stakeholder Mapping</div>
+    <h2 class="section-title">Three-layer governance<br>ecosystem</h2>
+    <p class="section-sub">Each participant is positioned across three concentric rings — governing bodies at the core enforcing the framework, regulated AI enterprises in the middle, and affected parties at the periphery.</p>
+  </div>
+  <div id="tt-sm-wrap" style="width:100%;margin:clamp(40px,5vw,80px) 0 0;"></div>
+  <div style="display:flex;gap:clamp(16px,3vw,40px);flex-wrap:wrap;margin-top:clamp(20px,2.5vw,32px);font-size:12px;color:var(--muted);letter-spacing:-0.02em;">
+    <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:#0a0a0a;flex-shrink:0;display:inline-block;"></span>Layer I — Governing Bodies</span>
+    <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:#555555;flex-shrink:0;display:inline-block;"></span>Layer II — Regulated Entities</span>
+    <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:7px;height:7px;border-radius:50%;background:#999999;flex-shrink:0;display:inline-block;"></span>Layer III — Affected Parties</span>
+  </div>
+</section>
+
+<script>
+(function(){
+  var wrap = document.getElementById('tt-sm-wrap');
+  if(!wrap) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  var W = 960, H = 860, CX = 480, CY = 430;
+
+  var RINGS = [
+    {
+      r: 118, nodeR: 3, fontSize: 9.5, color: '#0a0a0a',
+      offset: -Math.PI / 2,
+      items: [
+        'Gov. of Canada', 'Privacy Comm.', 'Treasury Board',
+        'EU AI Act', 'OECD AI Principles', 'ISO/IEC 42001',
+        'NIST AI Framework', 'GPAI', 'CSE', 'SSI'
+      ]
+    },
+    {
+      r: 218, nodeR: 3, fontSize: 9, color: '#444444',
+      offset: -Math.PI / 2 + 0.22,
+      items: [
+        'OpenAI / GPT', 'Google Gemini', 'Anthropic / Claude',
+        'xAI / Grok', 'Amazon / Nova', 'Meta AI / Llama',
+        'Mistral AI', 'Hugging Face', 'Enterprise Data',
+        'Healthcare', 'Financial Inst.', 'Academic Research'
+      ]
+    },
+    {
+      r: 332, nodeR: 3, fontSize: 8.5, color: '#888888',
+      offset: -Math.PI / 2 - 0.18,
+      items: [
+        'End Users', 'Data Agencies', 'Content Creators',
+        'Social Media', 'Freelancers', 'Open Source',
+        'Podcast Creators', 'Legal & Law', 'Pharma R&D', 'Public Libraries'
+      ]
+    }
+  ];
+
+  function mk(tag, attrs, txt){
+    var el = document.createElementNS(NS, tag);
+    Object.keys(attrs).forEach(function(k){ el.setAttribute(k, String(attrs[k])); });
+    if(txt !== undefined) el.textContent = txt;
+    return el;
+  }
+
+  var svg = mk('svg', { viewBox:'0 0 '+W+' '+H, xmlns:NS, style:'width:100%;display:block;' });
+
+  /* concentric rings — solid black */
+  RINGS.forEach(function(ring){
+    svg.appendChild(mk('circle', {
+      cx:CX, cy:CY, r:ring.r,
+      fill:'none', stroke:'#0a0a0a', 'stroke-width':'0.5'
+    }));
+  });
+
+  /* ring labels — placed at 6° below right horizontal */
+  RINGS.forEach(function(ring, ri){
+    var labelAngle = 6 * Math.PI / 180;
+    var lx = CX + (ring.r + 10) * Math.cos(labelAngle);
+    var ly = CY + (ring.r + 10) * Math.sin(labelAngle);
+    var labels = ['Layer I', 'Layer II', 'Layer III'];
+    svg.appendChild(mk('text', {
+      x: lx, y: ly,
+      fill:'#bbbbbb', 'font-size':'7.5', 'letter-spacing':'0.08em',
+      'font-family':'"Helvetica Neue",Helvetica,Arial,sans-serif',
+      'text-anchor':'start', 'dominant-baseline':'middle'
+    }, labels[ri]));
+  });
+
+  /* center — tokentrust full logo */
+  svg.appendChild(mk('rect', { x:394, y:402, width:172, height:57, rx:6, fill:'#f0f0f0' }));
+  svg.appendChild(mk('image', {
+    href: './tokentrust.svg',
+    x: 400, y: 408, width: 160, height: 45,
+    preserveAspectRatio: 'xMidYMid meet',
+    style: 'filter:invert(1);'
+  }));
+
+  /* nodes + radial labels */
+  RINGS.forEach(function(ring){
+    var n = ring.items.length;
+    ring.items.forEach(function(name, i){
+      var angle = ring.offset + (2 * Math.PI * i / n);
+      var cosA  = Math.cos(angle), sinA = Math.sin(angle);
+      var nx = CX + ring.r * cosA;
+      var ny = CY + ring.r * sinA;
+
+      /* dot */
+      svg.appendChild(mk('circle', { cx:nx, cy:ny, r:ring.nodeR, fill:ring.color }));
+
+      /* radially-rotated label */
+      var deg = angle * 180 / Math.PI;
+      var isRight = cosA >= 0;
+      var xform = isRight
+        ? 'translate('+nx+','+ny+') rotate('+deg+')'
+        : 'translate('+nx+','+ny+') rotate('+(deg+180)+')';
+      var anchor = isRight ? 'start' : 'end';
+      var tx     = isRight ? (ring.nodeR + 7) : -(ring.nodeR + 7);
+
+      svg.appendChild(mk('text', {
+        transform: xform, x: tx, y: 0,
+        fill: ring.color,
+        'font-size': ring.fontSize,
+        'font-family': '"Helvetica Neue",Helvetica,Arial,sans-serif',
+        'letter-spacing': '-0.02em',
+        'text-anchor': anchor,
+        'dominant-baseline': 'middle'
+      }, name));
+    });
+  });
+
+  wrap.appendChild(svg);
+})();
+</script>
+
+<!-- ===== 09 SERVICE COMPONENTS ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">09 — Core Service Infrastructure</div>
+    <h2 class="section-title">Three components,<br>one system</h2>
+    <p class="section-sub">DQI measures data worthiness, Reward Tokens translate that into direct compensation, and Data Credit converts accumulated value into purchasing power — forming a closed-loop governance system.</p>
+  </div>
+  <div class="service-components">
+    <div class="svc-comp">
+      <div class="svc-comp-tag">COMPONENT I</div>
+      <div class="svc-comp-name">DQI</div>
+      <div class="svc-comp-tagline">Data Quality Index — "The worthiness of data"</div>
+      <div class="svc-comp-metrics">
+        <div class="svc-metric">
+          <div class="svc-metric-num">.I</div>
+          <div>
+            <div class="svc-metric-title">Accuracy</div>
+            <p class="svc-metric-desc">Data must accurately reflect the real world at all times. Errors directly trigger regulatory penalties with serious consequences.</p>
+          </div>
+        </div>
+        <div class="svc-metric">
+          <div class="svc-metric-num">.II</div>
+          <div>
+            <div class="svc-metric-title">Completeness</div>
+            <p class="svc-metric-desc">All required fields and records must be fully completed. Gaps in audit trails constitute direct compliance violations.</p>
+          </div>
+        </div>
+        <div class="svc-metric">
+          <div class="svc-metric-num">.III</div>
+          <div>
+            <div class="svc-metric-title">Consistency</div>
+            <p class="svc-metric-desc">The same data point holds the same value across all systems. Discrepancies between sources are inadmissible under regulatory review.</p>
+          </div>
+        </div>
+        <div class="svc-metric">
+          <div class="svc-metric-num">.IV</div>
+          <div>
+            <div class="svc-metric-title">Freshness</div>
+            <p class="svc-metric-desc">How current and up-to-date the data is, and whether the latest elements and updates have been properly applied and reflected.</p>
+          </div>
+        </div>
+        <div class="svc-metric">
+          <div class="svc-metric-num">Gate</div>
+          <div>
+            <div class="svc-metric-title">Privacy Sensitivity</div>
+            <p class="svc-metric-desc">Operates as an independent gate. If triggered, DQI output is fully blocked until encryption, anonymization, and mandatory user notification protocols are resolved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="svc-comp">
+      <div class="svc-comp-tag">COMPONENT II</div>
+      <div class="svc-comp-name">Reward Token</div>
+      <div class="svc-comp-tagline">"Value returned to users"</div>
+      <div class="svc-comp-metrics">
+        <div class="svc-metric">
+          <div class="svc-metric-num">User</div>
+          <div>
+            <div class="svc-metric-title">Data → Token</div>
+            <p class="svc-metric-desc">Users provide data and receive token refunds, which can be utilized for service use and applied as a new form of value across the platform.</p>
+          </div>
+        </div>
+        <div class="svc-metric">
+          <div class="svc-metric-num">Enterprise</div>
+          <div>
+            <div class="svc-metric-title">Token → Quality Data</div>
+            <p class="svc-metric-desc">AI enterprises validate the quality of information and enable high-quality data to be trained into future models — completing the exchange loop.</p>
+          </div>
+        </div>
+        <div class="svc-metric">
+          <div class="svc-metric-num">Loop</div>
+          <div>
+            <div class="svc-metric-title">AI Token Ecosystem</div>
+            <p class="svc-metric-desc">A data circulation structure that benefits both the company and its users — fundamentally grounded in consent and exchange, forming a new economic system built on mutual benefit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="svc-comp">
+      <div class="svc-comp-tag">COMPONENT III</div>
+      <div class="svc-comp-name">Data Credit</div>
+      <div class="svc-comp-tagline">"Compliance trust rating"</div>
+      <div class="svc-comp-metrics">
+        <div class="svc-metric">
+          <div class="svc-metric-num">.I</div>
+          <div>
+            <div class="svc-metric-title">Corporate Credibility</div>
+            <p class="svc-metric-desc">Functions as a benchmark for measuring corporate data utilization credibility — much like a technical benchmark, directly tied to data sovereignty.</p>
+          </div>
+        </div>
+        <div class="svc-metric">
+          <div class="svc-metric-num">.II</div>
+          <div>
+            <div class="svc-metric-title">Audit Transparency</div>
+            <p class="svc-metric-desc">Extent to which user consent boundaries were respected, verified through internal and external audit-based validation procedures.</p>
+          </div>
+        </div>
+        <div class="svc-metric">
+          <div class="svc-metric-num">.III</div>
+          <div>
+            <div class="svc-metric-title">Reward Fulfillment Rate</div>
+            <p class="svc-metric-desc">Whether promised tokens for data collection were actually distributed, and how effectively distributed tokens can be utilized within the service.</p>
+          </div>
+        </div>
+        <div class="svc-metric">
+          <div class="svc-metric-num">.IV</div>
+          <div>
+            <div class="svc-metric-title">DQI Accuracy</div>
+            <p class="svc-metric-desc">Whether data value was assessed fairly, with objective metrics ensuring all factors in the valuation process were applied equitably.</p>
+          </div>
+        </div>
+        <div class="svc-metric">
+          <div class="svc-metric-num">.V</div>
+          <div>
+            <div class="svc-metric-title">Consent Compliance Rate</div>
+            <p class="svc-metric-desc">Whether the company transparently disclosed how user data was utilized and whether users were properly informed of how data is processed and retained.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 09 ECOSYSTEM MAPPING ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">09 — Ecosystem Mapping</div>
+    <h2 class="section-title">How the service<br>connects</h2>
+    <p class="section-sub">The three service components bridge AI enterprises and users — with regulatory oversight and audit mechanisms embedded directly within enterprise infrastructure rather than imposed externally.</p>
+  </div>
+  <div class="ecosystem-flow">
+    <div class="eco-row">
+      <div class="eco-cell">
+        <div class="eco-cell-title">User / Data Agencies</div>
+        <p class="eco-cell-body">Provides data · Receives reward tokens · Third parties</p>
+      </div>
+      <div class="eco-center">
+        <div class="eco-center-name">tokentrust</div>
+        <div class="eco-center-subs">
+          <span class="eco-center-sub">Data Quality Assessment</span>
+          <span class="eco-center-sub">Reward Engine</span>
+          <span class="eco-center-sub">Data Protection</span>
+          <span class="eco-center-sub">Ensure Copyrights</span>
+          <span class="eco-center-sub">Intuitive UI</span>
+        </div>
+      </div>
+      <div class="eco-cell">
+        <div class="eco-cell-title">AI Enterprises</div>
+        <p class="eco-cell-body">Data-AI Token exchange · Interplatform unified exchange</p>
+      </div>
+    </div>
+    <div class="eco-row eco-row-2col">
+      <div class="eco-cell">
+        <div class="eco-cell-title">Regulatory Body</div>
+        <p class="eco-cell-body">Enforce the program · Data usage audit · [Report] ↔ [Enforce]</p>
+      </div>
+      <div class="eco-cell">
+        <div class="eco-cell-title">Stakeholder Layers</div>
+        <p class="eco-cell-body">
+          Layer I — Governing Bodies: Government of Canada, EU AI Act, OECD AI Principles, ISO/IEC 42001, NIST AI Framework<br>
+          Layer II — Regulated Entities: OpenAI / GPT, Google DeepMind / Gemini, Anthropic / Claude, Amazon / Nova, Meta AI / Llama<br>
+          Layer III — Affected Parties: Content Creators, Healthcare Providers, Financial Institutions, Academic Researchers, Enterprise Data Teams
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 10 MARKET MATRICES ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">10 — Market Positioning</div>
+    <h2 class="section-title">Four blue-ocean<br>market positions</h2>
+    <p class="section-sub">Competitors operate on a "use → deplete" model. TokenTrust enables a "use → refund → recirculate" loop — occupying the highest position on both user value return and interplatform fungibility across four distinct markets.</p>
+  </div>
+  <div class="market-grid">
+    <div class="market-cell">
+      <div class="market-tam">AI Token Market · TAM<span>$30B+</span></div>
+      <div class="market-name">AI Token Market</div>
+      <div class="market-rows">
+        <div class="market-row">
+          <div class="market-row-key">Gap</div>
+          <div class="market-row-val">Existing AI tokens focus solely on utility within their own ecosystems. Inter-platform token refund and conversion remains a complete blue ocean.</div>
+        </div>
+        <div class="market-row">
+          <div class="market-row-key">Positioning</div>
+          <div class="market-row-val">Highest position on both token fungibility (x) and user value return (y). The only platform with a "refund" mechanism.</div>
+        </div>
+        <div class="market-row">
+          <div class="market-row-key">Advantage</div>
+          <div class="market-row-val">Competitors operate on "use → deplete." This platform enables "use → refund → recirculate."</div>
+        </div>
+      </div>
+    </div>
+    <div class="market-cell">
+      <div class="market-tam">Cross-platform Interoperability · TAM<span>$15B+</span></div>
+      <div class="market-name">Cross-platform Interoperability</div>
+      <div class="market-rows">
+        <div class="market-row">
+          <div class="market-row-key">Gap</div>
+          <div class="market-row-val">Existing integration platforms focus exclusively on "data movement." The space for "value (token) movement" remains entirely unoccupied.</div>
+        </div>
+        <div class="market-row">
+          <div class="market-row-key">Positioning</div>
+          <div class="market-row-val">Dominant advantage on token and value portability. The only player combining AI-native integration with token conversion.</div>
+        </div>
+        <div class="market-row">
+          <div class="market-row-key">Advantage</div>
+          <div class="market-row-val">Positioned at the inflection point where iPaaS evolves from "data pipes" to "value pipes."</div>
+        </div>
+      </div>
+    </div>
+    <div class="market-cell">
+      <div class="market-tam">Data-as-a-Service · TAM<span>$12B+</span></div>
+      <div class="market-name">Data-as-a-Service</div>
+      <div class="market-rows">
+        <div class="market-row">
+          <div class="market-row-key">Gap</div>
+          <div class="market-row-val">Existing DaaS platforms operate on a "companies buy and sell data" model. A user value return model is entirely absent.</div>
+        </div>
+        <div class="market-row">
+          <div class="market-row-key">Positioning</div>
+          <div class="market-row-val">Highest position on data sovereignty (x) and value redistribution (y). Consent-based compensation is the core differentiator.</div>
+        </div>
+        <div class="market-row">
+          <div class="market-row-key">Advantage</div>
+          <div class="market-row-val">Aligned with the surge in data sovereignty demands driven by EU AI Act and GDPR enforcement.</div>
+        </div>
+      </div>
+    </div>
+    <div class="market-cell">
+      <div class="market-tam">AI Regulatory Compliance · TAM<span>$5B+</span></div>
+      <div class="market-name">AI Regulatory Compliance</div>
+      <div class="market-rows">
+        <div class="market-row">
+          <div class="market-row-key">Gap</div>
+          <div class="market-row-val">Every competitor approaches compliance from a "penalty avoidance" perspective. The "compliance = user reward" framing is a unique position.</div>
+        </div>
+        <div class="market-row">
+          <div class="market-row-key">Positioning</div>
+          <div class="market-row-val">Proprietary benchmarks — consent compliance rate, reward fulfillment rate, valuation fairness — serve directly as regulatory evidence.</div>
+        </div>
+        <div class="market-row">
+          <div class="market-row-key">Advantage</div>
+          <div class="market-row-val">Resolves data sovereignty and regulatory compliance simultaneously through a corporate credibility index.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 11 STRATEGIC ROADMAP ===== -->
+<section class="tt-section wrap">
+  <div class="section-head">
+    <div class="section-label">11 — Strategic Roadmap</div>
+    <h2 class="section-title">Three-horizon<br>market entry</h2>
+    <p class="section-sub">Prior to market entry, the strategic priority is establishing foundational market trust and a stable infrastructure capable of sustaining long-term operations — scaling from controlled pilot to institutional adoption.</p>
+  </div>
+  <div class="roadmap-grid">
+    <div class="horizon">
+      <div class="horizon-tag">H-I</div>
+      <div class="horizon-title">Immediate Milestones</div>
+      <div class="horizon-range">Market Entry · Y0–Y1</div>
+      <div class="horizon-items">
+        <div class="horizon-item">Building the core governance infrastructure of the system</div>
+        <div class="horizon-item">Data Quality Index (DQI) implementation and consent logging mechanism</div>
+        <div class="horizon-item">Audit-ready records of data collection — no open token circulation</div>
+        <div class="horizon-item">Rewards limited to internal credits and controlled pilot incentives</div>
+      </div>
+    </div>
+    <div class="horizon">
+      <div class="horizon-tag">H-II</div>
+      <div class="horizon-title">Growth Targets</div>
+      <div class="horizon-range">Market Entry · Y1–Y3</div>
+      <div class="horizon-items">
+        <div class="horizon-item">Pilot partnerships with selected AI enterprises</div>
+        <div class="horizon-item">Adapting DQI model to sector-specific needs</div>
+        <div class="horizon-item">Validating consent and reporting workflows</div>
+        <div class="horizon-item">Internal audit of whether user reward structures can operate measurably and reliably</div>
+      </div>
+    </div>
+    <div class="horizon">
+      <div class="horizon-tag">H-III</div>
+      <div class="horizon-title">Long-term Vision</div>
+      <div class="horizon-range">Market Entry · Y3+</div>
+      <div class="horizon-items">
+        <div class="horizon-item">Scaling the system through standardization and institutional adoption</div>
+        <div class="horizon-item">Expanding audit partnerships and introducing certification and reporting structures</div>
+        <div class="horizon-item">Building a broader governance framework across jurisdictions</div>
+        <div class="horizon-item">A trusted infrastructure for data quality, accountability, and compensation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 12 CONCLUSION ===== -->
+<section class="tt-section wrap" style="padding-bottom:clamp(96px,12vw,180px);">
+  <div class="section-head">
+    <div class="section-label">12 — Conclusion</div>
+    <h2 class="section-title">Beyond simple<br>redemption</h2>
+    <p class="section-sub">This positions AI token commerce not merely as an exchange mechanism, but as the infrastructure that enables fluid movement of value across platforms and participants.</p>
+  </div>
+  <div class="conclusion-block">
+    <p class="conclusion-quote">"Beyond simple redemption or transactional utility, TokenTrust carries an inter-platform character that guarantees user autonomy and expands service accessibility for AI enterprises."</p>
+    <p class="conclusion-attr">AI Data Governance Society · GDES-3081-501 · Group 14 · March 23, 2026</p>
+  </div>
+</section>
+
+<style>
+/* ===== PART 2 STYLES ===== */
+.pt2-banner{
+  background:var(--bg); color:var(--ink);
+  padding:clamp(64px,8vw,120px) var(--pad);
+  border-top:1px solid var(--line);
+}
+.pt2-banner-inner{ max-width:var(--max); margin:0 auto; }
+.pt2-banner-label{ font-size:12px; color:var(--muted); letter-spacing:0.06em; margin-bottom:16px; }
+.pt2-banner-title{ font-size:clamp(32px,5vw,72px); font-weight:500; letter-spacing:-0.05em; line-height:1.05; }
+.pt2-banner-sub{ font-size:16px; color:var(--muted); margin-top:16px; line-height:1.55; letter-spacing:-0.02em; max-width:640px; }
+.pt2-banner-meta{ margin-top:clamp(28px,3vw,48px); padding-top:24px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:32px; font-size:13px; color:var(--muted); }
+
+.pt2-section{ padding-top:clamp(72px,9vw,140px); padding-bottom:clamp(72px,9vw,140px); border-top:1px solid var(--line); }
+
+/* Axes overview */
+.axes-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+.axis-cell{ padding:clamp(20px,2.5vw,36px); background:var(--bg); display:flex; flex-direction:column; gap:10px; }
+.axis-cell.is-dark{ background:var(--bg); color:var(--ink); }
+.axis-num{ font-size:11px; color:var(--muted); letter-spacing:0.04em; }
+.axis-cell.is-dark .axis-num{ color:var(--muted); }
+.axis-title{ font-size:clamp(14px,1.3vw,18px); font-weight:500; letter-spacing:-0.04em; line-height:1.2; }
+.axis-body{ font-size:12px; color:var(--muted); line-height:1.55; letter-spacing:-0.02em; }
+.axis-cell.is-dark .axis-body{ color:var(--muted); }
+@media(max-width:768px){ .axes-grid{ grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .axes-grid{ grid-template-columns:1fr; } }
+
+/* Compare block */
+.compare-block{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+.compare-side{ padding:clamp(28px,3.5vw,48px); background:var(--bg); display:flex; flex-direction:column; gap:12px; }
+.compare-side.dark{ background:var(--bg); color:var(--ink); }
+.compare-tag{ font-size:10px; letter-spacing:0.06em; color:var(--muted); }
+.compare-side.dark .compare-tag{ color:var(--muted); }
+.compare-title{ font-size:clamp(18px,2vw,28px); font-weight:500; letter-spacing:-0.04em; line-height:1.2; }
+.compare-body{ font-size:13px; color:var(--muted); line-height:1.6; letter-spacing:-0.02em; }
+.compare-side.dark .compare-body{ color:var(--muted); }
+@media(max-width:640px){ .compare-block{ grid-template-columns:1fr; } }
+
+/* Value mapping dependency grid */
+.vmap-grid{ display:grid; grid-template-columns:1fr 1fr; grid-template-rows:auto auto auto; gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+.vmap-cell{ padding:clamp(24px,3vw,40px); background:var(--bg); display:flex; flex-direction:column; gap:10px; }
+.vmap-cell.full{ grid-column:1/-1; }
+.vmap-cell.full-dark{ grid-column:1/-1; background:var(--bg); color:var(--ink); }
+.vmap-tag{ font-size:10px; color:var(--muted); letter-spacing:0.06em; }
+.vmap-cell.full-dark .vmap-tag{ color:var(--muted); }
+.vmap-title{ font-size:clamp(15px,1.4vw,20px); font-weight:500; letter-spacing:-0.04em; }
+.vmap-cell.full-dark .vmap-title{ color:var(--ink); }
+.vmap-body{ font-size:12px; color:var(--muted); line-height:1.6; letter-spacing:-0.02em; }
+.vmap-cell.full-dark .vmap-body{ color:var(--muted); }
+.vmap-dep-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+.vmap-dep{ font-size:10px; padding:3px 10px; border-radius:100px; background:var(--line); color:var(--muted); letter-spacing:0.02em; }
+@media(max-width:640px){ .vmap-grid{ grid-template-columns:1fr; } .vmap-cell.full, .vmap-cell.full-dark{ grid-column:1; } }
+
+/* P2 Roadmap */
+.p2-roadmap{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+.p2-hz{ padding:clamp(24px,3vw,40px); background:var(--bg); display:flex; flex-direction:column; }
+.p2-hz:last-child{ background:var(--bg); color:var(--ink); }
+.p2-hz-tag{ font-size:10px; letter-spacing:0.06em; color:var(--muted); margin-bottom:12px; }
+.p2-hz:last-child .p2-hz-tag{ color:var(--muted); }
+.p2-hz-q{ font-size:clamp(15px,1.4vw,20px); font-weight:500; letter-spacing:-0.04em; line-height:1.25; font-style:italic; margin-bottom:6px; }
+.p2-hz-range{ font-size:12px; color:var(--muted); margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--line); }
+.p2-hz:last-child .p2-hz-range{ color:var(--muted); border-bottom-color:var(--line); }
+.p2-hz-items{ display:flex; flex-direction:column; gap:10px; }
+.p2-hz-item{ font-size:12px; color:var(--muted); line-height:1.5; letter-spacing:-0.02em; padding-left:14px; position:relative; }
+.p2-hz-item::before{ content:'—'; position:absolute; left:0; color:var(--line); font-size:10px; top:3px; }
+.p2-hz:last-child .p2-hz-item{ color:var(--muted); }
+.p2-hz:last-child .p2-hz-item::before{ color:var(--line); }
+@media(max-width:768px){ .p2-roadmap{ grid-template-columns:1fr; } }
+
+/* Regulatory grid */
+.reg-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+.reg-cell{ padding:clamp(24px,3vw,40px); background:var(--bg); display:flex; flex-direction:column; gap:10px; }
+.reg-tag{ font-size:10px; letter-spacing:0.06em; color:var(--muted); }
+.reg-name{ font-size:clamp(17px,1.6vw,24px); font-weight:500; letter-spacing:-0.04em; line-height:1.1; }
+.reg-full{ font-size:11px; color:var(--muted); letter-spacing:-0.01em; padding-bottom:12px; border-bottom:1px solid var(--line); }
+.reg-body{ font-size:12px; color:var(--muted); line-height:1.6; letter-spacing:-0.02em; }
+@media(max-width:768px){ .reg-grid{ grid-template-columns:1fr; } }
+
+/* Stakeholder definition */
+.sh-def-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+.sh-def-cell{ padding:clamp(20px,2.5vw,36px); background:var(--bg); display:flex; flex-direction:column; gap:10px; }
+.sh-def-idx{ font-size:clamp(28px,3.5vw,48px); font-weight:500; letter-spacing:-0.05em; line-height:1; color:var(--line); }
+.sh-def-title{ font-size:clamp(14px,1.2vw,17px); font-weight:500; letter-spacing:-0.03em; }
+.sh-def-who{ font-size:11px; color:var(--muted); border-top:1px solid var(--line); padding-top:10px; line-height:1.5; }
+.sh-def-body{ font-size:12px; color:var(--muted); line-height:1.55; letter-spacing:-0.02em; }
+@media(max-width:768px){ .sh-def-grid{ grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .sh-def-grid{ grid-template-columns:1fr; } }
+
+/* RACI table */
+.raci-wrap{ margin-top:clamp(40px,5vw,80px); overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.raci-table{ width:100%; border-collapse:collapse; font-size:12px; }
+.raci-table thead th{ text-align:left; font-size:10px; letter-spacing:0.04em; color:var(--muted); padding:10px 20px 10px 0; border-bottom:2px solid var(--ink); font-weight:500; white-space:nowrap; }
+.raci-table thead th:first-child{ min-width:200px; }
+.raci-table tbody td{ padding:11px 20px 11px 0; border-bottom:1px solid var(--line); vertical-align:middle; }
+.raci-table tbody td:first-child{ font-size:12px; letter-spacing:-0.02em; color:var(--ink); }
+.raci-table .raci-section-row td{ font-size:10px; letter-spacing:0.05em; color:var(--muted); background:#f8f8f8; padding-top:18px; padding-bottom:6px; border-bottom:none; font-weight:500; }
+.r-badge{ display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; font-size:10px; font-weight:600; letter-spacing:0; }
+.rb-r{ background:#0a0a0a; color:#fff; }
+.rb-a{ background:#444; color:#fff; }
+.rb-c{ background:#888; color:#fff; }
+.rb-i{ background:var(--line); color:var(--muted); }
+.rb-n{ color:var(--line); font-size:12px; font-weight:400; }
+
+/* RACI legend */
+.raci-legend{ display:flex; gap:20px; flex-wrap:wrap; margin-top:20px; font-size:11px; color:var(--muted); }
+.raci-legend span{ display:inline-flex; align-items:center; gap:6px; }
+
+/* Wayfinding */
+.waypoint-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+.waypoint{ padding:clamp(24px,3vw,40px); background:var(--bg); display:flex; flex-direction:column; gap:14px; }
+.waypoint-tag{ font-size:10px; letter-spacing:0.06em; color:var(--muted); }
+.waypoint-title{ font-size:clamp(18px,1.8vw,26px); font-weight:500; letter-spacing:-0.04em; line-height:1.1; }
+.waypoint-body{ font-size:12px; color:var(--muted); line-height:1.6; letter-spacing:-0.02em; }
+@media(max-width:768px){ .waypoint-grid{ grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .waypoint-grid{ grid-template-columns:1fr; } }
+</style>
+
+<!-- ============================================================
+     PART 2 — A Regulatory and Operational Blueprint
+     ============================================================ -->
+<div class="pt2-banner" id="pt2">
+  <div class="pt2-banner-inner">
+    <a href="#pt1" class="pt-nav-link" style="margin-bottom:clamp(24px,3vw,40px);display:inline-flex;">← Back to Part I</a>
+    <div class="pt2-banner-label">PHASE II · APRIL 2026</div>
+    <div class="pt2-banner-title">From Data Ownership<br>to Data Economy</div>
+    <p class="pt2-banner-sub">A Regulatory and Operational Blueprint for TokenTrust — Canada-specific compliance infrastructure, four value axes, and a RACI-governed accountability structure.</p>
+    <div class="pt2-banner-meta">
+      <span>GDES-3081-501 · Group 14</span>
+      <span>Term Project Phase II</span>
+      <span>April 5, 2026</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" style="padding-top:clamp(48px,6vw,96px);padding-bottom:clamp(48px,6vw,96px);">
+  <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+    <iframe
+      src="https://player.vimeo.com/video/1192140715?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
+      style="position:absolute;inset:0;width:100%;height:100%;border:0;"
+      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+      allowfullscreen
+      title="TokenTrust Part 2"></iframe>
+  </div>
+</div>
+
+<!-- P2-01 Introduction -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 01 — Introduction</div>
+    <h2 class="section-title">Who owns the value<br>created from our data?</h2>
+    <p class="section-sub">Phase I established TokenTrust as a global framework. Phase II defines a concrete pathway to operationalize it within Canada's regulatory environment — turning concept into blueprint.</p>
+  </div>
+  <div class="compare-block">
+    <div class="compare-side">
+      <div class="compare-tag">PHASE I ESTABLISHED</div>
+      <div class="compare-title">Global regulatory landscape &amp; token economics</div>
+      <p class="compare-body">TokenTrust was proposed as a solution within the global AI data governance framework — positioning the DQI, Reward Token, and Data Credit as the core service components of a new data economy.</p>
+    </div>
+    <div class="compare-side dark">
+      <div class="compare-tag">PHASE II DELIVERS</div>
+      <div class="compare-title">Canada-specific operational blueprint</div>
+      <p class="compare-body">We now know data has value. But the systems that capture that value were never designed to return it. Phase II maps the compliance infrastructure, accountability structure, and regulatory partnerships required to make TokenTrust operational.</p>
+    </div>
+  </div>
+  <div style="margin-top:clamp(28px,3vw,48px);padding:clamp(24px,3vw,40px);border:1px solid var(--line);border-radius:12px;">
+    <p style="font-size:clamp(14px,1vw,16px);color:var(--muted);line-height:1.6;letter-spacing:-0.02em;max-width:720px;">
+      Existing interplatform services — OpenRouter, Perplexity, Cursor, Copilot — already enable AI service aggregation. But you have no control over your data. TokenTrust is not about service accessibility. <strong style="color:var(--ink);font-weight:500;">It is about value flow.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- P2-02 Four Value Axes -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 02 — Value Axes</div>
+    <h2 class="section-title">Four axes,<br>one operational system</h2>
+    <p class="section-sub">Each value axis activates at a different horizon. Traceability is the earliest prerequisite. Regulatory spans all phases. Refund begins at pilot stage. Interplatform opens only after cross-border governance is secured.</p>
+  </div>
+  <div class="axes-grid">
+    <div class="axis-cell">
+      <div class="axis-num">AXIS I</div>
+      <div class="axis-title">Data Traceability</div>
+      <p class="axis-body">DQI assigns measurable identity to data through four dimensions. Without traceability, no refund, no compensation, no accountability.</p>
+    </div>
+    <div class="axis-cell">
+      <div class="axis-num">AXIS II</div>
+      <div class="axis-title">Data Refund &amp; Compensation</div>
+      <p class="axis-body">A circular model replaces one-way consumption. Use → Refund → Recirculate. Refund does not exist anywhere in the current AI token market.</p>
+    </div>
+    <div class="axis-cell">
+      <div class="axis-num">AXIS III</div>
+      <div class="axis-title">Interplatform Value Management</div>
+      <p class="axis-body">Like VISA unified payments across banks, TokenTrust unifies token value across AI platforms. From data pipes to value pipes.</p>
+    </div>
+    <div class="axis-cell is-dark">
+      <div class="axis-num">AXIS IV</div>
+      <div class="axis-title">Holistic Regulatory Alternative</div>
+      <p class="axis-body">Regulation is not a cost of compliance — it is a prerequisite for value creation. Without regulatory foundation, the other three axes have no legal weight.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P2-03 Axis I: Traceability -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 03 — Axis I</div>
+    <h2 class="section-title">Data Traceability:<br>DQI as infrastructure</h2>
+    <p class="section-sub">In today's AI ecosystem, user data becomes untraceable the moment it is submitted. DQI is not a quality metric — it is a tracking infrastructure.</p>
+  </div>
+  <div class="compare-block">
+    <div class="compare-side">
+      <div class="compare-tag">CURRENT STATE</div>
+      <div class="compare-title">Data submitted → immediately untraceable</div>
+      <p class="compare-body">Once data enters an AI platform, users lose all visibility into its path, usage, or worth. There is no mechanism to identify, track, or compensate for its contribution to model training or service generation.</p>
+    </div>
+    <div class="compare-side dark">
+      <div class="compare-tag">TOKENTRUST AXIS I</div>
+      <div class="compare-title">DQI assigns measurable identity to every data point</div>
+      <p class="compare-body">Through Accuracy, Completeness, Consistency, and Freshness, DQI creates a traceable fingerprint for each data contribution. Measurable data carries traceable value. Traceable value is compensable value.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P2-04 Axis II: Refund -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 04 — Axis II</div>
+    <h2 class="section-title">Data Refund:<br>Closing the loop</h2>
+    <p class="section-sub">Existing AI token economies operate on a one-way consumption model. TokenTrust introduces a circular model — making refund structural, not optional.</p>
+  </div>
+  <div class="compare-block">
+    <div class="compare-side">
+      <div class="compare-tag">EXISTING MODEL</div>
+      <div class="compare-title">Use → Deplete</div>
+      <p class="compare-body">Tokens are spent, value is depleted, and the user retains nothing. The platform benefits from data contribution while the user receives no return. Refund does not exist anywhere in the current AI token market.</p>
+    </div>
+    <div class="compare-side dark">
+      <div class="compare-tag">TOKENTRUST MODEL</div>
+      <div class="compare-title">Use → Refund → Recirculate</div>
+      <p class="compare-body">Data contribution is evaluated through DQI, compensated via Reward Token, converted into Data Credit, and reinvested into service access. TokenTrust makes refund structural — the first AI platform to do so.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P2-05 Axis III: Interplatform -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 05 — Axis III</div>
+    <h2 class="section-title">Interplatform value:<br>From pipes to worth</h2>
+    <p class="section-sub">Existing platforms aggregate services. TokenTrust consolidates value. Your data doesn't lose worth when it moves.</p>
+  </div>
+  <div class="compare-block">
+    <div class="compare-side">
+      <div class="compare-tag">EXISTING INTERPLATFORMS</div>
+      <div class="compare-title">Aggregate services — data pipes</div>
+      <p class="compare-body">OpenRouter, Copilot, and similar tools move data between AI providers. They unify access, not value. Token worth is siloed, non-portable, and non-compensable across platform boundaries.</p>
+    </div>
+    <div class="compare-side dark">
+      <div class="compare-tag">TOKENTRUST AXIS III</div>
+      <div class="compare-title">Consolidate value — value pipes</div>
+      <p class="compare-body">Like VISA unified payment rails across banks, TokenTrust functions as the value consolidation layer — a unified exchange infrastructure where tokens carry measurable worth across platforms, are priced by demand, and remain portable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P2-06 Axis IV: Regulation -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 06 — Axis IV</div>
+    <h2 class="section-title">Regulation as<br>the foundation layer</h2>
+    <p class="section-sub">Regulation activates the other three axes. Without regulatory foundation, traceability has no legal weight, refund has no enforceable structure, and interplatform exchange has no jurisdictional legitimacy.</p>
+  </div>
+  <div class="compare-block">
+    <div class="compare-side">
+      <div class="compare-tag">EVERY COMPETITOR'S APPROACH</div>
+      <div class="compare-title">Risk &amp; Penalty avoidance</div>
+      <p class="compare-body">Every competitor in the AI regulatory compliance market operates from a penalty avoidance perspective — treating compliance as a cost to manage and minimize, not as infrastructure to build upon.</p>
+    </div>
+    <div class="compare-side dark">
+      <div class="compare-tag">TOKENTRUST AXIS IV</div>
+      <div class="compare-title">Compliance = user reward + service foundation</div>
+      <p class="compare-body">PIPEDA, FINTRAC, CBPR, and ISO/IEC 42001 are not obligations to manage — they are infrastructure to build on. TokenTrust reframes compliance as user reward: the same framework that satisfies regulators generates trust, enabling DQI to carry legal weight.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P2-07 Value Mapping -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 07 — Value Mapping</div>
+    <h2 class="section-title">Token economy model:<br>Axis dependencies</h2>
+    <p class="section-sub">Each value axis contains eight operational factors. The connections represent structural dependencies — Traceability enables Refund, Regulatory governs all axes, and Interplatform requires all three to be operational before activation.</p>
+  </div>
+  <div class="vmap-grid">
+    <div class="vmap-cell full-dark">
+      <div class="vmap-tag">AXIS IV — GOVERNS ALL</div>
+      <div class="vmap-title">Holistic Regulation</div>
+      <p class="vmap-body">The regulatory layer is not sequential — it governs the entire stack from day one. PIPEDA consent logic underpins DQI. FINTRAC classification determines token exchange legality. Without this layer, no other axis has legal standing.</p>
+      <div class="vmap-dep-row">
+        <span class="vmap-dep">PIPEDA</span>
+        <span class="vmap-dep">FINTRAC</span>
+        <span class="vmap-dep">ISO/IEC 42001</span>
+        <span class="vmap-dep">Global CBPR</span>
+      </div>
+    </div>
+    <div class="vmap-cell">
+      <div class="vmap-tag">AXIS I — PREREQUISITE</div>
+      <div class="vmap-title">Data Traceability</div>
+      <p class="vmap-body">The first axis to activate. DQI establishes the measurement layer — without it, Refund cannot be calculated, Interplatform cannot be priced, and Regulatory has nothing to audit.</p>
+    </div>
+    <div class="vmap-cell">
+      <div class="vmap-tag">AXIS II — ENABLED BY AXIS I</div>
+      <div class="vmap-title">Data Refund &amp; Compensation</div>
+      <p class="vmap-body">Activated once Traceability is live. DQI scores feed directly into the Reward Token calculation engine — closing the loop between data contribution and economic return.</p>
+    </div>
+    <div class="vmap-cell full">
+      <div class="vmap-tag">AXIS III — REQUIRES ALL THREE</div>
+      <div class="vmap-title">Interplatform Value Management</div>
+      <p class="vmap-body">Opens only when Traceability, Refund, and Regulation are all operational. Cross-border token portability requires data to be measurable (Axis I), compensable (Axis II), and legally exchangeable across jurisdictions (Axis IV). The shift from data pipes to value pipes is the final activation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P2-08 Strategic Roadmap -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 08 — Strategic Roadmap</div>
+    <h2 class="section-title">Three regulatory<br>horizons</h2>
+    <p class="section-sub">Each horizon is defined by a guiding compliance question. The answer to each unlocks the next layer of the platform's operational capacity.</p>
+  </div>
+  <div class="p2-roadmap">
+    <div class="p2-hz">
+      <div class="p2-hz-tag">H-I</div>
+      <div class="p2-hz-q">"Can we legally operate?"</div>
+      <div class="p2-hz-range">Present · Y0–Y1</div>
+      <div class="p2-hz-items">
+        <div class="p2-hz-item">Establish PIPEDA compliance framework &amp; consent logging (Schedule 1, Principle 4.3)</div>
+        <div class="p2-hz-item">Designate CIPP/C-certified Data Protection Officer (Principle 4.1)</div>
+        <div class="p2-hz-item">Register with FINTRAC as a Money Services Business (PCMLTFA, s. 5(h))</div>
+        <div class="p2-hz-item">Internal execution only — single-entity consultation with CTO and Okta</div>
+      </div>
+    </div>
+    <div class="p2-hz">
+      <div class="p2-hz-tag">H-II</div>
+      <div class="p2-hz-q">"Who governs our governance?"</div>
+      <div class="p2-hz-range">Y1–Y3</div>
+      <div class="p2-hz-items">
+        <div class="p2-hz-item">Apply for OPC regulatory sandbox for token-based data exchange</div>
+        <div class="p2-hz-item">Activate PACC network for government channel access</div>
+        <div class="p2-hz-item">Build advisory relationship with Office of the Privacy Commissioner</div>
+        <div class="p2-hz-item">GPAI consulted for global regulatory precedent — ISED informed</div>
+      </div>
+    </div>
+    <div class="p2-hz">
+      <div class="p2-hz-tag">H-III</div>
+      <div class="p2-hz-q">"Can our data cross borders?"</div>
+      <div class="p2-hz-range">Y3+</div>
+      <div class="p2-hz-items">
+        <div class="p2-hz-item">Achieve ISO/IEC 42001 AI Management System certification</div>
+        <div class="p2-hz-item">Pursue Global CBPR certification for cross-border data transfer legitimacy</div>
+        <div class="p2-hz-item">SSI Inc. and GPAI jointly advise on technical and policy standards</div>
+        <div class="p2-hz-item">AI Enterprises enter the Informed layer as direct participants</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- P2-09 Regulatory Infrastructure -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 09 — Regulatory Infrastructure</div>
+    <h2 class="section-title">What must be in place<br>before TokenTrust can operate?</h2>
+    <p class="section-sub">Five regulatory instruments form the compliance foundation. Together they define TokenTrust's legal scope, reporting obligations, and cross-border legitimacy.</p>
+  </div>
+  <div class="reg-grid">
+    <div class="reg-cell">
+      <div class="reg-tag">PRIMARY · H-I</div>
+      <div class="reg-name">PIPEDA</div>
+      <div class="reg-full">Personal Information Protection and Electronic Documents Act</div>
+      <p class="reg-body">Applies at every layer: collection, valuation, compensation, and cross-platform transfer. TokenTrust's compliance scope extends far beyond standard consent obligations — the DQI-to-token pipeline directly determines what constitutes "data collection" under federal law.</p>
+    </div>
+    <div class="reg-cell">
+      <div class="reg-tag">REQUIRED · H-I</div>
+      <div class="reg-name">FINTRAC MSB</div>
+      <div class="reg-full">Financial Transactions and Reports Analysis Centre of Canada</div>
+      <p class="reg-body">Token exchangeability triggers MSB classification under FINTRAC. Registration is a precondition, not an option. Okta's authentication infrastructure defines the scope of reportable transactions — making it a consulted party in this process.</p>
+    </div>
+    <div class="reg-cell">
+      <div class="reg-tag">REQUIRED · H-I</div>
+      <div class="reg-name">CIPP/C</div>
+      <div class="reg-full">Certified Information Privacy Professional / Canada</div>
+      <p class="reg-body">Embedding a CIPP/C-certified professional within the compliance team ensures PIPEDA-aligned data governance from the operational level — not just as a legal formality but as a structural accountability mechanism.</p>
+    </div>
+    <div class="reg-cell">
+      <div class="reg-tag">ADVISORY · H-II</div>
+      <div class="reg-name">OPC &amp; PACC</div>
+      <div class="reg-full">Office of the Privacy Commissioner + Privacy &amp; Access Council of Canada</div>
+      <p class="reg-body">OPC provides advisory guidance on PIPEDA compliance for TokenTrust's data-token exchange model. Annual transparency reports submitted to OPC. PACC serves as a professional network for building credibility within Canada's privacy governance community.</p>
+    </div>
+    <div class="reg-cell">
+      <div class="reg-tag">GLOBAL · H-III</div>
+      <div class="reg-name">Global CBPR</div>
+      <div class="reg-full">Cross-Border Privacy Rules Forum</div>
+      <p class="reg-body">As TokenTrust's token ecosystem operates across AI enterprises in different jurisdictions, cross-border data transfer is a structural requirement. CBPR provides the legal framework for international data flow — unlocking Axis III's full interplatform capability.</p>
+    </div>
+    <div class="reg-cell">
+      <div class="reg-tag">CERTIFICATION · H-III</div>
+      <div class="reg-name">ISO/IEC 42001</div>
+      <div class="reg-full">AI Management System International Standard</div>
+      <p class="reg-body">Certifies TokenTrust's AI governance standards at the global level. ISO/IEC 42001 certification establishes the international governance standard as TokenTrust scales globally — providing the regulatory credibility required for enterprise-level partnerships.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P2-10 Stakeholder Definition -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 10 — Stakeholder Definition</div>
+    <h2 class="section-title">Four-layer governance<br>accountability</h2>
+    <p class="section-sub">TokenTrust's governance operates across four layers — each with a distinct accountability scope and relationship to the platform's operational compliance structure.</p>
+  </div>
+  <div class="sh-def-grid">
+    <div class="sh-def-cell">
+      <div class="sh-def-idx">I</div>
+      <div class="sh-def-title">Internal</div>
+      <div class="sh-def-who">CEO/Founder · Legal &amp; Compliance (CIPP/C) · CTO · DPO</div>
+      <p class="sh-def-body">Holds accountability for regulatory compliance execution and platform governance operations. The primary decision-making and execution layer.</p>
+    </div>
+    <div class="sh-def-cell">
+      <div class="sh-def-idx">II</div>
+      <div class="sh-def-title">Regulators</div>
+      <div class="sh-def-who">OPC · FINTRAC · ISED</div>
+      <p class="sh-def-body">Sets the legal boundaries within which TokenTrust must operate and report. Consulted or informed at each horizon depending on the regulatory instrument.</p>
+    </div>
+    <div class="sh-def-cell">
+      <div class="sh-def-idx">III</div>
+      <div class="sh-def-title">Partners</div>
+      <div class="sh-def-who">Okta · SSI Inc. · GPAI</div>
+      <p class="sh-def-body">Okta and SSI Inc. supply authentication and identity verification infrastructure. GPAI operates as an international policy advisory body for AI governance alignment across jurisdictions.</p>
+    </div>
+    <div class="sh-def-cell">
+      <div class="sh-def-idx">IV</div>
+      <div class="sh-def-title">AI Enterprises</div>
+      <div class="sh-def-who">Gemini · Claude · ChatGPT · Grok · others</div>
+      <p class="sh-def-body">Operate as primary institutional participants within TokenTrust's data governance and token compensation framework. Enter the Informed layer at H-III as direct ecosystem participants.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P2-11 RACI Matrix -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 11 — RACI Framework</div>
+    <h2 class="section-title">Internal accountability<br>across three horizons</h2>
+    <p class="section-sub">Internally, TokenTrust automates RACI-based reporting and assessment to streamline regulatory audits and data tracking. The matrix expands as the platform matures — from internal-only to full multi-entity consultation.</p>
+  </div>
+  <div class="raci-wrap">
+    <table class="raci-table">
+      <thead>
+        <tr>
+          <th>Stakeholder</th>
+          <th>H-I · Present</th>
+          <th>H-II · Y1–Y3</th>
+          <th>H-III · Y3+</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="raci-section-row"><td colspan="4">Internal</td></tr>
+        <tr>
+          <td>CEO / Founder</td>
+          <td><span class="r-badge rb-a">A</span></td>
+          <td><span class="r-badge rb-a">A</span></td>
+          <td><span class="r-badge rb-a">A</span></td>
+        </tr>
+        <tr>
+          <td>Legal &amp; Compliance (CIPP/C)</td>
+          <td><span class="r-badge rb-r">R</span></td>
+          <td><span class="r-badge rb-r">R</span></td>
+          <td><span class="r-badge rb-r">R</span></td>
+        </tr>
+        <tr>
+          <td>CTO</td>
+          <td><span class="r-badge rb-c">C</span></td>
+          <td><span class="r-badge rb-c">C</span></td>
+          <td><span class="r-badge rb-c">C</span></td>
+        </tr>
+        <tr>
+          <td>DPO (Data Protection Officer)</td>
+          <td><span class="r-badge rb-r">R</span></td>
+          <td><span class="r-badge rb-a">A</span></td>
+          <td><span class="r-badge rb-a">A</span></td>
+        </tr>
+        <tr class="raci-section-row"><td colspan="4">Regulators</td></tr>
+        <tr>
+          <td>OPC (Privacy Commissioner)</td>
+          <td><span class="rb-n">—</span></td>
+          <td><span class="r-badge rb-c">C</span></td>
+          <td><span class="r-badge rb-c">C</span></td>
+        </tr>
+        <tr>
+          <td>FINTRAC</td>
+          <td><span class="rb-n">—</span></td>
+          <td><span class="r-badge rb-i">I</span></td>
+          <td><span class="r-badge rb-i">I</span></td>
+        </tr>
+        <tr>
+          <td>ISED</td>
+          <td><span class="rb-n">—</span></td>
+          <td><span class="r-badge rb-i">I</span></td>
+          <td><span class="r-badge rb-i">I</span></td>
+        </tr>
+        <tr class="raci-section-row"><td colspan="4">Partners</td></tr>
+        <tr>
+          <td>Okta / SSI Inc.</td>
+          <td><span class="r-badge rb-c">C</span></td>
+          <td><span class="r-badge rb-c">C</span></td>
+          <td><span class="r-badge rb-c">C</span></td>
+        </tr>
+        <tr>
+          <td>GPAI</td>
+          <td><span class="rb-n">—</span></td>
+          <td><span class="r-badge rb-c">C</span></td>
+          <td><span class="r-badge rb-c">C</span></td>
+        </tr>
+        <tr class="raci-section-row"><td colspan="4">AI Enterprises</td></tr>
+        <tr>
+          <td>AI Enterprises (Gemini, Claude, GPT…)</td>
+          <td><span class="rb-n">—</span></td>
+          <td><span class="rb-n">—</span></td>
+          <td><span class="r-badge rb-i">I</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="raci-legend">
+    <span><span class="r-badge rb-r" style="width:20px;height:20px;font-size:9px;">R</span> Responsible — executes the task</span>
+    <span><span class="r-badge rb-a" style="width:20px;height:20px;font-size:9px;">A</span> Accountable — owns the outcome</span>
+    <span><span class="r-badge rb-c" style="width:20px;height:20px;font-size:9px;">C</span> Consulted — provides input</span>
+    <span><span class="r-badge rb-i" style="width:20px;height:20px;font-size:9px;">I</span> Informed — kept up to date</span>
+  </div>
+</section>
+
+<!-- P2-12 Wayfinding -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · 12 — Wayfinding</div>
+    <h2 class="section-title">Navigating the<br>token economy</h2>
+    <p class="section-sub">Each layer answers a distinct navigational question. Together they form a complete wayfinding system — enabling users to orient, trace, retrieve, and control within the token economy.</p>
+  </div>
+  <div class="waypoint-grid">
+    <div class="waypoint">
+      <div class="waypoint-tag">WHERE AM I</div>
+      <div class="waypoint-title">Dashboard</div>
+      <p class="waypoint-body">Token balance, value status, portfolio overview. The entry point — giving users an immediate read of their position within the token ecosystem.</p>
+    </div>
+    <div class="waypoint">
+      <div class="waypoint-tag">WHERE DID IT GO</div>
+      <div class="waypoint-title">Data Flow</div>
+      <p class="waypoint-body">Destination tracking, usage path, transfer history. Allows users to trace exactly how and where their data contribution moved through the system.</p>
+    </div>
+    <div class="waypoint">
+      <div class="waypoint-tag">WHAT CAME BACK</div>
+      <div class="waypoint-title">Return</div>
+      <p class="waypoint-body">Refund history, compensation records, earned value. The full record of what the system has returned to the user in exchange for their data contribution.</p>
+    </div>
+    <div class="waypoint">
+      <div class="waypoint-tag">HOW DO I CONTROL IT</div>
+      <div class="waypoint-title">Settings</div>
+      <p class="waypoint-body">Privacy level control, consent boundary configuration, reward rate adjustment. The governance layer — placing data sovereignty directly in the user's hands.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P2-13 Conclusion -->
+<section class="pt2-section wrap" style="padding-bottom:clamp(96px,12vw,180px);">
+  <div class="section-head">
+    <div class="section-label">Phase II · 13 — Conclusion</div>
+    <h2 class="section-title">From blueprint<br>to operation</h2>
+    <p class="section-sub">Phase II defined the regulatory foundation and accountability structure required to make TokenTrust operational — from Canadian compliance to global governance readiness.</p>
+  </div>
+  <div class="conclusion-block">
+    <p class="conclusion-quote">"This positions AI token commerce not merely as an exchange mechanism, but as infrastructure that requires compliance as its base layer before value can flow."</p>
+    <p class="conclusion-attr">Next: Pilot operations and market validation on this regulatory infrastructure · AI Data Governance Society · April 5, 2026</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  function playAll(){
+    document.querySelectorAll('video').forEach(function(v){
+      v.muted=true; v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline','');
+      v.play().catch(function(){});
+    });
+  }
+  playAll();
+  ['touchstart','touchend','pointerdown','click'].forEach(function(ev){
+    document.addEventListener(ev, function unlock(){ playAll(); document.removeEventListener(ev,unlock); }, {once:true,passive:true});
+  });
+  document.querySelectorAll('video').forEach(function(v){
+    v.addEventListener('pause', function(){ if(!v.ended) v.play().catch(function(){}); });
+    v.addEventListener('ended', function(){ v.currentTime=0; v.play().catch(function(){}); });
+  });
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) playAll(); });
+})();
+</script>
 
 </body>
 </html>
