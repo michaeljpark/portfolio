@@ -1185,6 +1185,28 @@
 .waypoint-body{ font-size:12px; color:var(--muted); line-height:1.6; letter-spacing:-0.02em; }
 @media(max-width:768px){ .waypoint-grid{ grid-template-columns:1fr 1fr; } }
 @media(max-width:480px){ .waypoint-grid{ grid-template-columns:1fr; } }
+
+/* ── Stakeholder + RACI Radial ── */
+.sh-raci-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); position:relative; }
+.sh-panel{ background:var(--bg); padding:clamp(16px,2.5vw,32px); display:flex; flex-direction:column; gap:14px; }
+.sh-panel-lbl{ font-size:10px; letter-spacing:0.05em; color:var(--muted); text-transform:uppercase; }
+@media(max-width:768px){ .sh-raci-grid{ grid-template-columns:1fr; } }
+.sh-svg [data-cat]{ transition:opacity .22s ease; }
+.sh-svg.cat-on [data-cat]{ opacity:0.08; }
+.sh-svg.cat-on [data-cat].hi{ opacity:1; }
+.sh-cat-bar{ display:flex; gap:5px 16px; flex-wrap:wrap; margin-top:4px; }
+.sh-cat-btn{ display:inline-flex; align-items:center; gap:5px; font-size:10px; color:var(--muted); cursor:pointer; background:none; border:none; font-family:inherit; padding:0; letter-spacing:-0.01em; -webkit-tap-highlight-color:transparent; transition:color .15s; }
+.sh-cat-btn:hover,.sh-cat-btn.on{ color:var(--ink); }
+.sh-cat-pip{ width:6px; height:6px; border-radius:50%; border:1px solid currentColor; flex-shrink:0; }
+/* 4 Axes Radial Map */
+.ax-radial-wrap{ margin-top:clamp(32px,4vw,64px); }
+/* Mobile: SM legend smaller, top-right */
+@media(max-width:768px){
+  .sh-panel{ position:relative; }
+  #sh-sm-bar{ position:absolute; top:clamp(16px,2.5vw,32px); right:clamp(16px,2.5vw,32px); flex-direction:column; align-items:flex-end; gap:3px; margin-top:0; }
+  #sh-sm-bar .sh-cat-btn{ font-size:8px; }
+  #sh-sm-bar .sh-cat-pip{ width:4px; height:4px; }
+}
 </style>
 
 <!-- ============================================================
@@ -1269,6 +1291,9 @@
       <div class="axis-title">Holistic Regulatory Alternative</div>
       <p class="axis-body">Regulation is not a cost of compliance — it is a prerequisite for value creation. Without regulatory foundation, the other three axes have no legal weight.</p>
     </div>
+  </div>
+  <div class="ax-radial-wrap">
+    <svg id="ax-radial" viewBox="0 0 1100 1100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;"></svg>
   </div>
 </section>
 
@@ -1515,6 +1540,27 @@
       <div class="sh-def-title">AI Enterprises</div>
       <div class="sh-def-who">Gemini · Claude · ChatGPT · Grok · others</div>
       <p class="sh-def-body">Operate as primary institutional participants within TokenTrust's data governance and token compensation framework. Enter the Informed layer at H-III as direct ecosystem participants.</p>
+    </div>
+  </div>
+</section>
+
+<!-- P2-10.5 Stakeholder + RACI Radial -->
+<section class="pt2-section wrap">
+  <div class="section-head">
+    <div class="section-label">Phase II · Stakeholder &amp; RACI</div>
+    <h2 class="section-title">Internal team<br>bridges both</h2>
+    <p class="section-sub">Hover or tap a category to trace its relationships. The Internal team is the bridge — their roles in the stakeholder map map directly to accountability in the RACI structure.</p>
+  </div>
+  <div class="sh-raci-grid">
+    <div class="sh-panel">
+      <div class="sh-panel-lbl">Stakeholder Map</div>
+      <svg id="sh-sm" class="sh-svg" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;overflow:visible;font-family:Helvetica,Arial,sans-serif;"></svg>
+      <div class="sh-cat-bar" id="sh-sm-bar"></div>
+    </div>
+    <div class="sh-panel">
+      <div class="sh-panel-lbl">RACI Radial</div>
+      <svg id="sh-raci" class="sh-svg" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;overflow:visible;font-family:Helvetica,Arial,sans-serif;"></svg>
+      <div class="sh-cat-bar" id="sh-raci-bar"></div>
     </div>
   </div>
 </section>
@@ -1826,6 +1872,378 @@
   function hideTip(){ tip.classList.remove('on'); }
 
   ren(0);
+})();
+</script>
+
+<script>
+(function(){
+  var axSvg = document.getElementById('ax-radial');
+  if(!axSvg) return;
+  var axFont = 'Helvetica,Arial,sans-serif';
+  var axData = [
+    { group:'Data Traceability', angle:-45, items:['Data Origin Logging','Usage Path Tracking','Storage Location Disclosure','Third-Party Transfer Audit','Retention Period Visibility','DQI Scoring Timestamp','Consent Scope Tagging','Deletion Verification'] },
+    { group:'Data Refund & Compensation', angle:45, items:['DQI-Based Valuation','Reward Token Issuance','Data Credit Conversion','Refund Trigger Mechanism','Usage-Proportional Return','Real-Time Dashboard','Micro-Payment Settlement','Dispute & Reclaim Process'] },
+    { group:'Interplatform Value Management', angle:135, items:['Cross-Platform Token Portability','Unified Exchange Rate Engine','Multi-Model Usage Aggregation','Demand-Weighted Token Pricing','Platform-Agnostic Wallet','Service Switching Optimization','Inter-Provider Settlement','Token Liquidity Management'] },
+    { group:'Holistic Regulatory Alternative', angle:-135, items:['PIPEDA Compliance Framework','FINTRAC MSB Registration','Consent Rate Scoring','Audit Transparency Index','Cross-Border Transfer (CBPR)','ISO/IEC 42001 Certification','Regulatory Sandbox Engagement','Corporate Credibility Benchmarking'] }
+  ];
+  var axCx=550, axCy=550, rIn=280, rOut=420;
+  var axHtml='';
+  axHtml += '<circle cx="'+axCx+'" cy="'+axCy+'" r="'+rOut+'" fill="none" stroke="#0a0a0a" stroke-width="0.4" opacity="0.5" stroke-dasharray="100,40"/>';
+  axHtml += '<circle cx="'+axCx+'" cy="'+axCy+'" r="'+rIn+'"  fill="none" stroke="#0a0a0a" stroke-width="0.4" opacity="0.5"/>';
+  axData.forEach(function(grp){
+    var outRad = grp.angle * Math.PI/180;
+    var outX = axCx + rOut*Math.cos(outRad), outY = axCy + rOut*Math.sin(outRad);
+    axHtml += '<circle cx="'+outX+'" cy="'+outY+'" r="5" fill="#0a0a0a"/>';
+    var tr = rOut+20, spanA=40;
+    var startA, endA, sweep;
+    if(grp.angle < 0){ startA=grp.angle-spanA; endA=grp.angle+spanA; sweep=1; }
+    else { startA=grp.angle+spanA; endA=grp.angle-spanA; sweep=0; }
+    var sx=axCx+tr*Math.cos(startA*Math.PI/180), sy=axCy+tr*Math.sin(startA*Math.PI/180);
+    var ex=axCx+tr*Math.cos(endA*Math.PI/180),   ey=axCy+tr*Math.sin(endA*Math.PI/180);
+    var pid='axp'+Math.round(grp.angle);
+    axHtml += '<defs><path id="'+pid+'" d="M '+sx+' '+sy+' A '+tr+' '+tr+' 0 0 '+sweep+' '+ex+' '+ey+'" fill="none"/></defs>';
+    axHtml += '<text font-size="17" fill="#0a0a0a" font-family="'+axFont+'" letter-spacing="-0.02em"><textPath href="#'+pid+'" startOffset="50%" text-anchor="middle" dominant-baseline="central">'+grp.group+'</textPath></text>';
+    var count=grp.items.length, spread=72, startAngle=grp.angle-spread/2, step=spread/(count>1?count-1:1);
+    grp.items.forEach(function(item,i){
+      var inA=startAngle+i*step, inRad=inA*Math.PI/180;
+      var inX=axCx+rIn*Math.cos(inRad), inY=axCy+rIn*Math.sin(inRad);
+      var cp1X=axCx+(rIn+50)*Math.cos(inRad), cp1Y=axCy+(rIn+50)*Math.sin(inRad);
+      var cp2X=axCx+(rOut-80)*Math.cos(outRad), cp2Y=axCy+(rOut-80)*Math.sin(outRad);
+      axHtml += '<path d="M '+inX+' '+inY+' C '+cp1X+' '+cp1Y+', '+cp2X+' '+cp2Y+', '+outX+' '+outY+'" fill="none" stroke="#0a0a0a" stroke-width="0.6" opacity="0.3"/>';
+      axHtml += '<g transform="translate('+axCx+','+axCy+') rotate('+inA+')">';
+      axHtml += '<circle cx="'+rIn+'" cy="0" r="3.5" fill="#0a0a0a"/>';
+      var normA=inA%360; if(normA>180)normA-=360; if(normA<-180)normA+=360;
+      var isLeft=Math.abs(normA)>90;
+      if(isLeft){
+        axHtml += '<text transform="translate('+(rIn-12)+',0) rotate(180)" dominant-baseline="central" text-anchor="start" font-size="11" fill="#0a0a0a" font-family="'+axFont+'" letter-spacing="-0.03em">'+item+'</text>';
+      } else {
+        axHtml += '<text transform="translate('+(rIn-12)+',0)" dominant-baseline="central" text-anchor="end" font-size="11" fill="#0a0a0a" font-family="'+axFont+'" letter-spacing="-0.03em">'+item+'</text>';
+      }
+      axHtml += '</g>';
+    });
+  });
+  axSvg.innerHTML = axHtml;
+})();
+</script>
+
+<script>
+(function(){
+  var smSvg   = document.getElementById('sh-sm');
+  var raciSvg = document.getElementById('sh-raci');
+  if(!smSvg || !raciSvg) return;
+  var smBar   = document.getElementById('sh-sm-bar');
+  var raciBar = document.getElementById('sh-raci-bar');
+  var font = 'Helvetica,Arial,sans-serif';
+
+  function rad(d){ return d * Math.PI / 180; }
+  function fmt(n){ return n.toFixed(1); }
+  function donutSec(cx, cy, r1, r2, a1deg, a2deg){
+    var a1=rad(a1deg), a2=rad(a2deg);
+    var large=(Math.abs(a2deg-a1deg)>180)?1:0;
+    return 'M '+fmt(cx+r2*Math.cos(a1))+' '+fmt(cy+r2*Math.sin(a1))
+      +' A '+r2+' '+r2+' 0 '+large+' 1 '+fmt(cx+r2*Math.cos(a2))+' '+fmt(cy+r2*Math.sin(a2))
+      +' L '+fmt(cx+r1*Math.cos(a2))+' '+fmt(cy+r1*Math.sin(a2))
+      +' A '+r1+' '+r1+' 0 '+large+' 0 '+fmt(cx+r1*Math.cos(a1))+' '+fmt(cy+r1*Math.sin(a1))
+      +' Z';
+  }
+  function anchorLocal(nodeRot, catAngle){
+    var diff = rad(catAngle - nodeRot);
+    return [240 * Math.cos(diff), 240 * Math.sin(diff)];
+  }
+
+  /* ── STAKEHOLDER MAP ── */
+  var smCx = 340, smCy = 340;
+  var smCats = [
+    { id:'internal',   label:'Internal',   anchorAngle:-45  },
+    { id:'regulators', label:'Regulators', anchorAngle:-135 },
+    { id:'partners',   label:'Partners',   anchorAngle:135  },
+    { id:'regulated',  label:'Regulated',  anchorAngle:45   }
+  ];
+  var smNodes = [
+    { cat:'internal',   rot:-15,  label:'CEO/Founder', flip:false },
+    { cat:'internal',   rot:-30,  label:'Legal',       flip:false },
+    { cat:'internal',   rot:-45,  label:'Compliance',  flip:false },
+    { cat:'internal',   rot:-60,  label:'CTO',         flip:false },
+    { cat:'internal',   rot:-75,  label:'DPO',         flip:false },
+    { cat:'regulators', rot:-112, label:'OPC',         flip:true  },
+    { cat:'regulators', rot:-135, label:'FINTRAC',     flip:true  },
+    { cat:'regulators', rot:-158, label:'ISED',        flip:true  },
+    { cat:'partners',   rot:158,  label:'Okta',        flip:true  },
+    { cat:'partners',   rot:135,  label:'SSI Inc.',    flip:true  },
+    { cat:'partners',   rot:112,  label:'GPAI',        flip:true  },
+    { cat:'regulated',  rot:45,   label:'AI Enterprises', special:true }
+  ];
+  var smAI = [
+    { rot:-90, label:'gemini',     flip:false },
+    { rot:-45, label:'chatgpt',    flip:false },
+    { rot:0,   label:'claude',     flip:false },
+    { rot:45,  label:'grok',       flip:false },
+    { rot:90,  label:'copilot',    flip:true  },
+    { rot:135, label:'perplexity', flip:true  },
+    { rot:180, label:'openrouter', flip:true  },
+    { rot:-135,label:'openclaw',   flip:true  }
+  ];
+  function smCatAngle(id){ for(var i=0;i<smCats.length;i++) if(smCats[i].id===id) return smCats[i].anchorAngle; return 0; }
+  var smRotDeg = window.innerWidth <= 768 ? 135 : 45;
+
+  /* rotation group — all visual content rotates together */
+  var sm = '<g transform="rotate('+smRotDeg+','+smCx+','+smCy+')">';
+
+  /* orbits */
+  sm += '<circle cx="'+smCx+'" cy="'+smCy+'" r="240" fill="none" stroke="#0a0a0a" stroke-width="0.4" stroke-dasharray="60,20" opacity="0.5"/>';
+  sm += '<circle cx="'+smCx+'" cy="'+smCy+'" r="175" fill="none" stroke="#0a0a0a" stroke-width="0.4" opacity="0.5"/>';
+  sm += '<circle cx="'+smCx+'" cy="'+smCy+'" r="85"  fill="none" stroke="#0a0a0a" stroke-width="0.4" opacity="0.5"/>';
+  sm += '<circle cx="'+smCx+'" cy="'+smCy+'" r="2"   fill="#0a0a0a" opacity=".18"/>';
+
+  /* category anchor dots */
+  smCats.forEach(function(cat){
+    var a = rad(cat.anchorAngle);
+    sm += '<g data-cat="'+cat.id+'"><circle cx="'+fmt(smCx+240*Math.cos(a))+'" cy="'+fmt(smCy+240*Math.sin(a))+'" r="4" fill="#0a0a0a"/></g>';
+  });
+
+  /* AI model curves */
+  sm += '<g transform="translate('+smCx+','+smCy+')" fill="none" stroke="#0a0a0a" stroke-width="0.5" opacity=".25" data-cat="regulated">';
+  ['M 0 -85 C 0 -110, 77.8 77.8, 123.7 123.7','M 60.1 -60.1 C 77.8 -77.8, 77.8 77.8, 123.7 123.7','M 85 0 C 110 0, 77.8 77.8, 123.7 123.7','M 60.1 60.1 C 77.8 77.8, 77.8 77.8, 123.7 123.7','M 0 85 C 0 110, 77.8 77.8, 123.7 123.7','M -60.1 60.1 C -77.8 77.8, 77.8 77.8, 123.7 123.7','M -85 0 C -110 0, 77.8 77.8, 123.7 123.7','M -60.1 -60.1 C -77.8 -77.8, 77.8 77.8, 123.7 123.7'
+  ].forEach(function(d){ sm += '<path d="'+d+'"/>'; });
+  sm += '</g>';
+
+  /* AI model nodes */
+  smAI.forEach(function(m){
+    sm += '<g transform="translate('+smCx+','+smCy+') rotate('+m.rot+')" data-cat="regulated">';
+    sm += '<circle cx="85" cy="0" r="2.5" fill="#0a0a0a"/>';
+    if(m.flip){
+      sm += '<text transform="translate(77,0) rotate(180)" fill="#0a0a0a" font-size="9" font-family="'+font+'" dominant-baseline="central" text-anchor="start">'+m.label+'</text>';
+    } else {
+      sm += '<text transform="translate(77,0)" fill="#0a0a0a" font-size="9" font-family="'+font+'" dominant-baseline="central" text-anchor="end">'+m.label+'</text>';
+    }
+    sm += '</g>';
+  });
+
+  /* stakeholder nodes */
+  smNodes.forEach(function(n){
+    sm += '<g transform="translate('+smCx+','+smCy+') rotate('+n.rot+')" data-cat="'+n.cat+'">';
+    if(n.special){
+      sm += '<path d="M 240 0 L 175 0" fill="none" stroke="#0a0a0a" stroke-width="0.5" opacity=".25"/>';
+      sm += '<circle cx="175" cy="0" r="3.5" fill="#0a0a0a"/>';
+      sm += '<text transform="rotate(-5) translate(175,0)" fill="#0a0a0a" font-size="10" font-family="'+font+'" dominant-baseline="central" text-anchor="middle">AI Enterprises</text>';
+    } else {
+      var al = anchorLocal(n.rot, smCatAngle(n.cat));
+      var ax = al[0], ay = al[1];
+      var pathD = (Math.abs(smCatAngle(n.cat)-n.rot) < 1)
+        ? 'M 240 0 L 175 0'
+        : 'M '+fmt(ax)+' '+fmt(ay)+' C '+fmt(ax*0.91)+' '+fmt(ay*0.5)+', 185 0, 175 0';
+      sm += '<path d="'+pathD+'" fill="none" stroke="#0a0a0a" stroke-width="0.5" opacity=".25"/>';
+      sm += '<circle cx="175" cy="0" r="3.5" fill="#0a0a0a"/>';
+      if(n.flip){
+        sm += '<text transform="translate(163,0) rotate(180)" fill="#0a0a0a" font-size="10" font-family="'+font+'" dominant-baseline="central" text-anchor="start">'+n.label+'</text>';
+      } else {
+        sm += '<text transform="translate(163,0)" fill="#0a0a0a" font-size="10" font-family="'+font+'" dominant-baseline="central" text-anchor="end">'+n.label+'</text>';
+      }
+    }
+    sm += '</g>';
+  });
+
+  /* hit sectors (rotate with map) */
+  [{cat:'internal',a1:-82,a2:-8},{cat:'regulators',a1:-167,a2:-100},
+   {cat:'partners',a1:100,a2:167},{cat:'regulated',a1:33,a2:57}
+  ].forEach(function(h){
+    sm += '<g data-cat="'+h.cat+'"><path d="'+donutSec(smCx,smCy,90,270,h.a1,h.a2)+'" fill="rgba(0,0,0,0)" pointer-events="fill"/></g>';
+  });
+  sm += '<g data-cat="regulated"><circle cx="'+smCx+'" cy="'+smCy+'" r="92" fill="rgba(0,0,0,0)" pointer-events="fill"/></g>';
+
+  sm += '</g>'; /* end rotation group */
+
+  /* category labels — outside rotation, positioned at post-rotation angles, always readable */
+  smCats.forEach(function(cat){
+    var rotA = cat.anchorAngle + smRotDeg;
+    var a = rad(rotA);
+    var lx = smCx + 265*Math.cos(a), ly = smCy + 265*Math.sin(a);
+    var norm = ((rotA%360)+360)%360; if(norm>180) norm-=360;
+    var anchor;
+    if(Math.abs(norm) < 55){ anchor='start'; lx=smCx+252*Math.cos(a); }
+    else if(Math.abs(norm) > 125){ anchor='end'; lx=smCx+252*Math.cos(a); }
+    else { anchor='middle'; }
+    sm += '<text x="'+fmt(lx)+'" y="'+fmt(ly)+'" fill="#0a0a0a" font-family="'+font+'" font-size="13" font-weight="500" letter-spacing="-0.03em" dominant-baseline="central" text-anchor="'+anchor+'" data-cat="'+cat.id+'">'+cat.label+'</text>';
+  });
+
+  smSvg.innerHTML = sm;
+  smCats.forEach(function(cat){
+    var btn = document.createElement('button');
+    btn.className = 'sh-cat-btn'; btn.dataset.cat = cat.id; btn.dataset.svg = 'sm';
+    btn.innerHTML = '<span class="sh-cat-pip"></span>' + cat.label;
+    smBar.appendChild(btn);
+  });
+
+  /* ── RACI RADIAL ── */
+  var rcx = 400, rcy = 400, rIn = 100, rTextOut = 205, rOut = 270;
+  var raciData = [
+    { group:'Accountable', cat:'accountable', angle:-45,  items:[
+      'CEO • PIPEDA Framework (OPC)','CEO • FINTRAC MSB Reg.','CEO • OPC Sandbox (OPC)',
+      'CEO • PACC Engagement (ISED)','CTO • ISO/IEC 42001 (SSI Inc.)','CEO • Global CBPR (GPAI)','Legal Officer • CIPP/C Cert.'
+    ]},
+    { group:'Responsible', cat:'responsible', angle:45,   items:[
+      'Legal Officer • PIPEDA (OPC)','Legal Officer • FINTRAC MSB','Legal Officer • OPC Sandbox',
+      'Legal Officer • PACC Engagement','Legal Officer • Global CBPR','CTO • ISO/IEC 42001 (SSI Inc.)','DPO Candidate • CIPP/C Cert.'
+    ]},
+    { group:'Consulted',   cat:'consulted',   angle:135,  items:[
+      'CTO • PIPEDA Framework','CTO • OPC Sandbox','DPO Candidate • PIPEDA',
+      'Legal Officer • ISO/IEC 42001','CTO • Global CBPR (GPAI)'
+    ]},
+    { group:'Informed',    cat:'informed',    angle:225,  items:[
+      'CTO • FINTRAC MSB Reg.','DPO Candidate • FINTRAC MSB','CEO • CIPP/C Cert.',
+      'CTO • PACC Engagement','DPO Candidate • ISO/IEC 42001'
+    ]}
+  ];
+
+  var raci = '';
+  raci += '<circle cx="'+rcx+'" cy="'+rcy+'" r="3" fill="#0a0a0a" opacity="0.2"/>';
+  raci += '<circle cx="'+rcx+'" cy="'+rcy+'" r="'+rOut+'" fill="none" stroke="#0a0a0a" stroke-width="0.4" opacity="0.5"/>';
+  raci += '<circle cx="'+rcx+'" cy="'+rcy+'" r="155" fill="none" stroke="#0a0a0a" stroke-width="0.4" opacity="0.5" stroke-dasharray="40,20"/>';
+
+  raciData.forEach(function(grp){
+    var inRad = rad(grp.angle);
+    var tox = rcx + rTextOut*Math.cos(inRad), toy = rcy + rTextOut*Math.sin(inRad);
+    var normGrpA = ((grp.angle % 360) + 360) % 360;
+    if(normGrpA > 180) normGrpA -= 360;
+    var isLeftGrp = Math.abs(normGrpA) > 90;
+
+    raci += '<g data-cat="'+grp.cat+'">';
+    raci += '<g transform="translate('+rcx+','+rcy+') rotate('+grp.angle+')">';
+    if(isLeftGrp){
+      raci += '<text transform="translate(155,0) rotate(180)" dominant-baseline="central" text-anchor="middle" font-size="16" font-family="'+font+'" fill="#0a0a0a" letter-spacing="-0.03em">'+grp.group+'</text>';
+    } else {
+      raci += '<text transform="translate(155,0)" dominant-baseline="central" text-anchor="middle" font-size="16" font-family="'+font+'" fill="#0a0a0a" letter-spacing="-0.03em">'+grp.group+'</text>';
+    }
+    raci += '</g>';
+
+    var count = grp.items.length, spread = 62;
+    var startA = grp.angle - spread/2;
+    var step = spread / (count > 1 ? count-1 : 1);
+
+    grp.items.forEach(function(item, i){
+      var outA = startA + i*step, outRad = rad(outA);
+      var outX = rcx + rOut*Math.cos(outRad), outY = rcy + rOut*Math.sin(outRad);
+      var cp1X = rcx + (rTextOut+20)*Math.cos(inRad), cp1Y = rcy + (rTextOut+20)*Math.sin(inRad);
+      var cp2X = rcx + (rOut-20)*Math.cos(outRad),    cp2Y = rcy + (rOut-20)*Math.sin(outRad);
+      raci += '<path d="M '+fmt(outX)+' '+fmt(outY)+' C '+fmt(cp2X)+' '+fmt(cp2Y)+', '+fmt(cp1X)+' '+fmt(cp1Y)+', '+fmt(tox)+' '+fmt(toy)+'" fill="none" stroke="#0a0a0a" stroke-width="0.6" opacity="0.3"/>';
+      raci += '<g transform="translate('+rcx+','+rcy+') rotate('+fmt(outA)+')">';
+      raci += '<circle cx="'+rOut+'" cy="0" r="3.5" fill="#0a0a0a"/>';
+      var normA = ((outA % 360) + 360) % 360;
+      if(normA > 180) normA -= 360;
+      var isLeft = Math.abs(normA) > 90;
+      var parts = item.split(' • ');
+      var l1 = parts[0]||'', l2 = parts[1]||'';
+      if(isLeft){
+        raci += '<text transform="translate('+(rOut+12)+',0) rotate(180)" text-anchor="end" font-size="11" font-family="'+font+'" fill="#0a0a0a" letter-spacing="-0.02em">'
+              + '<tspan x="0" y="-0.6em" font-weight="600">'+l1+'</tspan><tspan x="0" y="0.6em">'+l2+'</tspan></text>';
+      } else {
+        raci += '<text transform="translate('+(rOut+12)+',0)" text-anchor="start" font-size="11" font-family="'+font+'" fill="#0a0a0a" letter-spacing="-0.02em">'
+              + '<tspan x="0" y="-0.6em" font-weight="600">'+l1+'</tspan><tspan x="0" y="0.6em">'+l2+'</tspan></text>';
+      }
+      raci += '</g>';
+    });
+    raci += '</g>';
+  });
+
+  /* RACI hit sectors — transparent annular wedges */
+  [{cat:'accountable',a1:-82,a2:-8},{cat:'responsible',a1:8,a2:82},
+   {cat:'consulted',a1:98,a2:172},{cat:'informed',a1:188,a2:262}
+  ].forEach(function(h){
+    raci += '<g data-cat="'+h.cat+'"><path d="'+donutSec(rcx,rcy,115,305,h.a1,h.a2)+'" fill="rgba(0,0,0,0)" pointer-events="fill"/></g>';
+  });
+
+  raciSvg.innerHTML = raci;
+  raciData.forEach(function(grp){
+    var btn = document.createElement('button');
+    btn.className = 'sh-cat-btn'; btn.dataset.cat = grp.cat; btn.dataset.svg = 'raci';
+    btn.innerHTML = '<span class="sh-cat-pip"></span>' + grp.group;
+    raciBar.appendChild(btn);
+  });
+
+  /* ── INTERACTION ── */
+  var lockedCat = null;
+
+  function activateCat(svgEl, catId){
+    svgEl.classList.add('cat-on');
+    svgEl.querySelectorAll('[data-cat]').forEach(function(el){ el.classList.remove('hi'); });
+    svgEl.querySelectorAll('[data-cat="'+catId+'"]').forEach(function(el){ el.classList.add('hi'); });
+  }
+  function activateAll(svgEl){
+    svgEl.classList.add('cat-on');
+    svgEl.querySelectorAll('[data-cat]').forEach(function(el){ el.classList.add('hi'); });
+  }
+  function clearCat(svgEl){
+    svgEl.classList.remove('cat-on');
+    svgEl.querySelectorAll('[data-cat]').forEach(function(el){ el.classList.remove('hi'); });
+  }
+  function applyState(primarySvg, catId, otherSvg){
+    activateCat(primarySvg, catId);
+    if(primarySvg === smSvg && catId === 'internal'){ activateAll(otherSvg); }
+    else if(primarySvg === raciSvg){ activateCat(otherSvg, 'internal'); }
+    else { clearCat(otherSvg); }
+  }
+  function clearAll(){ clearCat(smSvg); clearCat(raciSvg); }
+
+  document.querySelectorAll('.sh-cat-btn').forEach(function(btn){
+    var isSm = btn.dataset.svg === 'sm';
+    var pSvg = isSm ? smSvg : raciSvg, oSvg = isSm ? raciSvg : smSvg;
+    var cat = btn.dataset.cat;
+    btn.addEventListener('click', function(){
+      var isOn = btn.classList.contains('on');
+      document.querySelectorAll('.sh-cat-btn').forEach(function(b){ b.classList.remove('on'); });
+      if(isOn){ lockedCat=null; clearAll(); }
+      else { btn.classList.add('on'); lockedCat={svg:pSvg,cat:cat,other:oSvg}; applyState(pSvg,cat,oSvg); }
+    });
+  });
+
+  [smSvg, raciSvg].forEach(function(svg){
+    var other = svg === smSvg ? raciSvg : smSvg;
+    svg.addEventListener('mousemove', function(e){
+      if(lockedCat) return;
+      var el = e.target.closest('[data-cat]');
+      if(!el){ clearAll(); return; }
+      applyState(svg, el.dataset.cat, other);
+    });
+    svg.addEventListener('mouseleave', function(){
+      if(lockedCat) return;
+      clearAll();
+    });
+  });
+
+  /* ── CONNECTOR LINE: Internal → RACI center ── */
+  function drawConnector(){
+    var grid = document.querySelector('.sh-raci-grid');
+    if(!grid) return;
+    var smRect   = smSvg.getBoundingClientRect();
+    var raciRect = raciSvg.getBoundingClientRect();
+    var gridRect = grid.getBoundingClientRect();
+    if(!smRect.width || !raciRect.width) return;
+
+    /* Internal node original angle = -45°; after smRotDeg, screen angle = -45+smRotDeg */
+    var screenAngle = rad(-45 + smRotDeg);
+    var scale = smRect.width / 680;
+    var smCx_px = smRect.left + smRect.width  / 2; /* 340/680 = 0.5 */
+    var smCy_px = smRect.top  + smRect.height / 2;
+    var x1 = smCx_px + 240 * scale * Math.cos(screenAngle) - gridRect.left;
+    var y1 = smCy_px + 240 * scale * Math.sin(screenAngle) - gridRect.top;
+    var x2 = raciRect.left + raciRect.width  / 2 - gridRect.left; /* 400/800 = 0.5 */
+    var y2 = raciRect.top  + raciRect.height / 2 - gridRect.top;
+
+    var conn = document.getElementById('sh-connector');
+    if(!conn){
+      conn = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      conn.id = 'sh-connector';
+      conn.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:5;';
+      grid.appendChild(conn);
+    }
+    conn.setAttribute('viewBox','0 0 '+gridRect.width+' '+gridRect.height);
+    conn.innerHTML = '<line x1="'+x1.toFixed(1)+'" y1="'+y1.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+y2.toFixed(1)+'" stroke="#0a0a0a" stroke-width="1" stroke-dasharray="3,5" opacity="0.3"/>'
+      + '<circle cx="'+x2.toFixed(1)+'" cy="'+y2.toFixed(1)+'" r="3" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.3"/>';
+  }
+  var connTimer;
+  function scheduleConn(){ clearTimeout(connTimer); connTimer=setTimeout(drawConnector,200); }
+  setTimeout(drawConnector, 400);
+  window.addEventListener('resize', scheduleConn);
 })();
 </script>
 
