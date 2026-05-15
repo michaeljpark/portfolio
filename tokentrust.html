@@ -183,7 +183,7 @@
   @media(max-width:880px){ .service-components{ grid-template-columns:1fr; } }
 
   /* ECOSYSTEM */
-  .ecosystem-flow{ margin-top:clamp(40px,5vw,80px); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .ecosystem-flow{ margin-top:clamp(40px,5vw,80px); border:0; border-radius:0; overflow:visible; }
   .eco-row{ display:grid; grid-template-columns:1fr 2fr 1fr; }
   .eco-row + .eco-row{ border-top:1px solid var(--line); }
   .eco-cell{ padding:clamp(20px,2.5vw,36px); display:flex; flex-direction:column; justify-content:center; gap:6px; }
@@ -199,6 +199,11 @@
     .eco-row{ grid-template-columns:1fr; }
     .eco-row-2col{ grid-template-columns:1fr; }
     .eco-cell + .eco-cell{ border-left:0; border-top:1px solid var(--line); }
+  }
+
+  #tt-sm-wrap svg{ overflow:visible; }
+  @media(max-width:640px){
+    #tt-sm-wrap{ margin-top:clamp(28px,8vw,44px) !important; }
   }
 
   /* MARKET MATRICES */
@@ -295,7 +300,17 @@
   .mm-insight{ padding:clamp(20px,2.5vw,32px); background:var(--bg); }
   .mm-insight-key{ font-size:10px; letter-spacing:0.05em; color:var(--muted); margin-bottom:8px; }
   .mm-insight-val{ font-size:12px; color:var(--ink); line-height:1.6; letter-spacing:-0.02em; }
-  @media(max-width:768px){ .mm-insights{ grid-template-columns:1fr; } }
+  @media(max-width:768px){
+    .mm-insights{ grid-template-columns:1fr; }
+    .mm-cv{ padding-bottom:133.33%; }
+    .mm-ql{ font-size:8px; line-height:1.25; }
+    .mm-ax{ font-size:8px; }
+    .mm-ax.xlo,.mm-ax.xhi{ font-size:7px; }
+    .mm-ax.yl{ left:-32px; font-size:8px; }
+    .mm-lb{ font-size:7.5px; }
+    .mm-dot{ width:6px; height:6px; }
+    .mm-nd{ transform:translate(-50%,-50%) scale(0.9); }
+  }
   @media(max-width:640px){ .mm-tab{ font-size:10px; padding:5px 10px; } }
 </style>
 </head>
@@ -649,11 +664,15 @@
   var wrap = document.getElementById('tt-sm-wrap');
   if(!wrap) return;
   var NS = 'http://www.w3.org/2000/svg';
-  var W = 960, H = 860, CX = 480, CY = 430;
+  var isSmall = window.innerWidth <= 640;
+  var W = isSmall ? 420 : 960;
+  var H = isSmall ? 620 : 860;
+  var CX = W / 2;
+  var CY = H / 2;
 
   var RINGS = [
     {
-      r: 118, nodeR: 3, fontSize: 9.5, color: '#0a0a0a',
+      r: isSmall ? 58 : 118, nodeR: isSmall ? 3.4 : 3, fontSize: isSmall ? 10.5 : 9.5, color: '#0a0a0a',
       offset: -Math.PI / 2,
       items: [
         'Gov. of Canada', 'Privacy Comm.', 'Treasury Board',
@@ -662,7 +681,7 @@
       ]
     },
     {
-      r: 218, nodeR: 3, fontSize: 9, color: '#444444',
+      r: isSmall ? 122 : 218, nodeR: isSmall ? 3.3 : 3, fontSize: isSmall ? 9.8 : 9, color: '#444444',
       offset: -Math.PI / 2 + 0.22,
       items: [
         'OpenAI / GPT', 'Google Gemini', 'Anthropic / Claude',
@@ -672,7 +691,7 @@
       ]
     },
     {
-      r: 332, nodeR: 3, fontSize: 8.5, color: '#888888',
+      r: isSmall ? 182 : 332, nodeR: isSmall ? 3.1 : 3, fontSize: isSmall ? 9.2 : 8.5, color: '#888888',
       offset: -Math.PI / 2 - 0.18,
       items: [
         'End Users', 'Data Agencies', 'Content Creators',
@@ -707,20 +726,19 @@
     var labels = ['Layer I', 'Layer II', 'Layer III'];
     svg.appendChild(mk('text', {
       x: lx, y: ly,
-      fill:'#bbbbbb', 'font-size':'7.5', 'letter-spacing':'0.08em',
+      fill:'#bbbbbb', 'font-size': isSmall ? '8.8' : '7.5', 'letter-spacing':'0.08em',
       'font-family':'"Helvetica Neue",Helvetica,Arial,sans-serif',
       'text-anchor':'start', 'dominant-baseline':'middle'
     }, labels[ri]));
   });
 
-  /* center — tokentrust full logo */
-  svg.appendChild(mk('rect', { x:394, y:402, width:172, height:57, rx:6, fill:'#f0f0f0' }));
-  svg.appendChild(mk('image', {
-    href: './tokentrust.svg',
-    x: 400, y: 408, width: 160, height: 45,
-    preserveAspectRatio: 'xMidYMid meet',
-    style: 'filter:invert(1);'
-  }));
+  /* center — tokentrust wordmark (direct text, cross-browser safe) */
+  svg.appendChild(mk('text', {
+    x: CX, y: CY+2, fill:'#0a0a0a',
+    'font-size': isSmall ? '18' : '17', 'font-weight':'500',
+    'font-family':'"Helvetica Neue",Helvetica,Arial,sans-serif',
+    'letter-spacing':'-0.04em', 'text-anchor':'middle', 'dominant-baseline':'middle'
+  }, 'TokenTrust'));
 
   /* nodes + radial labels */
   RINGS.forEach(function(ring){
@@ -1207,20 +1225,17 @@
   #sh-sm-bar .sh-cat-btn{ font-size:8px; }
   #sh-sm-bar .sh-cat-pip{ width:4px; height:4px; }
 }
-/* Roadmap SVG */
-.rm-outer{ margin-top:clamp(40px,5vw,80px); }
-.rm-track{ stroke-dasharray:1100; stroke-dashoffset:1100; }
-.rm-node,.rm-lbl,.rm-track-lbl{ opacity:0; }
-.rm-outer.rm-ready .rm-track{ animation:rmLine 1.2s ease forwards; }
-.rm-outer.rm-ready .rm-t2{ animation-delay:.12s; }
-.rm-outer.rm-ready .rm-t3{ animation-delay:.24s; }
-.rm-outer.rm-ready .rm-t4{ animation-delay:.36s; }
-.rm-outer.rm-ready .rm-track-lbl{ animation:rmFade .35s ease forwards; animation-delay:.1s; }
-.rm-outer.rm-ready .rm-ph1{ animation:rmFade .35s ease .65s forwards; }
-.rm-outer.rm-ready .rm-ph2{ animation:rmFade .35s ease 1.05s forwards; }
-.rm-outer.rm-ready .rm-ph3{ animation:rmFade .35s ease 1.45s forwards; }
-@keyframes rmLine{ to{ stroke-dashoffset:0; } }
-@keyframes rmFade{ from{ opacity:0; } to{ opacity:1; } }
+/* Roadmap scroll-driven */
+.rm-scroller{ height:270vh; position:relative; margin-top:clamp(40px,5vw,80px); }
+.rm-sticky{ position:sticky; top:50%; transform:translateY(-50%); }
+#rm-dt{ display:block; width:min(100%,1180px); margin:0 auto; max-height:76vh; font-family:Helvetica,Arial,sans-serif; overflow:visible; }
+#rm-mb{ display:none; font-family:Helvetica,Arial,sans-serif; overflow:visible; }
+@media(max-width:768px){
+  .rm-scroller{ height:auto; margin-top:clamp(28px,8vw,44px); }
+  .rm-sticky{ position:relative; top:auto; transform:none; }
+  #rm-dt{ display:none; }
+  #rm-mb{ display:block; width:100%; max-width:420px; margin:0 auto; }
+}
 </style>
 
 <!-- ============================================================
@@ -1475,45 +1490,13 @@
     </div>
   </div>
 
-  <div class="rm-outer" id="rm-outer">
-    <svg class="rm-svg" viewBox="0 0 1050 500" xmlns="http://www.w3.org/2000/svg" style="font-family:Helvetica,Arial,sans-serif;width:100%;height:auto;overflow:visible;">
-      <!-- Phase header labels -->
-      <text x="100" y="38" font-size="10" fill="#666666" letter-spacing="0.05em" text-anchor="middle" text-transform="uppercase">H-I · Y0–Y1</text>
-      <text x="350" y="38" font-size="10" fill="#666666" letter-spacing="0.05em" text-anchor="middle">H-II · Y1–Y3</text>
-      <text x="650" y="38" font-size="10" fill="#666666" letter-spacing="0.05em" text-anchor="middle">H-III · Y3+</text>
-      <!-- Phase dividers (static) -->
-      <line x1="200" y1="48" x2="200" y2="455" stroke="#d8d8d8" stroke-width="1" stroke-dasharray="5,5"/>
-      <line x1="500" y1="48" x2="500" y2="455" stroke="#d8d8d8" stroke-width="1" stroke-dasharray="5,5"/>
-      <line x1="800" y1="48" x2="800" y2="455" stroke="#d8d8d8" stroke-width="1" stroke-dasharray="5,5"/>
-      <!-- Track 1: Data Traceability -->
-      <text class="rm-track-lbl" x="50" y="106" font-size="11" fill="#666666" letter-spacing="-0.02em">Data Traceability</text>
-      <path class="rm-track rm-t1" d="M 50 118 L 500 118" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.5"/>
-      <circle class="rm-node rm-ph1" cx="200" cy="118" r="3.5" fill="#0a0a0a"/>
-      <text class="rm-lbl rm-ph1" x="208" y="131" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">DQI Infrastructure Setup</text>
-      <circle class="rm-node rm-ph2" cx="500" cy="118" r="3.5" fill="#0a0a0a"/>
-      <text class="rm-lbl rm-ph2" x="508" y="131" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">Pilot Traceability Verification</text>
-      <!-- Track 2: Data Refund & Compensation -->
-      <text class="rm-track-lbl" x="50" y="208" font-size="11" fill="#666666" letter-spacing="-0.02em">Data Refund &amp; Compensation</text>
-      <path class="rm-track rm-t2" d="M 50 220 L 800 220" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.5"/>
-      <circle class="rm-node rm-ph2" cx="500" cy="220" r="3.5" fill="#0a0a0a"/>
-      <text class="rm-lbl rm-ph2" x="508" y="233" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">Reward Token Structure Pilot</text>
-      <circle class="rm-node rm-ph3" cx="800" cy="220" r="3.5" fill="#0a0a0a"/>
-      <text class="rm-lbl rm-ph3" x="808" y="233" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">Full-scale Refund Operation</text>
-      <!-- Track 3: Interplatform Value Management -->
-      <text class="rm-track-lbl" x="50" y="308" font-size="11" fill="#666666" letter-spacing="-0.02em">Interplatform Value Management</text>
-      <path class="rm-track rm-t3" d="M 50 320 L 800 320" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.5"/>
-      <circle class="rm-node rm-ph3" cx="800" cy="320" r="3.5" fill="#0a0a0a"/>
-      <text class="rm-lbl rm-ph3" x="808" y="333" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">Cross-Platform Token Exchange</text>
-      <!-- Track 4: Holistic Regulatory Alternative -->
-      <text class="rm-track-lbl" x="50" y="408" font-size="11" fill="#666666" letter-spacing="-0.02em">Holistic Regulatory Alternative</text>
-      <path class="rm-track rm-t4" d="M 50 420 L 1000 420" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.5"/>
-      <circle class="rm-node rm-ph1" cx="200" cy="420" r="3.5" fill="#0a0a0a"/>
-      <text class="rm-lbl rm-ph1" x="208" y="433" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">PIPEDA, FINTRAC &amp; CIPP/C</text>
-      <circle class="rm-node rm-ph2" cx="500" cy="420" r="3.5" fill="#0a0a0a"/>
-      <text class="rm-lbl rm-ph2" x="508" y="433" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">OPC &amp; PACC Engagement</text>
-      <circle class="rm-node rm-ph3" cx="800" cy="420" r="3.5" fill="#0a0a0a"/>
-      <text class="rm-lbl rm-ph3" x="808" y="433" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">CBPR &amp; ISO/IEC 42001</text>
-    </svg>
+  <div class="rm-scroller" id="rm-scroller">
+    <div class="rm-sticky">
+      <!-- Desktop: horizontal Gantt chart -->
+      <svg id="rm-dt" viewBox="0 0 1050 475" xmlns="http://www.w3.org/2000/svg"></svg>
+      <!-- Mobile: vertical track grid -->
+      <svg id="rm-mb" viewBox="0 0 400 700" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
   </div>
 </section>
 
@@ -2095,7 +2078,7 @@
     { rot:-135,label:'openclaw',   flip:true  }
   ];
   function smCatAngle(id){ for(var i=0;i<smCats.length;i++) if(smCats[i].id===id) return smCats[i].anchorAngle; return 0; }
-  var smRotDeg = window.innerWidth <= 768 ? 90 : 45;
+  var smRotDeg = window.innerWidth <= 768 ? 135 : 45;
 
   /* rotation group — all visual content rotates together */
   var sm = '<g transform="rotate('+smRotDeg+','+smCx+','+smCy+')">';
@@ -2360,12 +2343,166 @@
 
 <script>
 (function(){
-  var rm = document.getElementById('rm-outer');
-  if(!rm) return;
-  var io = new IntersectionObserver(function(entries){
-    if(entries[0].isIntersecting){ rm.classList.add('rm-ready'); io.disconnect(); }
-  }, { threshold: 0.15 });
-  io.observe(rm);
+  var scroller = document.getElementById('rm-scroller');
+  var dtSvg   = document.getElementById('rm-dt');
+  var mbSvg   = document.getElementById('rm-mb');
+  if(!scroller || !dtSvg || !mbSvg) return;
+
+  var font   = 'Helvetica,Arial,sans-serif';
+  var isMob  = window.innerWidth <= 768;
+
+  /* ── Desktop SVG build ── */
+  (function(){
+    var TY  = [118, 220, 320, 420];
+    var TE  = [500, 800, 800, 1000];
+    var TLB = ['Data Traceability','Data Refund &amp; Compensation','Interplatform Value Mgmt','Holistic Regulatory Alt.'];
+    var MN  = [
+      [200,118,208,131,'DQI Infrastructure Setup',1],
+      [500,118,508,131,'Pilot Traceability Verification',2],
+      [500,220,508,233,'Reward Token Pilot',2],
+      [800,220,808,233,'Full-scale Refund Operation',3],
+      [800,320,808,333,'Cross-Platform Token Exchange',3],
+      [200,420,208,433,'PIPEDA, FINTRAC &amp; CIPP/C',1],
+      [500,420,508,433,'OPC &amp; PACC Engagement',2],
+      [800,420,808,433,'CBPR &amp; ISO/IEC 42001',3]
+    ];
+    var ts = 'style="transition:opacity .35s ease"';
+    var h = '';
+    /* static: phase dividers */
+    h += '<line x1="200" y1="48" x2="200" y2="438" stroke="#d8d8d8" stroke-width="1" stroke-dasharray="5,5"/>';
+    h += '<line x1="500" y1="48" x2="500" y2="438" stroke="#d8d8d8" stroke-width="1" stroke-dasharray="5,5"/>';
+    h += '<line x1="800" y1="48" x2="800" y2="438" stroke="#d8d8d8" stroke-width="1" stroke-dasharray="5,5"/>';
+    /* animated: phase labels */
+    h += '<text id="rdt-pa" x="125" y="36" font-size="10" fill="#888" font-family="'+font+'" letter-spacing="0.04em" text-anchor="middle" opacity="0" '+ts+'>H-I · Y0–Y1</text>';
+    h += '<text id="rdt-pb" x="350" y="36" font-size="10" fill="#888" font-family="'+font+'" letter-spacing="0.04em" text-anchor="middle" opacity="0" '+ts+'>H-II · Y1–Y3</text>';
+    h += '<text id="rdt-pc" x="650" y="36" font-size="10" fill="#888" font-family="'+font+'" letter-spacing="0.04em" text-anchor="middle" opacity="0" '+ts+'>H-III · Y3+</text>';
+    /* track labels */
+    TLB.forEach(function(lbl,i){
+      h += '<text id="rdt-tl'+i+'" x="50" y="'+(TY[i]-10)+'" font-size="11" fill="#888" font-family="'+font+'" letter-spacing="-0.02em" text-anchor="start" opacity="0" '+ts+'>'+lbl+'</text>';
+    });
+    /* track lines */
+    TY.forEach(function(y,i){
+      h += '<path id="rdt-tr'+i+'" d="M 50 '+y+' L '+TE[i]+' '+y+'" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.5" stroke-dasharray="1100" stroke-dashoffset="1100"/>';
+    });
+    /* milestone nodes */
+    MN.forEach(function(n,i){
+      h += '<g id="rdt-n'+i+'" opacity="0" '+ts+'>';
+      h += '<circle cx="'+n[0]+'" cy="'+n[1]+'" r="3.5" fill="#0a0a0a"/>';
+      h += '<text x="'+n[2]+'" y="'+n[3]+'" font-size="10" fill="#0a0a0a" font-family="'+font+'" letter-spacing="-0.02em">'+n[4]+'</text>';
+      h += '</g>';
+    });
+    dtSvg.innerHTML = h;
+  })();
+
+  /* ── Mobile SVG build ── */
+  (function(){
+    var TX  = [90, 175, 258, 342];
+    var PHY = [130, 355, 570];
+    var ts  = 'style="transition:opacity .35s ease"';
+    var h   = '';
+    /* static: phase dividers */
+    [243, 463].forEach(function(y){
+      h += '<line x1="55" y1="'+y+'" x2="390" y2="'+y+'" stroke="#d8d8d8" stroke-width="1" stroke-dasharray="5,5"/>';
+    });
+    /* animated: phase labels (left side) */
+    ['H-I · Y0–Y1','H-II · Y1–Y3','H-III · Y3+'].forEach(function(lbl,i){
+      h += '<text id="rmb-pa'+i+'" x="28" y="'+(PHY[i]+4)+'" font-size="9" fill="#888" font-family="'+font+'" letter-spacing="0.03em" text-anchor="middle" dominant-baseline="middle" opacity="0" '+ts+'>'+lbl+'</text>';
+    });
+    /* track labels (top, 2-line) */
+    [['Data','Trace.'],['Refund','&amp;Comp.'],['Inter-','platform'],['Regulatory','Alt.']].forEach(function(lns,i){
+      h += '<g id="rmb-tl'+i+'" opacity="0" '+ts+'>';
+      lns.forEach(function(ln,j){
+        h += '<text x="'+TX[i]+'" y="'+(22+j*13)+'" font-size="8" fill="#888" font-family="'+font+'" letter-spacing="-0.01em" text-anchor="middle">'+ln+'</text>';
+      });
+      h += '</g>';
+    });
+    /* vertical track lines */
+    TX.forEach(function(x,i){
+      h += '<line id="rmb-vt'+i+'" x1="'+x+'" y1="55" x2="'+x+'" y2="650" stroke="#0a0a0a" stroke-width="0.8" opacity="0.22" stroke-dasharray="700" stroke-dashoffset="700"/>';
+    });
+    /* milestone nodes [track, phase, label-lines] */
+    var MN = [
+      [0,0,['DQI Setup']],
+      [0,1,['Pilot']],
+      [1,1,['Token Pilot']],
+      [1,2,['Full Refund']],
+      [2,2,['Token Exchange']],
+      [3,0,['PIPEDA','&amp; FINTRAC']],
+      [3,1,['OPC &amp;','PACC']],
+      [3,2,['CBPR &amp;','ISO 42001']]
+    ];
+    MN.forEach(function(n,i){
+      var x = TX[n[0]], y = PHY[n[1]];
+      var lx = x < 215 ? x+12 : x-12;
+      var anc = x < 215 ? 'start' : 'end';
+      h += '<g id="rmb-n'+i+'" opacity="0" '+ts+'>';
+      h += '<circle cx="'+x+'" cy="'+y+'" r="4" fill="#0a0a0a"/>';
+      n[2].forEach(function(ln,j){
+        h += '<text x="'+lx+'" y="'+(y+15+j*11)+'" font-size="8.5" fill="#0a0a0a" font-family="'+font+'" letter-spacing="-0.02em" text-anchor="'+anc+'">'+ln+'</text>';
+      });
+      h += '</g>';
+    });
+    mbSvg.innerHTML = h;
+  })();
+
+  /* ── Scroll animation ── */
+  var DT_SPAN = 950; /* x=50 to x=1000 */
+  var DT_LEN  = [450, 750, 750, 950];
+
+  function getP(){
+    var rect = scroller.getBoundingClientRect();
+    var scrollable = scroller.offsetHeight - window.innerHeight;
+    if(scrollable <= 0) return 0;
+    return Math.max(0, Math.min(1, -rect.top / scrollable));
+  }
+
+  function op(id, show){
+    var el = document.getElementById(id);
+    if(el) el.setAttribute('opacity', show ? '1' : '0');
+  }
+
+  function updateDt(p){
+    [0,1,2,3].forEach(function(i){ op('rdt-tl'+i, p>0.02); });
+    /* track line reveal */
+    var revX = Math.min(DT_SPAN, (p/0.9)*DT_SPAN);
+    [0,1,2,3].forEach(function(i){
+      var drawn = Math.min(DT_LEN[i], revX);
+      var el = document.getElementById('rdt-tr'+i);
+      if(el) el.setAttribute('stroke-dashoffset', Math.max(0, 1100-drawn));
+    });
+    op('rdt-pa', p>0.18); op('rdt-pb', p>0.52); op('rdt-pc', p>0.82);
+    /* H-I nodes */  op('rdt-n0',p>0.22); op('rdt-n5',p>0.22);
+    /* H-II nodes */ op('rdt-n1',p>0.55); op('rdt-n2',p>0.55); op('rdt-n6',p>0.55);
+    /* H-III nodes */op('rdt-n3',p>0.85); op('rdt-n4',p>0.85); op('rdt-n7',p>0.85);
+  }
+
+  function updateMb(p){
+    [0,1,2,3].forEach(function(i){ op('rmb-tl'+i, p>0.02); });
+    /* vertical track lines reveal */
+    var revL = Math.min(595, (p/0.9)*595);
+    [0,1,2,3].forEach(function(i){
+      var el = document.getElementById('rmb-vt'+i);
+      if(el) el.setAttribute('stroke-dashoffset', Math.max(0, 700-revL));
+    });
+    /* phase I  */ op('rmb-pa0',p>0.15); op('rmb-n0',p>0.22); op('rmb-n5',p>0.22);
+    /* phase II */ op('rmb-pa1',p>0.45); op('rmb-n1',p>0.52); op('rmb-n2',p>0.52); op('rmb-n6',p>0.52);
+    /* phase III*/ op('rmb-pa2',p>0.75); op('rmb-n3',p>0.82); op('rmb-n4',p>0.82); op('rmb-n7',p>0.82);
+  }
+
+  var raf;
+  function onScroll(){
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(function(){
+      var p = getP();
+      if(isMob) updateMb(p); else updateDt(p);
+    });
+  }
+  if(isMob){
+    updateMb(1);
+  } else {
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  }
 })();
 </script>
 
