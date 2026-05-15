@@ -260,6 +260,43 @@
     .kpi{ padding:20px 0; }
     .kpi + .kpi{ border-left:none; border-top:1px solid var(--line); }
   }
+
+  /* MARKET MATRIX */
+  .mm-tabs{ display:flex; gap:6px; flex-wrap:wrap; margin:clamp(48px,6vw,80px) 0 clamp(20px,2.5vw,28px); }
+  .mm-tab{ font-family:var(--font); font-size:11px; letter-spacing:-0.01em; padding:6px 14px; border:1px solid var(--line); background:transparent; color:var(--muted); cursor:pointer; border-radius:2px; transition:all .2s; }
+  .mm-tab:hover{ border-color:var(--ink); color:var(--ink); }
+  .mm-tab.on{ background:var(--ink); color:var(--bg); border-color:var(--ink); }
+  .mm-card{ position:relative; border:1px solid var(--line); border-radius:12px; padding:clamp(24px,3vw,40px) clamp(24px,3vw,40px) clamp(40px,5vw,60px) clamp(44px,5.5vw,68px); }
+  .mm-tam{ position:absolute; top:clamp(14px,1.8vw,20px); right:clamp(18px,2.2vw,28px); font-size:11px; color:var(--muted); letter-spacing:-0.01em; }
+  .mm-cv{ position:relative; width:100%; padding-bottom:28.125%; }
+  .mm-ci{ position:absolute; inset:0; overflow:visible; }
+  .mm-ci svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+  .mm-ql{ position:absolute; font-size:10px; color:var(--muted); letter-spacing:-0.01em; pointer-events:none; white-space:pre-line; line-height:1.35; }
+  .mm-ql.tl{ top:4px; left:6px; }
+  .mm-ql.tr{ top:4px; right:6px; text-align:right; }
+  .mm-ql.bl{ bottom:4px; left:6px; }
+  .mm-ql.br{ bottom:4px; right:6px; text-align:right; }
+  .mm-ax{ position:absolute; font-size:10px; color:var(--muted); letter-spacing:-0.01em; pointer-events:none; }
+  .mm-ax.xl{ bottom:-20px; left:50%; transform:translateX(-50%); }
+  .mm-ax.xlo{ bottom:-20px; left:0; font-size:9px; }
+  .mm-ax.xhi{ bottom:-20px; right:0; font-size:9px; }
+  .mm-ax.yl{ position:absolute; top:50%; left:-40px; transform:translateY(-50%) rotate(-90deg); white-space:nowrap; }
+  .mm-nd{ position:absolute; transform:translate(-50%,-50%); cursor:default; z-index:2; transition:opacity .2s; }
+  .mm-dot{ width:8px; height:8px; border-radius:50%; border:1px solid var(--ink); background:transparent; }
+  .mm-nd.you .mm-dot{ background:var(--ink); }
+  .mm-lb{ position:absolute; top:12px; left:50%; transform:translateX(-50%); font-size:9px; color:var(--ink); white-space:nowrap; letter-spacing:-0.01em; }
+  .mm-nd:hover .mm-lb{ text-decoration:underline; }
+  .mm-tip{ display:none; position:fixed; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-size:11px; line-height:1.5; max-width:240px; z-index:9999; box-shadow:0 4px 16px rgba(0,0,0,0.08); pointer-events:none; font-family:var(--font); }
+  .mm-tip.on{ display:block; }
+  .mm-tip-type{ font-size:9px; color:var(--muted); margin-bottom:3px; letter-spacing:0.03em; }
+  .mm-tip-name{ font-size:12px; color:var(--ink); margin-bottom:5px; font-weight:500; letter-spacing:-0.02em; }
+  .mm-tip-desc{ color:var(--muted); font-size:10px; line-height:1.55; letter-spacing:-0.01em; }
+  .mm-insights{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:clamp(20px,2.5vw,32px); border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line); }
+  .mm-insight{ padding:clamp(20px,2.5vw,32px); background:var(--bg); }
+  .mm-insight-key{ font-size:10px; letter-spacing:0.05em; color:var(--muted); margin-bottom:8px; }
+  .mm-insight-val{ font-size:12px; color:var(--ink); line-height:1.6; letter-spacing:-0.02em; }
+  @media(max-width:768px){ .mm-insights{ grid-template-columns:1fr; } }
+  @media(max-width:640px){ .mm-tab{ font-size:10px; padding:5px 10px; } }
 </style>
 </head>
 <body>
@@ -971,6 +1008,9 @@
       </div>
     </div>
   </div>
+
+  <div id="mm-tabs" class="mm-tabs"></div>
+  <div id="mm-root"></div>
 </section>
 
 <!-- ===== 11 STRATEGIC ROADMAP ===== -->
@@ -1615,6 +1655,179 @@
     <p class="conclusion-attr">Next: Pilot operations and market validation on this regulatory infrastructure · AI Data Governance Society · April 5, 2026</p>
   </div>
 </section>
+
+<div class="mm-tip" id="mm-tip">
+  <div class="mm-tip-type"></div>
+  <div class="mm-tip-name"></div>
+  <div class="mm-tip-desc"></div>
+</div>
+
+<script>
+(function(){
+  var D=[
+    {
+      t:'AI Token Market',tg:'TAM · $30B+ (2026)',
+      xa:'Token utility & fungibility',ya:'User-centric value return',
+      xlo:'Single-use',xhi:'Cross-platform',ylo:'Platform-centric',yhi:'User-centric',
+      q:['Closed ecosystems','User-empowered\nopen systems','Legacy token\nsilos','Platform-first\nmarketplaces'],
+      n:[
+        {n:'TokenTrust',x:84,y:88,u:1,tp:'Token refund & conversion',d:'Inter-platform token refund and conversion. User data sovereignty-based circular economy model.'},
+        {n:'Ocean Protocol',x:58,y:68,tp:'Data token',d:'Data tokenization marketplace. Inter-platform token conversion not supported.'},
+        {n:'Fetch.ai',x:44,y:52,tp:'AI agent token',d:'AI agent automation token. Centered on its own ecosystem.'},
+        {n:'Bittensor',x:30,y:62,tp:'Decentralized AI',d:'Decentralized ML marketplace. Focused on model contribution rewards.'},
+        {n:'SingularityNET',x:42,y:40,tp:'AI marketplace',d:'AI service marketplace. Value circulates within its own ecosystem.'},
+        {n:'Render',x:22,y:28,tp:'GPU compute',d:'GPU computing token. Single-utility specialized.'},
+        {n:'NEAR Protocol',x:64,y:42,tp:'L1 blockchain',d:'High-performance L1. No token refund mechanism.'},
+        {n:'iExec',x:18,y:44,tp:'Cloud compute',d:'Decentralized cloud computing. Resource rental-focused.'},
+        {n:'MWX Token',x:36,y:22,tp:'SME AI token',d:'AI marketplace token targeting SMEs.'}
+      ],
+      i:{a:'Existing AI tokens focus on utility within their own ecosystems. Inter-platform token refund and conversion is a complete blue ocean.',b:'Highest on both token fungibility (x) and user value return (y). The only platform with a refund mechanism.',c:'Competitors operate on "use → deplete" vs. this platform\'s "use → refund → recirculate" circular model.'}
+    },
+    {
+      t:'Cross-platform Interoperability',tg:'TAM · $15B+ (2026)',
+      xa:'AI-native integration depth',ya:'Token / value portability',
+      xlo:'Basic API',xhi:'AI-native',ylo:'Data only',yhi:'Value + token',
+      q:['Legacy\nintegration','AI-first value\nportability','Static API\nconnectors','Smart data\nbridges'],
+      n:[
+        {n:'TokenTrust',x:82,y:90,u:1,tp:'Token interoperability',d:'AI token cross-platform conversion. Data and token value move simultaneously.'},
+        {n:'MuleSoft',x:20,y:22,tp:'Enterprise iPaaS',d:'API management tool. No token or value conversion concept.'},
+        {n:'Workato',x:32,y:30,tp:'Workflow automation',d:'Workflow automation platform. Token portability not supported.'},
+        {n:'Merge',x:56,y:38,tp:'Unified API',d:'AI agent integration API. Value and token conversion outside scope.'},
+        {n:'Nango',x:64,y:28,tp:'AI integration',d:'Integration infrastructure for AI products. Token economics not supported.'},
+        {n:'Composio',x:48,y:24,tp:'Agent integration',d:'AI agent integration tool. No value transfer functionality.'},
+        {n:'Zapier',x:14,y:14,tp:'No-code automation',d:'General-purpose automation. Low AI-native depth and no token layer.'},
+        {n:'Exalate',x:38,y:44,tp:'Cross-company sync',d:'Cross-platform synchronization tool. Value conversion not applied.'},
+        {n:'Paragon',x:44,y:16,tp:'Embedded integration',d:'Embedded SaaS integration. No token portability.'}
+      ],
+      i:{a:'Existing integration platforms focus solely on "data movement." The space for "value (token) movement" remains entirely unoccupied.',b:'Dominant advantage in token/value portability (y). The only player combining AI-native integration with token conversion.',c:'Positioned precisely at the inflection point where iPaaS evolves from "data pipes" to "value pipes."'}
+    },
+    {
+      t:'Data-as-a-Service',tg:'TAM · $12B+ (2026)',
+      xa:'Data sovereignty & user control',ya:'Fair value redistribution',
+      xlo:'Platform-owned',xhi:'User-sovereign',ylo:'No return',yhi:'Full return',
+      q:['Extractive\nplatforms','User-sovereign\ndata economy','Data silos\n(closed)','Partial\nmonetization'],
+      n:[
+        {n:'TokenTrust',x:86,y:86,u:1,tp:'Data sovereignty + token',d:'User data sovereignty plus token refund. Consent → use → reward complete loop.'},
+        {n:'Snowflake',x:18,y:16,tp:'Data marketplace',d:'Enterprise data marketplace. No user sovereignty or reward mechanism.'},
+        {n:'Databricks',x:26,y:24,tp:'Data lakehouse',d:'Delta Sharing data platform. No user value return.'},
+        {n:'Ocean Protocol',x:62,y:58,tp:'Decentralized data',d:'Decentralized data marketplace. Token refund mechanism underdeveloped.'},
+        {n:'Itheum',x:72,y:48,tp:'Personal data',d:'Cross-chain personal data brokerage. AI token integration absent.'},
+        {n:'Monda',x:32,y:34,tp:'Data monetization',d:'All-in-one monetization platform. Personal data sovereignty weak.'},
+        {n:'Revelate',x:40,y:22,tp:'Data commerce',d:'Data discovery and monetization. Focused on internal enterprise governance.'},
+        {n:'AWS Data Exchange',x:12,y:10,tp:'Cloud marketplace',d:'AWS-dependent data exchange. Zero user data sovereignty.'},
+        {n:'Datarade',x:24,y:42,tp:'B2B data',d:'B2B data marketplace. Specialized in enterprise-to-enterprise transactions.'}
+      ],
+      i:{a:'Existing DaaS platforms operate on a "companies buy and sell data" model. A user value return model is entirely absent.',b:'Highest on data sovereignty (x) and value redistribution (y). Consent-based compensation is the core differentiator.',c:'Aligned with the surge in data sovereignty demands driven by EU AI Act and GDPR enforcement.'}
+    },
+    {
+      t:'AI Regulatory Compliance',tg:'TAM · $5B+ (2026)',
+      xa:'User data rights integration',ya:'Proactive incentive mechanism',
+      xlo:'Audit-only',xhi:'Rights-embedded',ylo:'Penalty avoidance',yhi:'Incentive-driven',
+      q:['Reactive\naudit tools','Incentivized\ncompliance','Documentation\nonly','Governance\nframeworks'],
+      n:[
+        {n:'TokenTrust',x:86,y:88,u:1,tp:'Incentive compliance',d:'Converts regulatory compliance into an incentive. Token refund = transparent proof of data usage.'},
+        {n:'Credo AI',x:46,y:42,tp:'AI governance',d:'AI governance platform. No user reward mechanism.'},
+        {n:'Vanta',x:28,y:30,tp:'Compliance automation',d:'Compliance automation tool. Weak user data rights integration.'},
+        {n:'Okta',x:52,y:22,tp:'IAM platform',d:'AI agent IAM platform. Reward structure outside scope.'},
+        {n:'Norm AI',x:38,y:52,tp:'Legal AI',d:'Legal and regulatory AI agent. No user incentives.'},
+        {n:'Sprinto',x:22,y:40,tp:'Trust platform',d:'Autonomous trust platform. Weak user rights integration.'},
+        {n:'AuditBoard',x:16,y:18,tp:'GRC platform',d:'Comprehensive risk management. No user-facing incentives.'},
+        {n:'Regology',x:34,y:34,tp:'Regulatory intel',d:'Real-time regulatory tracking. Incentive design not supported.'},
+        {n:'Compliance.ai',x:64,y:28,tp:'Fintech compliance',d:'Fintech-specialized compliance. No user reward system.'}
+      ],
+      i:{a:'All competitors approach from a "prevent regulatory violations" perspective. "Compliance = user reward" framing is a unique position.',b:'Consent compliance rate, reward fulfillment rate, and valuation fairness serve directly as regulatory evidence.',c:'Resolves data sovereignty and regulatory compliance simultaneously through a corporate credibility index.'}
+    }
+  ];
+
+  var cur=0;
+  var tabs=document.getElementById('mm-tabs');
+  var root=document.getElementById('mm-root');
+  var tip=document.getElementById('mm-tip');
+  if(!tabs||!root||!tip) return;
+
+  D.forEach(function(m,i){
+    var b=document.createElement('button');
+    b.className='mm-tab'+(i===0?' on':'');
+    b.textContent=m.t;
+    b.onclick=function(){ sw(i); };
+    tabs.appendChild(b);
+  });
+
+  function sw(i){
+    cur=i;
+    document.querySelectorAll('.mm-tab').forEach(function(t,j){ t.classList.toggle('on',j===i); });
+    ren(i);
+  }
+
+  function ren(i){
+    var m=D[i];
+    root.innerHTML=
+      '<div class="mm-card">'
+      +'<div class="mm-tam">'+m.tg+'</div>'
+      +'<div class="mm-cv"><div class="mm-ci" id="mm-ci">'
+      +'<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" id="mm-gs"></svg>'
+      +'<div class="mm-ql tl">'+m.q[0]+'</div>'
+      +'<div class="mm-ql tr">'+m.q[1]+'</div>'
+      +'<div class="mm-ql bl">'+m.q[2]+'</div>'
+      +'<div class="mm-ql br">'+m.q[3]+'</div>'
+      +'<div class="mm-ax xl">'+m.xa+'</div>'
+      +'<div class="mm-ax xlo">'+m.xlo+'</div>'
+      +'<div class="mm-ax xhi">'+m.xhi+'</div>'
+      +'<div class="mm-ax yl">'+m.ya+'</div>'
+      +'</div></div></div>'
+      +'<div class="mm-insights">'
+      +'<div class="mm-insight"><div class="mm-insight-key">POSITIONING</div><div class="mm-insight-val">'+m.i.a+'</div></div>'
+      +'<div class="mm-insight"><div class="mm-insight-key">ADVANTAGE</div><div class="mm-insight-val">'+m.i.b+'</div></div>'
+      +'<div class="mm-insight"><div class="mm-insight-key">MARKET GAP</div><div class="mm-insight-val">'+m.i.c+'</div></div>'
+      +'</div>';
+
+    var gs=document.getElementById('mm-gs');
+    gs.setAttribute('viewBox','0 0 1000 1000');
+    var L='';
+    for(var p=10;p<=90;p+=10){
+      if(p===50) continue;
+      var v=p*10;
+      L+='<line x1="'+v+'" y1="0" x2="'+v+'" y2="1000" stroke="#e0e0e0" stroke-width="0.8"/>';
+      L+='<line x1="0" y1="'+v+'" x2="1000" y2="'+v+'" stroke="#e0e0e0" stroke-width="0.8"/>';
+    }
+    L+='<line x1="500" y1="0" x2="500" y2="1000" stroke="#0a0a0a" stroke-width="1.2"/>';
+    L+='<line x1="80" y1="500" x2="920" y2="500" stroke="#0a0a0a" stroke-width="1.2"/>';
+    gs.innerHTML=L;
+
+    var ci=document.getElementById('mm-ci');
+    m.n.forEach(function(nd,ni){
+      var el=document.createElement('div');
+      el.className='mm-nd'+(nd.u?' you':'');
+      el.style.left=nd.x+'%';
+      el.style.top=(100-nd.y)+'%';
+      el.innerHTML='<div class="mm-dot"></div><div class="mm-lb">'+nd.n+'</div>';
+      el.addEventListener('mouseenter',function(e){ showTip(e,nd); });
+      el.addEventListener('mousemove',moveTip);
+      el.addEventListener('mouseleave',hideTip);
+      el.style.opacity='0';
+      el.style.transition='opacity .35s ease';
+      setTimeout(function(){ el.style.opacity='1'; },50+ni*35);
+      ci.appendChild(el);
+    });
+  }
+
+  function showTip(e,nd){
+    tip.querySelector('.mm-tip-type').textContent=nd.tp;
+    tip.querySelector('.mm-tip-name').textContent=nd.n;
+    tip.querySelector('.mm-tip-desc').textContent=nd.d;
+    tip.classList.add('on'); moveTip(e);
+  }
+  function moveTip(e){
+    var x=e.clientX+14,y=e.clientY-10;
+    if(x+250>window.innerWidth) x=e.clientX-258;
+    if(y<10) y=e.clientY+18;
+    tip.style.left=x+'px'; tip.style.top=y+'px';
+  }
+  function hideTip(){ tip.classList.remove('on'); }
+
+  ren(0);
+})();
+</script>
 
 <script>
 (function(){
