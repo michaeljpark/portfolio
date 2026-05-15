@@ -1207,6 +1207,20 @@
   #sh-sm-bar .sh-cat-btn{ font-size:8px; }
   #sh-sm-bar .sh-cat-pip{ width:4px; height:4px; }
 }
+/* Roadmap SVG */
+.rm-outer{ margin-top:clamp(40px,5vw,80px); }
+.rm-track{ stroke-dasharray:1100; stroke-dashoffset:1100; }
+.rm-node,.rm-lbl,.rm-track-lbl{ opacity:0; }
+.rm-outer.rm-ready .rm-track{ animation:rmLine 1.2s ease forwards; }
+.rm-outer.rm-ready .rm-t2{ animation-delay:.12s; }
+.rm-outer.rm-ready .rm-t3{ animation-delay:.24s; }
+.rm-outer.rm-ready .rm-t4{ animation-delay:.36s; }
+.rm-outer.rm-ready .rm-track-lbl{ animation:rmFade .35s ease forwards; animation-delay:.1s; }
+.rm-outer.rm-ready .rm-ph1{ animation:rmFade .35s ease .65s forwards; }
+.rm-outer.rm-ready .rm-ph2{ animation:rmFade .35s ease 1.05s forwards; }
+.rm-outer.rm-ready .rm-ph3{ animation:rmFade .35s ease 1.45s forwards; }
+@keyframes rmLine{ to{ stroke-dashoffset:0; } }
+@keyframes rmFade{ from{ opacity:0; } to{ opacity:1; } }
 </style>
 
 <!-- ============================================================
@@ -1293,7 +1307,7 @@
     </div>
   </div>
   <div class="ax-radial-wrap">
-    <svg id="ax-radial" viewBox="0 0 1100 1100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;"></svg>
+    <svg id="ax-radial" class="sh-svg" viewBox="0 0 1100 1100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;"></svg>
   </div>
 </section>
 
@@ -1459,6 +1473,47 @@
         <div class="p2-hz-item">AI Enterprises enter the Informed layer as direct participants</div>
       </div>
     </div>
+  </div>
+
+  <div class="rm-outer" id="rm-outer">
+    <svg class="rm-svg" viewBox="0 0 1050 500" xmlns="http://www.w3.org/2000/svg" style="font-family:Helvetica,Arial,sans-serif;width:100%;height:auto;overflow:visible;">
+      <!-- Phase header labels -->
+      <text x="100" y="38" font-size="10" fill="#666666" letter-spacing="0.05em" text-anchor="middle" text-transform="uppercase">H-I · Y0–Y1</text>
+      <text x="350" y="38" font-size="10" fill="#666666" letter-spacing="0.05em" text-anchor="middle">H-II · Y1–Y3</text>
+      <text x="650" y="38" font-size="10" fill="#666666" letter-spacing="0.05em" text-anchor="middle">H-III · Y3+</text>
+      <!-- Phase dividers (static) -->
+      <line x1="200" y1="48" x2="200" y2="455" stroke="#d8d8d8" stroke-width="1" stroke-dasharray="5,5"/>
+      <line x1="500" y1="48" x2="500" y2="455" stroke="#d8d8d8" stroke-width="1" stroke-dasharray="5,5"/>
+      <line x1="800" y1="48" x2="800" y2="455" stroke="#d8d8d8" stroke-width="1" stroke-dasharray="5,5"/>
+      <!-- Track 1: Data Traceability -->
+      <text class="rm-track-lbl" x="50" y="106" font-size="11" fill="#666666" letter-spacing="-0.02em">Data Traceability</text>
+      <path class="rm-track rm-t1" d="M 50 118 L 500 118" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.5"/>
+      <circle class="rm-node rm-ph1" cx="200" cy="118" r="3.5" fill="#0a0a0a"/>
+      <text class="rm-lbl rm-ph1" x="208" y="131" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">DQI Infrastructure Setup</text>
+      <circle class="rm-node rm-ph2" cx="500" cy="118" r="3.5" fill="#0a0a0a"/>
+      <text class="rm-lbl rm-ph2" x="508" y="131" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">Pilot Traceability Verification</text>
+      <!-- Track 2: Data Refund & Compensation -->
+      <text class="rm-track-lbl" x="50" y="208" font-size="11" fill="#666666" letter-spacing="-0.02em">Data Refund &amp; Compensation</text>
+      <path class="rm-track rm-t2" d="M 50 220 L 800 220" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.5"/>
+      <circle class="rm-node rm-ph2" cx="500" cy="220" r="3.5" fill="#0a0a0a"/>
+      <text class="rm-lbl rm-ph2" x="508" y="233" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">Reward Token Structure Pilot</text>
+      <circle class="rm-node rm-ph3" cx="800" cy="220" r="3.5" fill="#0a0a0a"/>
+      <text class="rm-lbl rm-ph3" x="808" y="233" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">Full-scale Refund Operation</text>
+      <!-- Track 3: Interplatform Value Management -->
+      <text class="rm-track-lbl" x="50" y="308" font-size="11" fill="#666666" letter-spacing="-0.02em">Interplatform Value Management</text>
+      <path class="rm-track rm-t3" d="M 50 320 L 800 320" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.5"/>
+      <circle class="rm-node rm-ph3" cx="800" cy="320" r="3.5" fill="#0a0a0a"/>
+      <text class="rm-lbl rm-ph3" x="808" y="333" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">Cross-Platform Token Exchange</text>
+      <!-- Track 4: Holistic Regulatory Alternative -->
+      <text class="rm-track-lbl" x="50" y="408" font-size="11" fill="#666666" letter-spacing="-0.02em">Holistic Regulatory Alternative</text>
+      <path class="rm-track rm-t4" d="M 50 420 L 1000 420" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.5"/>
+      <circle class="rm-node rm-ph1" cx="200" cy="420" r="3.5" fill="#0a0a0a"/>
+      <text class="rm-lbl rm-ph1" x="208" y="433" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">PIPEDA, FINTRAC &amp; CIPP/C</text>
+      <circle class="rm-node rm-ph2" cx="500" cy="420" r="3.5" fill="#0a0a0a"/>
+      <text class="rm-lbl rm-ph2" x="508" y="433" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">OPC &amp; PACC Engagement</text>
+      <circle class="rm-node rm-ph3" cx="800" cy="420" r="3.5" fill="#0a0a0a"/>
+      <text class="rm-lbl rm-ph3" x="808" y="433" font-size="10" fill="#0a0a0a" letter-spacing="-0.02em">CBPR &amp; ISO/IEC 42001</text>
+    </svg>
   </div>
 </section>
 
@@ -1881,35 +1936,54 @@
   if(!axSvg) return;
   var axFont = 'Helvetica,Arial,sans-serif';
   var axData = [
-    { group:'Data Traceability', angle:-45, items:['Data Origin Logging','Usage Path Tracking','Storage Location Disclosure','Third-Party Transfer Audit','Retention Period Visibility','DQI Scoring Timestamp','Consent Scope Tagging','Deletion Verification'] },
-    { group:'Data Refund & Compensation', angle:45, items:['DQI-Based Valuation','Reward Token Issuance','Data Credit Conversion','Refund Trigger Mechanism','Usage-Proportional Return','Real-Time Dashboard','Micro-Payment Settlement','Dispute & Reclaim Process'] },
-    { group:'Interplatform Value Management', angle:135, items:['Cross-Platform Token Portability','Unified Exchange Rate Engine','Multi-Model Usage Aggregation','Demand-Weighted Token Pricing','Platform-Agnostic Wallet','Service Switching Optimization','Inter-Provider Settlement','Token Liquidity Management'] },
-    { group:'Holistic Regulatory Alternative', angle:-135, items:['PIPEDA Compliance Framework','FINTRAC MSB Registration','Consent Rate Scoring','Audit Transparency Index','Cross-Border Transfer (CBPR)','ISO/IEC 42001 Certification','Regulatory Sandbox Engagement','Corporate Credibility Benchmarking'] }
+    { cat:'traceability',  group:'Data Traceability',              angle:-45,  items:['Data Origin Logging','Usage Path Tracking','Storage Location Disclosure','Third-Party Transfer Audit','Retention Period Visibility','DQI Scoring Timestamp','Consent Scope Tagging','Deletion Verification'] },
+    { cat:'refund',        group:'Data Refund & Compensation',     angle:45,   items:['DQI-Based Valuation','Reward Token Issuance','Data Credit Conversion','Refund Trigger Mechanism','Usage-Proportional Return','Real-Time Dashboard','Micro-Payment Settlement','Dispute & Reclaim Process'] },
+    { cat:'interplatform', group:'Interplatform Value Management', angle:135,  items:['Cross-Platform Token Portability','Unified Exchange Rate Engine','Multi-Model Usage Aggregation','Demand-Weighted Token Pricing','Platform-Agnostic Wallet','Service Switching Optimization','Inter-Provider Settlement','Token Liquidity Management'] },
+    { cat:'regulatory',    group:'Holistic Regulatory Alternative',angle:-135, items:['PIPEDA Compliance Framework','FINTRAC MSB Registration','Consent Rate Scoring','Audit Transparency Index','Cross-Border Transfer (CBPR)','ISO/IEC 42001 Certification','Regulatory Sandbox Engagement','Corporate Credibility Benchmarking'] }
   ];
   var axCx=550, axCy=550, rIn=280, rOut=420;
-  var axHtml='';
+  function axRad(d){ return d*Math.PI/180; }
+  function axFmt(n){ return n.toFixed(1); }
+  function axDonut(cx,cy,r1,r2,a1d,a2d){
+    var a1=axRad(a1d),a2=axRad(a2d);
+    var lg=(Math.abs(a2d-a1d)>180)?1:0;
+    return 'M '+axFmt(cx+r2*Math.cos(a1))+' '+axFmt(cy+r2*Math.sin(a1))
+      +' A '+r2+' '+r2+' 0 '+lg+' 1 '+axFmt(cx+r2*Math.cos(a2))+' '+axFmt(cy+r2*Math.sin(a2))
+      +' L '+axFmt(cx+r1*Math.cos(a2))+' '+axFmt(cy+r1*Math.sin(a2))
+      +' A '+r1+' '+r1+' 0 '+lg+' 0 '+axFmt(cx+r1*Math.cos(a1))+' '+axFmt(cy+r1*Math.sin(a1))
+      +' Z';
+  }
+
+  /* defs collect separately (textPath geometry) */
+  var axDefs = '';
+  /* orbit circles — no data-cat, always visible */
+  var axHtml = '';
   axHtml += '<circle cx="'+axCx+'" cy="'+axCy+'" r="'+rOut+'" fill="none" stroke="#0a0a0a" stroke-width="0.4" opacity="0.5" stroke-dasharray="100,40"/>';
   axHtml += '<circle cx="'+axCx+'" cy="'+axCy+'" r="'+rIn+'"  fill="none" stroke="#0a0a0a" stroke-width="0.4" opacity="0.5"/>';
+
   axData.forEach(function(grp){
-    var outRad = grp.angle * Math.PI/180;
+    var outRad = axRad(grp.angle);
     var outX = axCx + rOut*Math.cos(outRad), outY = axCy + rOut*Math.sin(outRad);
-    axHtml += '<circle cx="'+outX+'" cy="'+outY+'" r="5" fill="#0a0a0a"/>';
     var tr = rOut+20, spanA=40;
     var startA, endA, sweep;
     if(grp.angle < 0){ startA=grp.angle-spanA; endA=grp.angle+spanA; sweep=1; }
     else { startA=grp.angle+spanA; endA=grp.angle-spanA; sweep=0; }
-    var sx=axCx+tr*Math.cos(startA*Math.PI/180), sy=axCy+tr*Math.sin(startA*Math.PI/180);
-    var ex=axCx+tr*Math.cos(endA*Math.PI/180),   ey=axCy+tr*Math.sin(endA*Math.PI/180);
+    var sx=axCx+tr*Math.cos(axRad(startA)), sy=axCy+tr*Math.sin(axRad(startA));
+    var ex=axCx+tr*Math.cos(axRad(endA)),   ey=axCy+tr*Math.sin(axRad(endA));
     var pid='axp'+Math.round(grp.angle);
-    axHtml += '<defs><path id="'+pid+'" d="M '+sx+' '+sy+' A '+tr+' '+tr+' 0 0 '+sweep+' '+ex+' '+ey+'" fill="none"/></defs>';
+    axDefs += '<path id="'+pid+'" d="M '+axFmt(sx)+' '+axFmt(sy)+' A '+tr+' '+tr+' 0 0 '+sweep+' '+axFmt(ex)+' '+axFmt(ey)+'" fill="none"/>';
+
+    /* all visual content for this group in a single data-cat wrapper */
+    axHtml += '<g data-cat="'+grp.cat+'">';
+    axHtml += '<circle cx="'+axFmt(outX)+'" cy="'+axFmt(outY)+'" r="5" fill="#0a0a0a"/>';
     axHtml += '<text font-size="17" fill="#0a0a0a" font-family="'+axFont+'" letter-spacing="-0.02em"><textPath href="#'+pid+'" startOffset="50%" text-anchor="middle" dominant-baseline="central">'+grp.group+'</textPath></text>';
     var count=grp.items.length, spread=72, startAngle=grp.angle-spread/2, step=spread/(count>1?count-1:1);
     grp.items.forEach(function(item,i){
-      var inA=startAngle+i*step, inRad=inA*Math.PI/180;
+      var inA=startAngle+i*step, inRad=axRad(inA);
       var inX=axCx+rIn*Math.cos(inRad), inY=axCy+rIn*Math.sin(inRad);
       var cp1X=axCx+(rIn+50)*Math.cos(inRad), cp1Y=axCy+(rIn+50)*Math.sin(inRad);
       var cp2X=axCx+(rOut-80)*Math.cos(outRad), cp2Y=axCy+(rOut-80)*Math.sin(outRad);
-      axHtml += '<path d="M '+inX+' '+inY+' C '+cp1X+' '+cp1Y+', '+cp2X+' '+cp2Y+', '+outX+' '+outY+'" fill="none" stroke="#0a0a0a" stroke-width="0.6" opacity="0.3"/>';
+      axHtml += '<path d="M '+axFmt(inX)+' '+axFmt(inY)+' C '+axFmt(cp1X)+' '+axFmt(cp1Y)+', '+axFmt(cp2X)+' '+axFmt(cp2Y)+', '+axFmt(outX)+' '+axFmt(outY)+'" fill="none" stroke="#0a0a0a" stroke-width="0.6" opacity="0.3"/>';
       axHtml += '<g transform="translate('+axCx+','+axCy+') rotate('+inA+')">';
       axHtml += '<circle cx="'+rIn+'" cy="0" r="3.5" fill="#0a0a0a"/>';
       var normA=inA%360; if(normA>180)normA-=360; if(normA<-180)normA+=360;
@@ -1921,8 +1995,45 @@
       }
       axHtml += '</g>';
     });
+    axHtml += '</g>'; /* end data-cat group */
   });
-  axSvg.innerHTML = axHtml;
+
+  /* transparent hit sectors — annular wedges per quadrant */
+  [{cat:'traceability',a1:-81,a2:-9},{cat:'refund',a1:9,a2:81},
+   {cat:'interplatform',a1:99,a2:171},{cat:'regulatory',a1:-171,a2:-99}
+  ].forEach(function(h){
+    axHtml += '<g data-cat="'+h.cat+'"><path d="'+axDonut(axCx,axCy,200,460,h.a1,h.a2)+'" fill="rgba(0,0,0,0)" pointer-events="fill"/></g>';
+  });
+
+  axSvg.innerHTML = '<defs>'+axDefs+'</defs>' + axHtml;
+
+  /* ── Interaction ── */
+  var axLockedCat = null;
+  function axSetCat(cat){
+    axSvg.classList.add('cat-on');
+    axSvg.querySelectorAll('[data-cat]').forEach(function(x){ x.classList.remove('hi'); });
+    axSvg.querySelectorAll('[data-cat="'+cat+'"]').forEach(function(x){ x.classList.add('hi'); });
+  }
+  function axClearHover(){
+    axSvg.classList.remove('cat-on');
+    axSvg.querySelectorAll('[data-cat]').forEach(function(x){ x.classList.remove('hi'); });
+  }
+  axSvg.addEventListener('mousemove', function(e){
+    if(axLockedCat) return;
+    var el = e.target.closest('[data-cat]');
+    if(!el){ axClearHover(); return; }
+    axSetCat(el.dataset.cat);
+  });
+  axSvg.addEventListener('mouseleave', function(){
+    if(axLockedCat) return;
+    axClearHover();
+  });
+  axSvg.addEventListener('click', function(e){
+    var el = e.target.closest('[data-cat]');
+    var cat = el ? el.dataset.cat : null;
+    if(!cat || axLockedCat === cat){ axLockedCat=null; axClearHover(); }
+    else { axLockedCat=cat; axSetCat(cat); }
+  });
 })();
 </script>
 
@@ -1984,7 +2095,7 @@
     { rot:-135,label:'openclaw',   flip:true  }
   ];
   function smCatAngle(id){ for(var i=0;i<smCats.length;i++) if(smCats[i].id===id) return smCats[i].anchorAngle; return 0; }
-  var smRotDeg = window.innerWidth <= 768 ? 135 : 45;
+  var smRotDeg = window.innerWidth <= 768 ? 90 : 45;
 
   /* rotation group — all visual content rotates together */
   var sm = '<g transform="rotate('+smRotDeg+','+smCx+','+smCy+')">';
@@ -2244,6 +2355,17 @@
   function scheduleConn(){ clearTimeout(connTimer); connTimer=setTimeout(drawConnector,200); }
   setTimeout(drawConnector, 400);
   window.addEventListener('resize', scheduleConn);
+})();
+</script>
+
+<script>
+(function(){
+  var rm = document.getElementById('rm-outer');
+  if(!rm) return;
+  var io = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting){ rm.classList.add('rm-ready'); io.disconnect(); }
+  }, { threshold: 0.15 });
+  io.observe(rm);
 })();
 </script>
 
