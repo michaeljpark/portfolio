@@ -1269,13 +1269,13 @@ nav {
     color: #000000 !important;
 }
 
-/* Pillio Report Button */
-.view-report-pill-btn.btn-pillio-report {
+/* KnowMedi Report Button */
+.view-report-pill-btn.btn-knowmedi-report {
     background-color: #000000 !important;
     color: #FFFFFF !important;
 }
 
-.view-report-pill-btn.btn-pillio-report:hover {
+.view-report-pill-btn.btn-knowmedi-report:hover {
     background-color: #FFFFFF !important;
     color: #000000 !important;
 }
