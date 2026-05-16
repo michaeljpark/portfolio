@@ -476,7 +476,7 @@ nav {
     background-color: #D6D6D6;
 }
 
-.portfolio-image.bg-mysub {
+.portfolio-image.bg-Trax {
     background-color: #C2D3DF;
 }
 
@@ -813,7 +813,7 @@ nav {
     color: #FFFFFF !important;
 }
 
-.btn-mysub {
+.btn-Trax {
     background-color: #FFFFFF !important;
     color: #000000 !important;
 }
@@ -1280,8 +1280,8 @@ nav {
     color: #000000 !important;
 }
 
-/* MySub Report Button */
-.view-report-pill-btn.btn-mysub-report:hover {
+/* Trax Report Button */
+.view-report-pill-btn.btn-Trax-report:hover {
     background-color: #000000 !important;
     color: #FFFFFF !important;
 }
