@@ -1555,6 +1555,23 @@
     .em-entity .em-name{ font-size:11.5px; }
     .em-entity .em-tag{ font-size:9px; opacity:0.55; margin-left:auto; text-align:right; }
   }
+
+  .vimeo-section{
+    padding-top:clamp(56px,8vw,120px);
+    padding-bottom:clamp(56px,8vw,120px);
+    border-top:1px solid var(--line);
+  }
+  .vimeo-frame{
+    width:100%;
+    line-height:0;
+  }
+  .vimeo-frame iframe{
+    width:100%;
+    height:auto;
+    aspect-ratio:16/9;
+    border:0;
+    display:block;
+  }
 </style>
 </head>
 <body>
@@ -4521,5 +4538,16 @@ window.addEventListener('load', function(){
   }
 })();
 </script>
+
+<section class="vimeo-section wrap" aria-label="OnGen Radio video">
+  <div class="vimeo-frame">
+    <iframe
+      src="https://player.vimeo.com/video/1187975926?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+      title="OnGen Radio video"
+      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen></iframe>
+  </div>
+</section>
 </body>
 </html>
