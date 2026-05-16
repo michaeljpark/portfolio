@@ -696,23 +696,22 @@ nav {
 }
 
 .exp-date {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-}
-
+        position:absolute; inset:0;
+        background-size:cover;
+        background-position:center;
+        filter:none;
+        transition:opacity 1.2s ease;
 .expertise-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-}
+        width:100%; height:100%;
+        object-fit:cover; display:block;
+        opacity:1 !important;
+        animation:none !important;
+    }
 
 .expertise-column h4 {
     font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-.expertise-column ul {
+    /* @keyframes tt-breath removed */
     list-style: none;
     padding: 0;
 }
@@ -1007,6 +1006,12 @@ nav {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+/* Token Trust video brightness fix */
+.tt-face video {
+    filter: brightness(1) !important;
+}
 }
 
 /* Image inside video container (thumb default/hover) */
