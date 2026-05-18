@@ -2890,6 +2890,24 @@
   frame.addEventListener('touchmove', function(e){ e.preventDefault(); }, { passive: false });
 })();
 
+// iframe focus → scrollIntoView 차단
+(function(){
+  var iframe = document.querySelector('.app-embed-frame iframe');
+  if(!iframe) return;
+  function lockScroll(){
+    var y = window.scrollY;
+    document.documentElement.style.overflow = 'hidden';
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        document.documentElement.style.overflow = '';
+        window.scrollTo(0, y);
+      });
+    });
+  }
+  iframe.addEventListener('mousedown', lockScroll);
+  iframe.addEventListener('touchstart', lockScroll, {passive:true});
+})();
+
 // iframe 내부 autofocus로 인한 자동 스크롤 방지
 // 사용자가 직접 스크롤하기 전까지 3초간 맨 위 고정
 window.addEventListener('load', function(){
