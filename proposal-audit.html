@@ -1313,5 +1313,15 @@
     });
   })();
 </script>
+<script>
+(function(){
+  document.querySelectorAll('video[src*="releases/download"]').forEach(function(v){
+    var orig=v.src; if(!orig) return;
+    fetch(orig,{method:'HEAD',redirect:'follow'})
+      .then(function(r){ if(r.url&&r.url!==orig){ v.src=r.url; v.load(); } })
+      .catch(function(){});
+  });
+})();
+</script>
 </body>
 </html>
