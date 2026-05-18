@@ -61,8 +61,8 @@
 <div class="stage-wrap">
   <div class="stage" id="stage">
     <video class="stage-video"
-           data-src="./radioanime.mp4"
-           autoplay muted loop playsinline preload="none"></video>
+           src="./radioanime.mp4"
+           autoplay muted loop playsinline preload="metadata"></video>
   </div>
 </div>
 
@@ -85,29 +85,6 @@
 })();
 </script>
 
-<script>
-(function(){
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      var v=e.target;
-      if(e.isIntersecting){
-        if(v.dataset.src&&!v.getAttribute('src')){ v.src=v.dataset.src; }
-        v.play().catch(function(){});
-      } else { v.pause(); }
-    });
-  },{threshold:0.1});
-  function obs(v){ io.observe(v); }
-  document.querySelectorAll('video[data-src]').forEach(obs);
-  new MutationObserver(function(ms){
-    ms.forEach(function(m){
-      m.addedNodes.forEach(function(n){
-        if(n.nodeType!==1) return;
-        if(n.tagName==='VIDEO'&&n.dataset.src) obs(n);
-        else if(n.querySelectorAll) n.querySelectorAll('video[data-src]').forEach(obs);
-      });
-    });
-  }).observe(document.body,{childList:true,subtree:true});
-})();
-</script>
+
 </body>
 </html>
